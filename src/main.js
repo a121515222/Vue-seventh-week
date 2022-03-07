@@ -1,6 +1,12 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-
-createApp(App).use(store).use(router).mount('#app');
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import emitter from './assets/util/emitter'
+const app = createApp(App)
+app.config.globalProperties.$emitter = emitter
+app.use(VueAxios, axios)
+app.use(router)
+app.mount('#app')

@@ -1,25 +1,67 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../views/Home.vue';
-
+import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import('../views/FrontPage.vue'),
+    meta: { title: 'Home' },
+    children: [{
+      path: '',
+      name: 'HomeView',
+      component: () => import('../views/HomeView.vue'),
+      meta: { title: 'Home' }
+    },
+    {
+      path: 'products',
+      name: 'Products',
+      component: () => import('../views/ProductsView.vue'),
+      meta: { title: 'Products' }
+    },
+    {
+      path: 'product/:id',
+      component: () => import('../views/ProductView.vue'),
+      meta: { title: 'Product' }
+    },
+    {
+      path: 'sendInfo',
+      name: 'SendInfo',
+      component: () => import('../views/SendInfo.vue'),
+      meta: { title: 'SendInfo' }
+    }]
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/logIn',
+    name: 'LogIn',
+    component: () => import('../views/LogIn.vue')
   },
-];
+  {
+    path: '/admin',
+    name: 'DashBoard',
+    component: () => import('../views/DashBoard.vue'),
+    children: [
+      {
+        path: 'adminProducts',
+        name: 'AdminProducts',
+        component: () => import('../views/AdminProduct.vue')
+      },
+      {
+        path: 'coupons',
+        name: 'Coupons',
+        component: () => import('../views/AdminCoupon.vue')
+      }
+    ]
+  },
+  {
+    path: '/:matchPath(.*)*',
+    name: 'FindNoPage',
+    component: () => import('../views/FindNoPage.vue')
+  }
+]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
-});
+  linkActiveClass: 'active'
+})
 
-export default router;
+export default router
