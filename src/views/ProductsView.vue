@@ -70,50 +70,72 @@ export default {
     SearchBar
   },
   methods: {
-    guestShowSearch (info, min, max) {
-      console.log('guestShowSearch:', info, min, max)
-      this.guestShowProduct = []
-      if (info) {
-        this.guestProduct.forEach((item) => {
-          if (item.category.indexOf(info) !== -1 || item.content.indexOf(info) !== -1 || item.description.indexOf(info) !== -1 ||
+    infoFilter (info) {
+      this.guestProduct.forEach((item) => {
+        if (item.category.indexOf(info) !== -1 || item.content.indexOf(info) !== -1 || item.description.indexOf(info) !== -1 ||
           item.title.indexOf(info) !== -1) {
-            this.guestShowProduct.push(item)
-          }
-        })
-      }
-      if (min) {
-        if (this.guestShowProduct.length === 0) {
-          this.guestShowProduct = this.guestProduct
-          console.log('min:', this.guestShowProduct.length)
+          this.guestShowProduct.push(item)
         }
-        this.guestShowProduct.forEach((item) => {
-          if (item.price < item.origin_price) {
-            if (item.price > min) {
-              this.guestShowProduct.forEach((i) => {
-                if (i.id.indexOf(item.id) === -1) {
-                  this.guestShowProduct.push(item)
-                }
-              })
-            }
-          }
-        })
+      })
+    },
+    minFilter (min) {
+      if (this.guestShowProduct.length > 0) {
+        return
+      } else if (this.guestShowProduct.length === 0) {
+        this.guestShowProduct = this.guestProduct
       }
-      if (max) {
-        if (this.guestShowProduct.length === 0) {
-          this.guestShowProduct = this.guestProduct
-          console.log('max:', this.guestShowProduct.length)
-        }
-        this.guestProduct.forEach((item) => {
-          if (item.price < item.origin_price) {
-            if (item.price < max) {
-              this.guestShowProduct.forEach((i) => {
-                if (i.id.indexOf(item.id) === -1) {
-                  this.guestShowProduct.push(item)
-                }
-              })
-            }
+      this.guestShowProduct.forEach((item) => {
+        if (item.price < item.origin_price) {
+          if (item.price > min) {
+            this.guestShowProduct.forEach((i) => {
+              if (i.id.indexOf(item.id) === -1) {
+                this.guestShowProduct.push(item)
+              }
+            })
           }
-        })
+        } else {
+          if (item.origin_price > min) {
+            this.guestShowProduct.forEach((i) => {
+              if (i.id.indexOf(item.id) === -1) {
+                this.guestShowProduct.push(item)
+              }
+            })
+          }
+        }
+      })
+    },
+    maxFilter (max) {
+      if (this.guestShowProduct.length > 0) {
+        return
+      } else if (this.guestShowProduct.length === 0) {
+        this.guestShowProduct = this.guestProduct
+      }
+      this.guestShowProduct.forEach((item) => {
+        if (item.price < item.origin_price) {
+          if (item.price < max) {
+            this.guestShowProduct.forEach((i) => {
+              if (i.id.indexOf(item.id) === -1) {
+                this.guestShowProduct.push(item)
+              }
+            })
+          }
+        } else {
+          if (item.origin_price < max) {
+            this.guestShowProduct.forEach((i) => {
+              if (i.id.indexOf(item.id) === -1) {
+                this.guestShowProduct.push(item)
+              }
+            })
+          }
+        }
+      })
+    },
+    guestShowSearch (info, min, max) {
+      if (info || min || max) {
+        this.guestShowProduct = []
+        this.infoFilter(info)
+        this.minFilter(min)
+        this.maxFilter(max)
       } else {
         this.guestShowProduct = this.guestProduct
       }
