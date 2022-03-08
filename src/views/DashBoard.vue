@@ -14,7 +14,10 @@
           <router-link to="/admin/adminProducts" class="nav-link" aria-current="page" >Products</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/admin/coupons" class="nav-link" aria-current="page" >Coupons</router-link>
+          <router-link to="/admin/adminCoupons" class="nav-link" aria-current="page" >Coupons</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/admin/adminOrders" class="nav-link" aria-current="page" >Orders</router-link>
         </li>
       </ul>
       <button type="button" class="btn btn-primary" @click="logOut">登出</button>

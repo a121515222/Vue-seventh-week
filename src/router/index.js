@@ -32,7 +32,8 @@ const routes = [
   {
     path: '/logIn',
     name: 'LogIn',
-    component: () => import('../views/LogIn.vue')
+    component: () => import('../views/LogIn.vue'),
+    meta: { title: 'LogIn' }
   },
   {
     path: '/admin',
@@ -42,12 +43,20 @@ const routes = [
       {
         path: 'adminProducts',
         name: 'AdminProducts',
-        component: () => import('../views/AdminProduct.vue')
+        component: () => import('../views/AdminProduct.vue'),
+        meta: { title: 'AdminProducts' }
       },
       {
-        path: 'coupons',
-        name: 'Coupons',
-        component: () => import('../views/AdminCoupon.vue')
+        path: 'adminCoupons',
+        name: 'AdminCoupons',
+        component: () => import('../views/AdminCoupon.vue'),
+        meta: { title: 'AdminCoupons' }
+      },
+      {
+        path: 'adminOrders',
+        name: 'AdminOrders',
+        component: () => import('../views/AdminOrder.vue'),
+        meta: { title: 'AdminOrders' }
       }
     ]
   },

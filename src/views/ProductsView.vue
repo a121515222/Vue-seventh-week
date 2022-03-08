@@ -7,7 +7,7 @@
                     {{cartNum}}
                 </span>
             </i></a>
-            <SearchBar class="py-2" @sendSearchInfo= "guestShowSearch"></SearchBar>
+            <SearchBar  @sendSearchInfo= "guestShowSearch"></SearchBar>
         <div class="row py-3">
           <template v-if="guestShowProduct.length > 0">
             <div class="card col-3 px-0" v-for="(item) in guestShowProduct" :key="item.id">
@@ -79,56 +79,16 @@ export default {
       })
     },
     minFilter (min) {
-      if (this.guestShowProduct.length > 0) {
-        return
-      } else if (this.guestShowProduct.length === 0) {
+      if (this.guestShowProduct.length === 0) {
         this.guestShowProduct = this.guestProduct
       }
-      this.guestShowProduct.forEach((item) => {
-        if (item.price < item.origin_price) {
-          if (item.price > min) {
-            this.guestShowProduct.forEach((i) => {
-              if (i.id.indexOf(item.id) === -1) {
-                this.guestShowProduct.push(item)
-              }
-            })
-          }
-        } else {
-          if (item.origin_price > min) {
-            this.guestShowProduct.forEach((i) => {
-              if (i.id.indexOf(item.id) === -1) {
-                this.guestShowProduct.push(item)
-              }
-            })
-          }
-        }
-      })
+      this.guestShowProduct = this.guestShowProduct.filter(item => min <= item.price || min <= item.origin_price)
     },
     maxFilter (max) {
-      if (this.guestShowProduct.length > 0) {
-        return
-      } else if (this.guestShowProduct.length === 0) {
+      if (this.guestShowProduct.length === 0) {
         this.guestShowProduct = this.guestProduct
       }
-      this.guestShowProduct.forEach((item) => {
-        if (item.price < item.origin_price) {
-          if (item.price < max) {
-            this.guestShowProduct.forEach((i) => {
-              if (i.id.indexOf(item.id) === -1) {
-                this.guestShowProduct.push(item)
-              }
-            })
-          }
-        } else {
-          if (item.origin_price < max) {
-            this.guestShowProduct.forEach((i) => {
-              if (i.id.indexOf(item.id) === -1) {
-                this.guestShowProduct.push(item)
-              }
-            })
-          }
-        }
-      })
+      this.guestShowProduct = this.guestShowProduct.filter(item => item.price <= max || item.origin_price <= max)
     },
     guestShowSearch (info, min, max) {
       if (info || min || max) {
