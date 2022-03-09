@@ -17,8 +17,8 @@
 .switch { /*==設定開關鈕的長寬==*/
     position: relative;
     width: 65px;
-    height: 30px;
-    line-height: 30px;
+    height: 25px;
+    line-height: 25px;
   }
   .switch-checkbox {
    position: absolute;
@@ -65,8 +65,8 @@
   .switch-Round-btn {
     position: absolute;
     display: block;
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     margin: 2px;
     background: #fff;
     top: 0;
@@ -103,6 +103,9 @@ export default {
     enabled (newValue) {
       this.active = newValue
     }
+  },
+  mounted () {
+    this.active = this.enabled
   }
 }
 </script>

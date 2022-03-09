@@ -139,7 +139,6 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupons?page=${page}`)
         .then((res) => {
           this.coupons = res.data.coupons
-          console.log(this.coupons)
           this.page = res.data.pagination
         })
         .catch((err) => { console.dir(err.response.data.message) })

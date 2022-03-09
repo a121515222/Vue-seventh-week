@@ -77,18 +77,25 @@ export default {
           this.guestShowProduct.push(item)
         }
       })
+      console.log('infoResult', this.guestShowProduct)
     },
     minFilter (min) {
-      if (this.guestShowProduct.length === 0) {
-        this.guestShowProduct = this.guestProduct
+      if (min) {
+        if (this.guestShowProduct.length === 0) {
+          this.guestShowProduct = this.guestProduct
+        }
+        this.guestShowProduct = this.guestShowProduct.filter(item => min <= item.price || min <= item.origin_price)
+        console.log('minResult', this.guestShowProduct)
       }
-      this.guestShowProduct = this.guestShowProduct.filter(item => min <= item.price || min <= item.origin_price)
     },
     maxFilter (max) {
-      if (this.guestShowProduct.length === 0) {
-        this.guestShowProduct = this.guestProduct
+      if (max) {
+        if (this.guestShowProduct.length === 0) {
+          this.guestShowProduct = this.guestProduct
+        }
+        console.log('maxMiddleResult', this.guestShowProduct)
+        this.guestShowProduct = this.guestShowProduct.filter(item => item.price <= max || item.origin_price <= max)
       }
-      this.guestShowProduct = this.guestShowProduct.filter(item => item.price <= max || item.origin_price <= max)
     },
     guestShowSearch (info, min, max) {
       if (info || min || max) {
@@ -121,7 +128,6 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`).then((res) => {
         this.guestProduct = res.data.products
         this.guestShowProduct = this.guestProduct
-        console.log(this.guestProduct)
       })
         .catch((error) => { console.dir(error) })
     }

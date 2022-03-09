@@ -7,14 +7,8 @@
 <script>
 import InputForm from '@/components/InputForm.vue'
 export default {
-  data () {
-
-  },
   components: {
     InputForm
-  },
-  methods () {
-
   }
 }
 </script>

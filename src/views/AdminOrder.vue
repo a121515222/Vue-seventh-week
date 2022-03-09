@@ -1,13 +1,175 @@
 <template>
- <h2>訂單管理</h2>
-  {{}}
+  <div class="container">
+      <div class="row py-5">
+        <h2>訂單管理</h2>
+        <div class="col-12 py-3">
+          <div class="accordion" id="orderManger">
+            <div class="accordion-item" v-for= "(item, index) in orders" :key= "item.id + index">
+              <h2 class="accordion-header" :id= "`list${item.id}`">
+                <button class="accordion-button " @click= "postId = item.id" :class= "{ collapsed: index !== 0 }" type="button" data-bs-toggle= "collapse" :data-bs-target="`#collapse${item.id}`" aria-expanded="true" :aria-controls= "`collapse${item.id}`">
+                  {{`訂單編號${item.id}`}}
+                </button>
+              </h2>
+              <div :id= "`collapse${item.id}`" class="accordion-collapse collapse " :class= "{ show: index === 0 }"  :aria-labelledby= "`list${item.id}`" data-bs-parent="#orderManger">
+                <div class="accordion-body">
+                  <div class="card">
+                    <div class="card-header bg-primary text-light">訂單內容</div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-5">
+                          <h5>客戶資料</h5>
+                          <table class="table table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th style="width:100px">姓名</th>
+                                <td >{{item.user.name}}</td>
+                              </tr>
+                              <tr>
+                                <th>住址</th>
+                                <td>{{item.user.address}}</td>
+                              </tr>
+                              <tr>
+                                <th>電話</th>
+                                <td>{{item.user.tel}}</td>
+                              </tr>
+                              <tr>
+                                <th>E-mail</th>
+                                <td>{{item.user.email}}</td>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                        <div class="col-7">
+                          <div class="d-flex justify-content-between">
+                          <h5>訂單細節</h5>
+                          <button class="btn btn-outline-secondary py-0" :disabled= "isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}" @click= "postId = item.id; deleteOrder()">
+                            <span v-show="isLoading === true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            刪除訂單</button>
+                          </div>
+                          <table class="table table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th style="width:100px">訂單編號</th>
+                                <td >{{item.id}}</td>
+                                <th>修改付款狀態</th>
+                              </tr>
+                              <tr>
+                                <th>下單時間</th>
+                                <td>{{getTime(item.create_at)}}</td>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <th>付款時間</th>
+                                <td>{{getTime(item.paid_date)}}</td>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <th>付款狀態</th>
+                                <td :class= "{ 'text-success': item.is_paid === true, 'text-danger': item.is_paid === false }">{{item.is_paid === true? '已付款':'未付款'}}</td>
+                                <td><Switch @click= "postId = item.id" :info= "item.id" :enabled= "switchStatus(item.is_paid)" @send-enable= "changeIsPaid"></Switch></td>
+                              </tr>
+                              <tr>
+                                <th>總金額</th>
+                                <td>{{item.total}}</td>
+                                <td></td>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                        <div class="col-12">
+                          <h5>產品清單</h5>
+                          <List :data= "item"></List>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+         </div>
+        </div>
+        <Pagination :pagination= "pagination" @send-page= "getOrder"> </Pagination>
+      </div>
+  </div>
 </template>
 
 <script>
+import Pagination from '@/components/PaginationComponent.vue'
+import Switch from '@/components/SwitchClick.vue'
+import List from '@/components/OrderList.vue'
 export default {
   data () {
-    return {}
+    return {
+      orders: [],
+      pagination: {},
+      postId: '',
+      isLoading: false
+    }
   },
-  methods: {}
+  components: {
+    Pagination,
+    Switch,
+    List
+  },
+  methods: {
+    deleteOrder () {
+      const checked = confirm('確定要刪除本訂單?')
+      if (checked === true) {
+        this.isLoading = true
+        this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${this.postId}`)
+          .then(() => {
+            this.getOrder()
+            this.isLoading = false
+          }).catch((err) => { console.dir(err.response.data.message) })
+      }
+    },
+    changeIsPaid (info) {
+      const sendData = { data: { is_paid: this.switchStatus(info) } }
+      this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${this.postId}`, sendData)
+        .then(() => {
+          this.getOrder()
+        }).catch((err) => { console.dir(err.response.data.message) })
+    },
+    switchStatus (data) {
+      let result = ''
+      switch (data) {
+        case true: result = 1
+          break
+        case false: result = 0
+          break
+        case 1: result = true
+          break
+        case 0: result = false
+          break
+      }
+      return result
+    },
+    getOrder (page = 1) {
+      this.$http
+        .get(
+          `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`
+        )
+        .then((res) => {
+          this.orders = res.data.orders
+          this.pagination = res.data.pagination
+        })
+        .catch((err) => {
+          console.dir(err.response.data.message)
+        })
+    },
+    getTime (time) {
+      let result = ''
+      if (time) {
+        const theDate = new Date(time * 1000).toISOString().split('T')
+        result = theDate[0]
+      } else if (time === undefined) {
+        result = '未付款或時間錯誤'
+      }
+      return result
+    }
+  },
+  mounted () {
+    this.getOrder()
+  }
 }
 </script>

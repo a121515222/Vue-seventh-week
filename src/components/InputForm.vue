@@ -24,7 +24,7 @@
         type="text"
         class="form-control"
         :class="{ 'is-invalid': errors['電話'] }"
-        placeholder="請輸入電話"
+        placeholder="請輸入電話例如0912123123"
         :rules="phoneCheck"
         v-model="user.tel"
     >
@@ -55,7 +55,7 @@
         type="text"
         class="form-control"
         :class="{ 'is-invalid': errors['地址'] }"
-        placeholder="請輸入 地址" rules="required"
+        placeholder="請輸入地址" rules="required"
         v-model="user.address"
     >
     </Field>
@@ -109,13 +109,11 @@ export default {
   },
   computed: {
     userDataWatch () {
-      // eslint-disable-next-line prefer-const
-      let result = false
-      Object.keys(this.user).forEach((item) => {
-        if (this.user[item].indexOf('') !== -1) {
-          result = true
-        }
-      })
+      let result = ''
+      const arr = Object.values(this.user).filter(i => i === '')
+      if (arr.length === 0) {
+        result = false
+      } else { result = true }
       return result
     }
   },
@@ -142,10 +140,10 @@ export default {
       sendData.data.user.email = this.user.email
       sendData.data.user.address = this.user.address
       sendData.message = this.message
-      this.$http.post(`${process.env.API_API}/api/${process.env.API_PATH}/order`, sendData)
+      this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`, sendData)
         .then((res) => {
           // 清除購物車內容
-          this.$http.delete(`${process.env.API_API}/api/${process.env.API_PATH}/carts`).then((res) => {
+          this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`).then((res) => {
           }).catch((error) => { console.dir(error) })
           this.orderid = res.data.orderId
           alert(res.data.message)
