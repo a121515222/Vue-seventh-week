@@ -1,8 +1,8 @@
 <template>
   <div class="switch">
-         <input class="switch-checkbox" :id= "info" type="checkbox" name="switch-checkbox"
+         <input class="switch-checkbox" :id= "info || 'tempID'" type="checkbox" name="switch-checkbox"
              :checked="active === 1? true:false" @click="activeChange(); $emit('send-enable', active)">
-         <label class="switch-label" :for= "info">
+         <label class="switch-label" :for= "info || 'tempID'">
              <span class="switch-txt" turnOn="是" turnOff="否"></span>
              <span class="switch-Round-btn"></span>
          </label>
@@ -87,7 +87,7 @@ export default {
   props: ['info', 'enabled'],
   data () {
     return {
-      active: null
+      active: 0
     }
   },
   methods: {

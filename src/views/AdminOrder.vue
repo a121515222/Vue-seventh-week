@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
       <div class="row py-5">
         <h2>訂單管理</h2>
         <div class="col-12 py-3">
@@ -42,7 +43,8 @@
                         <div class="col-7">
                           <div class="d-flex justify-content-between">
                           <h5>訂單細節</h5>
-                          <button class="btn btn-outline-secondary py-0" :disabled= "isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}" @click= "postId = item.id; deleteOrder()">
+                          <button class="btn btn-outline-secondary py-0" :disabled= "isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}"
+                          @click= "postId = item.id; deleteOrder()">
                             <span v-show="isLoading === true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             刪除訂單</button>
                           </div>
@@ -113,14 +115,27 @@ export default {
   },
   methods: {
     deleteOrder () {
+      this.isLoading = true
       const checked = confirm('確定要刪除本訂單?')
       if (checked === true) {
-        this.isLoading = true
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${this.postId}`)
-          .then(() => {
+          .then((res) => {
             this.getOrder()
             this.isLoading = false
-          }).catch((err) => { console.dir(err.response.data.message) })
+            this.$emitter.emit('push-info', {
+              title: '刪除訂單結果',
+              style: 'success',
+              content: res.data.message
+            })
+          }).catch((err) => {
+            console.dir(err.response.data.message)
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '刪除訂單結果',
+              style: 'danger',
+              content: err.response.data.message
+            })
+          })
       }
     },
     changeIsPaid (info) {
@@ -145,6 +160,7 @@ export default {
       return result
     },
     getOrder (page = 1) {
+      this.isLoading = true
       this.$http
         .get(
           `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`
@@ -152,9 +168,11 @@ export default {
         .then((res) => {
           this.orders = res.data.orders
           this.pagination = res.data.pagination
+          this.isLoading = false
         })
         .catch((err) => {
           console.dir(err.response.data.message)
+          this.isLoading = false
         })
     },
     getTime (time) {

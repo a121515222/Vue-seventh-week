@@ -1,5 +1,6 @@
 <template>
   <div class= "container">
+    <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
     <div class= "row py-5">
             <h2>產品列表</h2>
             <div class= "d-flex justify-content-end">
@@ -30,8 +31,10 @@
                                     @click ="showProduct(item)">查看細節</button></td>
                             <td><button class= "btn btn-outline-success" :data-index= "index" type= "button"
                                     @click= "postId = item.id;isNew= false;openModal(item);">編輯</button></td>
-                            <td><button class= "btn btn-outline-danger" type= "button"
-                                    @click= "postId= item.id; deleteProduct();">刪除</button></td>
+                            <td><button class= "btn btn-outline-danger" type= "button" disabled= "isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}"
+                                    @click= "postId= item.id; deleteProduct();">
+                                    <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    刪除</button></td>
                         </tr>
                     </table>
                     <p class = "px-1">一共有{{ products.length }}項產品</p>
@@ -78,6 +81,7 @@ import AdminProductModal from '@/components/AdminProductModal.vue'
 export default {
   data () {
     return {
+      isLoading: false,
       page: {},
       isNew: true,
       postId: '',
@@ -140,7 +144,8 @@ export default {
       }
     },
     editProductList (productData) {
-    // 新增商品
+      this.isLoading = true
+      // 新增商品
       const sendData = { data: {} }
       sendData.data = productData
       if (this.isNew === true) {
@@ -150,9 +155,20 @@ export default {
           alert(res.data.message)
           this.getProduct()
           this.resetModal()
+          this.isLoading = false
+          this.$emitter.emit('push-info', {
+            title: '新增產品結果',
+            style: 'success',
+            content: res.data.message
+          })
         }).catch((err) => {
           console.log(err.response)
           alert(err.response.data.message)
+          this.$emitter.emit('push-info', {
+            title: '新增產品結果',
+            style: 'danger',
+            content: err.response.data.message
+          })
         })
       } else if (this.isNew === false) { // 編輯商品
         // this.sendToken()
@@ -160,25 +176,51 @@ export default {
           alert(res.data.message)
           this.getProduct()
           this.closeModal()
+          this.isLoading = false
+          this.$emitter.emit('push-info', {
+            title: '編輯產品結果',
+            style: 'success',
+            content: res.data.message
+          })
           // 清空postId
           this.postId = ''
         }).catch((err) => {
           console.dir(err.response)
           alert(err.response.data.message)
+          this.isLoading = false
+          this.$emitter.emit('push-info', {
+            title: '新增產品結果',
+            style: 'danger',
+            content: err.response.data.message
+          })
         })
       }
     },
     deleteProduct () {
+      this.isLoading = true
       const confirm = prompt('請輸入delete')
       if (confirm === 'delete') {
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${this.postId}`).then((res) => {
           alert(res.data.message)
           this.getProduct()
+          this.isLoading = false
+          this.$emitter.emit('push-info', {
+            title: '編輯產品結果',
+            style: 'success',
+            content: res.data.message
+          })
         }).catch((err) => {
           alert(err.response.data.message)
+          this.isLoading = false
+          this.$emitter.emit('push-info', {
+            title: '新增產品結果',
+            style: 'danger',
+            content: err.response.data.message
+          })
         })
       } else {
         alert('輸入錯誤，不進行刪除')
+        this.isLoading = false
       }
     },
     productStatus (data) {
@@ -204,6 +246,7 @@ export default {
     //   this.$http.defaults.headers.common.Authorization = myToken
     // },
     getProduct (page = 1) {
+      this.isLoading = true
       // 判斷目前頁面
       if (this.$route.fullPath === '/admin/adminProducts') {
         // 取得所存在cookie的token
@@ -211,7 +254,9 @@ export default {
         this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`).then((res) => {
           this.products = res.data.products
           this.page = res.data.pagination
+          this.isLoading = false
         }).catch((err) => {
+          this.isLoading = false
           alert(`${err.response.data.message},自動轉跳至登入頁`)
           if (err.response.data.message === '驗證錯誤, 請重新登入') {
             this.$router.push('/logIn')

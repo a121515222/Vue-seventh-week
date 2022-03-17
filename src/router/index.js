@@ -12,6 +12,11 @@ const routes = [
       meta: { title: 'Home' }
     },
     {
+      path: 'article',
+      component: () => import('../views/Article.vue'),
+      meta: { title: 'article' }
+    },
+    {
       path: 'products',
       name: 'Products',
       component: () => import('../views/ProductsView.vue'),
@@ -57,6 +62,12 @@ const routes = [
         name: 'AdminOrders',
         component: () => import('../views/AdminOrder.vue'),
         meta: { title: 'AdminOrders' }
+      },
+      {
+        path: 'adminArticles',
+        name: 'AdminArticles',
+        component: () => import('../views/AdminArticle.vue'),
+        meta: { title: 'AdminArticle' }
       }
     ]
   },

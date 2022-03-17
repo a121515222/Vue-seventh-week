@@ -19,6 +19,9 @@
         <li class="nav-item">
           <router-link to="/admin/adminOrders" class="nav-link" aria-current="page" >Orders</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/admin/adminArticles" class="nav-link" aria-current="page" >Articles</router-link>
+        </li>
       </ul>
       <button type="button" class="btn btn-primary" @click="logOut">登出</button>
       <span class="navbar-text">

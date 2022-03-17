@@ -1,1 +1,18 @@
-i {font-style: normal;}
+i {
+  font-style: normal;
+}
+img {
+  max-width:100%;
+  object-fit: cover;
+}
+.no-warp{
+  white-space: nowrap;
+}
+.flex-md-row-cross{
+  @media (min-width: 768px){
+    display: flex;
+    &:nth-child(even){
+      flex-direction: row-reverse !important;
+    }
+  }
+}

@@ -7,8 +7,8 @@
     <input type="number" class="form-control" placeholder="請輸入最高價格" v-model.number="maxPrice"  />
   </div>
   <div class="d-flex justify-content-end gap-2 py-2">
-    <button class="btn btn-primary " type="button" @click="cleanSearch() ; $emit('sendSearchInfo', searchInfo, minPrice, maxPrice)">清除搜尋</button>
-    <button class="btn btn-primary " type="button" @click="$emit('sendSearchInfo', searchInfo, minPrice, maxPrice)">搜尋</button>
+    <button class="btn btn-primary text-secondary" type="button" @click="cleanSearch() ; $emit('sendSearchInfo', searchInfo, minPrice, maxPrice)">清除搜尋</button>
+    <button class="btn btn-primary text-secondary" type="button" @click="$emit('sendSearchInfo', searchInfo, minPrice, maxPrice)">搜尋</button>
   </div>
 </template>
 <script>

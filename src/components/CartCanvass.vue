@@ -27,10 +27,10 @@
                 <th scope="row">{{index+1}}</th>
                 <td><img :src="item.product.imageUrl" alt="" style="width:50px; height:30px"></td>
                 <td>{{item.product.title}}</td>
-                <td style="text-align:center">{{item.final_total}}</td>
+                <td style="text-align:center">{{Math.floor(item.final_total)}}</td>
                 <td v-if="!isChangeNum || item.id !== cartId" style="text-align:center;"> {{item.qty}}</td>
                 <td v-if="isChangeNum && item.id === cartId"><input type="number" min="1" max="100" v-model="changeNum" class="form-control" style="width:65px"></td>
-                <td style="text-align:center;"> {{item.product.origin_price>item.product.price?  item.product.origin_price:item.product.price}}</td>
+                <td style="text-align:center;"> {{item.product.origin_price>item.product.price === false?  item.product.origin_price:item.product.price}}</td>
                 <td><button type="button" class="btn btn-outline-primary" @click="changeCartNum(item.qty,item.id,item.product_id)">
                 <span v-show="item.id===isCartLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 {{isChangeNum && item.id === cartId?  '確定修改':'修改數量' }}</button></td>
@@ -40,15 +40,18 @@
     </table>
     <div class="align-self-end d-flex gap-5 px-3">
     <p class="text-center fw-bold">小計</p>
-    <p class="text-center">{{cartData.final_total}}元</p>
+    <p class="text-center">{{Math.floor(cartData.final_total)}}元</p>
     </div>
-    <div class="align-self-end px-3"> <button type="button" class="btn btn-danger" @click="toInputPage()"
-    :disabled="cartLength === 0" :class="{buttonDisabledCursor : cartLength === 0}">確認</button> </div>
+    <div class="align-self-end pb-1"> <button type="button" class="btn btn-primary" @click="toInputPage()"
+    :disabled="cartLength === 0" :class="{buttonDisabledCursor : cartLength === 0}">確認</button>
+    </div>
+    <CouponInput @getCart= "getCart"></CouponInput>
     </div>
   </div>
 </template>
 <script>
 import BsOffcanvas from 'bootstrap/js/dist/offcanvas'
+import CouponInput from '@/components/GuestCoupon.vue'
 export default {
   data () {
     return {
@@ -61,6 +64,9 @@ export default {
       cartLength: 0
     }
   },
+  components: {
+    CouponInput
+  },
   emits: ['send-cartnum'],
   methods: {
     toInputPage () {
@@ -72,7 +78,18 @@ export default {
       if (confirm('確定將會刪除所有購物車內容?') === true) {
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`).then((res) => {
           this.getCart()
-        }).catch((error) => { console.dir(error) })
+          this.$emitter.emit('push-info', {
+            title: '刪除所有購物車結果',
+            style: 'success',
+            content: res.data.message
+          })
+        }).catch((err) => {
+          this.$emitter.emit('push-info', {
+            title: '刪除所有購物車結果',
+            style: 'success',
+            content: err.response.data.message
+          })
+        })
       } else {
         alert('已取消刪除')
       }
@@ -80,7 +97,19 @@ export default {
     deleteCart (id) {
       this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart/${id}`).then((res) => {
         this.getCart()
-      }).catch((error) => { console.dir(error) })
+        this.$emitter.emit('push-info', {
+          title: '刪除購物車結果',
+          style: 'success',
+          content: res.data.message
+        })
+      }).catch((err) => {
+        console.dir(err.response.data.message)
+        this.$emitter.emit('push-info', {
+          title: '刪除購物車結果',
+          style: 'danger',
+          content: err.response.data.message
+        })
+      })
     },
     changeCartNum (num, id, productId) {
       if (this.isChangeNum === false) {
@@ -101,7 +130,19 @@ export default {
           this.isChangeNum = false
           this.isCartLoading = ''
           this.getCart()
-        }).catch((error) => { console.dir(error.response) })
+          this.$emitter.emit('push-info', {
+            title: '編輯購物車結果',
+            style: 'success',
+            content: res.data.message
+          })
+        }).catch((err) => {
+          console.dir(err.response.data.message)
+          this.$emitter.emit('push-info', {
+            title: '編輯購物車結果',
+            style: 'danger',
+            content: err.response.data.message
+          })
+        })
       }
     },
     getCart () {

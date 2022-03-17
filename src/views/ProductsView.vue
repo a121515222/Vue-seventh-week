@@ -1,5 +1,6 @@
 <template>
-<div class="container">
+<div class="container pt-7">
+  <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
      <a href="#" style=" position: fixed; bottom: 20px; right: 20px; z-index: 9; font-size: 50px" @click.prevent="guestOpenCart()">
             <i class="bi bi-cart3 position-relative">
                 <span v-if="cartNum>0" class="position-absolute start-100 translate-middle badge rounded-pill bg-danger px-2"
@@ -61,7 +62,8 @@ export default {
       cartNum: 0,
       isGuestPageLoading: '',
       guestProduct: [],
-      guestShowProduct: []
+      guestShowProduct: [],
+      isLoading: false
     }
   },
   components: {
@@ -125,11 +127,16 @@ export default {
       this.$refs.guestModal.guestModalOpen(id)
     },
     getGuestProduct () {
+      this.isLoading = true
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`).then((res) => {
         this.guestProduct = res.data.products
         this.guestShowProduct = this.guestProduct
+        this.isLoading = false
       })
-        .catch((error) => { console.dir(error) })
+        .catch((error) => {
+          console.dir(error)
+          this.isLoading = false
+        })
     }
   },
   mounted () {

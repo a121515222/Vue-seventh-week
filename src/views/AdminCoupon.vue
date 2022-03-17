@@ -1,5 +1,6 @@
 <template>
     <div class= "container">
+      <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
     <div class= "row py-5">
         <h2>優惠券列表</h2>
         <div class= "d-flex justify-content-end">
@@ -29,9 +30,13 @@
                                 {{ couponStatus(item.is_enabled) }}
                             </td>
                             <td><button class= "btn btn-outline-success" :data-index= "index" type= "button"
-                                    @click= "postId = item.id;isNew= false;openModal(item);">編輯</button></td>
+                                    @click= "postId = item.id;isNew= false;openModal(item);">
+                                    <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    編輯</button></td>
                             <td><button class= "btn btn-outline-danger" type= "button"
-                                    @click= "postId= item.id; deleteCoupon(index);">刪除</button></td>
+                                    @click= "postId= item.id; deleteCoupon(index);">
+                                    <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    刪除</button></td>
                         </tr>
                     </table>
                     <p class = "px-1">一共有{{ coupons.length }}項優惠券</p>
@@ -60,7 +65,8 @@ export default {
         percent: null,
         due_date: null,
         code: ''
-      }
+      },
+      isLoading: false
     }
   },
   components: {
@@ -69,13 +75,28 @@ export default {
   },
   methods: {
     deleteCoupon (index) {
+      this.isLoading = true
       const checked = confirm(`將刪除"${this.coupons[index].title}"'`)
       if (checked) {
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${this.postId}`)
           .then((res) => {
             this.getCoupon()
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '刪除優惠券結果',
+              style: 'success',
+              content: res.data.message
+            })
           })
-          .catch((err) => { console.log(err.response.data.message) })
+          .catch((err) => {
+            console.log(err.response.data.message)
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '刪除優惠券結果',
+              style: 'danger',
+              content: err.response.data.message
+            })
+          })
       }
     },
     couponStatus (info) {
@@ -86,6 +107,7 @@ export default {
       }
     },
     adminEditCoupon (coupon) {
+      this.isLoading = true
       // 轉換時間格式
       coupon.due_date = Math.floor(new Date(coupon.due_date) / 1000)
       const sendData = { data: coupon }
@@ -94,6 +116,12 @@ export default {
           .then((res) => {
             alert(res.data.message)
             this.getCoupon()
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '新增優惠券結果',
+              style: 'success',
+              content: res.data.message
+            })
           })
           .catch((err) => { console.log(err.response.data.message) })
       } else {
@@ -102,8 +130,22 @@ export default {
             alert(res.data.message)
             this.getCoupon()
             this.closeModal()
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '編輯優惠券結果',
+              style: 'success',
+              content: res.data.message
+            })
           })
-          .catch((err) => { console.log(err.response.data.message) })
+          .catch((err) => {
+            console.log(err.response.data.message)
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '新增/編輯優惠券結果',
+              style: 'danger',
+              content: err.response.data.message
+            })
+          })
       }
     },
     closeModal () {
@@ -136,12 +178,17 @@ export default {
       return theDate[0]
     },
     getCoupon (page = 1) {
+      this.isLoading = true
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupons?page=${page}`)
         .then((res) => {
           this.coupons = res.data.coupons
           this.page = res.data.pagination
+          this.isLoading = false
         })
-        .catch((err) => { console.dir(err.response.data.message) })
+        .catch((err) => {
+          console.dir(err.response.data.message)
+          this.isLoading = false
+        })
     }
   },
   mounted () {
