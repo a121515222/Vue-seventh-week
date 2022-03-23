@@ -14,19 +14,25 @@
         </div>
         <p>商品描述:{{product.description}}</p>
         <p>商品內容:{{product.content}}</p>
-        <div v-if="product.origin_price===product.price">
-        <p>售價:{{product.origin_price}}</p>
+        <div v-if="product.origin_price===product.price" class="d-flex gap-2">
+        <span>售價:{{product.origin_price}}元</span>
+        <span>/{{product.unit}}</span>
         </div>
-        <div v-else>
-        <p> 原價{{product.origin_price}}，特價{{product.price}}</p>
+        <div v-else class="d-flex gap-2">
+        <span class="text-decoration-line-through text-middle">原價{{product.origin_price}}</span>
+        <span class="text-danger">特價{{product.price}}元</span>
+        <span>/{{product.unit}}</span>
         </div>
 
         </div>
         <div class="modal-footer gap-3">
-          <button type="button" class="btn btn-success" @click="qty-=1" :disabled="qty<2"><i class="bi bi-dash"></i></button>
+          <button type="button" class="btn btn-success" @click="qty-=1" :disabled="qty<2"
+          :class="{buttonDisabledCursor : qty<2}"><i class="bi bi-dash"></i></button>
           <span style="min-width:20px"> {{qty}}</span>
-          <button type="button" class="btn btn-success" @click="qty+=1" :disabled="qty>=100"><i class="bi bi-plus"></i></button>
-          <button type="button" class="btn btn-success" @click="addCart(product.id)" :disabled="product.id===isLoading">
+          <button type="button" class="btn btn-success" @click="qty+=1" :disabled="qty===100"
+            :class="{buttonDisabledCursor : qty===100}"><i class="bi bi-plus"></i></button>
+          <button type="button" class="btn btn-success" @click="addCart(product.id, product.title)" :disabled="product.id===isLoading  || qty<1"
+          :class="{buttonDisabledCursor : product.id===isLoading || qty<1}">
           <span v-show="product.id===isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           加入購物車</button>
           <button type="button" class="btn btn-secondary" @click="guestModalClose()">關閉</button>
@@ -52,12 +58,13 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`).then((res) => {
         this.product = res.data.product
         this.bsModal.show()
+        console.log(this.product)
       }).catch((error) => { console.dir(error) })
     },
     guestModalClose () {
       this.bsModal.hide()
     },
-    addCart (id) {
+    addCart (id, title) {
       const sendCart = {
         data: {
           product_id: '',
@@ -72,6 +79,11 @@ export default {
         this.$emit('sendId', '')
         this.isLoading = ''
         this.qty = 1
+        this.$emitter.emit('push-info', {
+          title: `${title}加入購物車結果`,
+          style: 'success',
+          content: res.data.message
+        })
       }).catch((error) => { console.dir(error.response) })
     }
   },

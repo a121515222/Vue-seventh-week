@@ -1,26 +1,99 @@
 <template>
 <div class="container-fluid pt-6 px-0">
-<div class="frame d-flex justify-content-center align-item-center position-relative" :class="{ 'frame-short':scrollY > 10 }">
-    <div class="banner" :class="{ 'banner-center': scrollY > 10}">
-    </div>
-    <div class="banner2" :class="{ 'banner-center': scrollY > 10}">
-    </div>
-    <div class="from-group d-flex flex-column position-absolute top-50 start-50 translate-middle">
-      <h1 class=" text-secondary no-warp">想體驗新鮮的農產品嗎?</h1>
-      <div class="align-self-center">
-     <router-link class="btn btn-secondary text-light" to=/products tag="button">馬上想吃到</router-link>
-      </div>
-
-    </div>
-    <div class="from-group d-flex flex-column align-item-center position-absolute bottom-10 start-50 translate-middle"
-        :class="{ 'd-none': scrollY > 10}">
-          <span class="text-secondary">了解更多</span>
-          <i class="animation-scrollDown bi bi-caret-down fs-1 text-secondary align-self-center" ></i>
+    <div class="frame d-flex justify-content-center align-item-center position-relative" :class="{ 'frame-short':scrollY > 10 }">
+        <div class="banner" :class="{ 'banner-center': scrollY > 10}">
         </div>
+        <div class="banner2" :class="{ 'banner-center': scrollY > 10}">
+        </div>
+        <div class="from-group d-flex flex-column position-absolute top-50 start-50 translate-middle">
+        <h1 class=" text-secondary no-warp">想體驗新鮮的農產品嗎?</h1>
+        <div class="align-self-center">
+        <router-link class="btn btn-secondary text-light" to=/products tag="button">馬上想吃到</router-link>
+        </div>
+
+        </div>
+        <div class="from-group d-flex flex-column align-item-center position-absolute bottom-10 start-50 translate-middle"
+            :class="{ 'd-none': scrollY > 10}">
+            <span class="text-secondary">了解更多</span>
+            <i class="animation-scrollDown bi bi-caret-down fs-1 text-secondary align-self-center" ></i>
+            </div>
+    </div>
+</div>
+<div class="container">
+    <!-- 產品交錯卡片 -->
+    <div class="row">
+        <template v-for="(item, index) in guestProduct" :key ="item.title+index">
+            <div v-if ="item.title ==='台農1號百香果' || item.title ==='粉豆'" class="from-group  flex-md-row-cross cardHover">
+                <div class="col-12 col-md-6">
+                    <img :src="item.imageUrl" :alt="item.title" style="max-height:200px; min-width:100% ; object-fit: cover">
+                </div>
+                <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                    <p>{{item.description}}</p>
+                    <div v-if="item.origin_price===item.price" class="d-flex gap-2">
+                        <span>售價:{{item.origin_price}}元</span>
+                        <span>/{{item.unit}}</span>
+                    </div>
+                    <div v-else class="d-flex gap-2">
+                        <span class="text-decoration-line-through text-middle">原價{{item.origin_price}}</span>
+                        <span class="text-danger">特價{{item.price}}元</span>
+                        <span>/{{item.unit}}</span>
+                    </div>
+                    <router-link :to="`/product/${item.id}` " class="btn btn-primary">馬上購買</router-link>
+                </div>
+           </div>
+        </template>
+      </div>
+</div>
+<div class="container-fluid px-0">
+    <div class="banner4 position-relative">
+        <div class="from-group d-flex flex-column align-item-center position-absolute top-50 start-50 translate-middle">
+            <h2 class="fs-1 text-secondary no-warp">小知識</h2>
+            <div class="align-self-center">
+            <router-link class="btn btn-secondary text-light" to=/articles tag="button">點我看更多!</router-link>
+            </div>
+        </div>
+        <div class="from-group d-flex flex-column align-item-center position-absolute bottom-10 start-50 translate-middle">
+            <span class="text-secondary">稍微了解</span>
+            <i class="animation-scrollDown bi bi-caret-down fs-1 text-secondary align-self-center" ></i>
+            </div>
+    </div>
 </div>
 <div class="container">
     <div class="row">
-        <div class="from-group flex-column flex-md-row-cross">
+        <!-- 文章卡片 -->
+        <template v-for="(item, index) in articles" :key ="item+index">
+            <div v-if="index<4" class="col-sm-12 col-md-6 col-lg-3 ">
+            <div class="card w-100 h-100 border-top-0 border-bottom-0 cardHover" >
+             <img :src="item.image" class="card-img-top" :alt="item.title" style="min-height:200px;max-height:200px;min-width:100% ; object-fit: cover">
+            <div class="card-body">
+                <h2>{{item.title}}</h2>
+                <p class="card-text">{{item.description}}</p>
+            </div>
+                <div class="card-foot border-top-0 px-3 pb-3">
+                <router-link :to="`/article/${item.id}`" class="btn btn-primary">詳細資訊</router-link>
+                </div>
+            </div>
+            </div>
+        </template>
+      </div>
+</div>
+<div class="container-fluid px-0">
+    <div class="banner3 position-relative">
+        <div class="from-group d-flex flex-column align-item-center position-absolute top-50 start-50 translate-middle">
+            <h2 class="fs-1 text-secondary no-warp">還有更特別的</h2>
+            <div class="align-self-center">
+            <router-link class="btn btn-secondary text-light" to=/products tag="button">等不及了馬上看!</router-link>
+            </div>
+        </div>
+        <div class="from-group d-flex flex-column align-item-center position-absolute bottom-10 start-50 translate-middle">
+            <span class="text-secondary">了解更多</span>
+            <i class="animation-scrollDown bi bi-caret-down fs-1 text-secondary align-self-center" ></i>
+            </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+    <div class="from-group flex-column flex-md-row-cross">
             <div class="col-12 col-md-6">
                 <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" alt="">
             </div>
@@ -32,56 +105,12 @@
             </div>
             <div class="col-12 col-md-6"></div>
         </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-            <div class="card w-100" >
-            <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <router-link to="/article">更多...</router-link>
-            </div>
-             </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-            <div class="card w-100" >
-            <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-             </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-            <div class="card w-100" >
-            <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-             </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-3">
-            <div class="card w-100" >
-            <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-             </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid px-0">
-<div class="banner3 position-relative">
-    <div class="from-group d-flex flex-column align-item-center position-absolute top-50 start-50 translate-middle">
-        <h1 class=" text-secondary no-warp">還有更特別的</h1>
-        <div class="align-self-center">
-          <router-link class="btn btn-secondary text-light" to=/products tag="button">等不及了馬上看!</router-link>
-        </div>
-     </div>
-    <div class="from-group d-flex flex-column align-item-center position-absolute bottom-10 start-50 translate-middle">
-          <span class="text-secondary">了解更多</span>
-          <i class="animation-scrollDown bi bi-caret-down fs-1 text-secondary align-self-center" ></i>
-        </div>
 </div>
 </div>
+<div class="container-fluid bg-third d-flex justify-content-center align-item-center" style="height:35px">
+    <h3 class="text-light">此網頁為練習作品</h3>
 </div>
+
 </template>
 <style lang="scss">
 $animationBannerSecond:16s;
@@ -121,12 +150,19 @@ $animationBannerSecond:16s;
     background-size:cover;
     background-position: center center;
 }
+.banner4 {
+    height:40vh;
+    background-image: url(https://upload.cc/i1/2022/03/21/UztxmA.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: 50% 70%;
+}
 .banner-center {
 //監測到scrollY的值大於60時 使用這個效果
   position: absolute;
   top: 100px;
   transition: all 0.5s;
-  width: 75%;
+  width: 80%;
   height: 60%;
 }
 .frame {
@@ -134,7 +170,7 @@ $animationBannerSecond:16s;
   transition: all 0.5s;
 }
 .frame-short {
-  min-height: 60vh;
+  min-height: 50vh;
   transition: all 0.5s;
 }
 .animation-scrollDown {
@@ -177,18 +213,42 @@ $animationBannerSecond:16s;
 export default {
   data () {
     return {
-      scrollY: 0
+      scrollY: 0,
+      guestProduct: [],
+      articles: []
     }
   },
   methods: {
     scrollWatch () {
       // 取得scrollY數值
       this.scrollY = window.scrollY
+    },
+    getProduct () {
+      this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`).then((res) => {
+        this.guestProduct = res.data.products
+        this.guestShowProduct = this.guestProduct
+        console.log(res.data.products)
+        console.log(this.guestShowProduct)
+      })
+        .catch((error) => {
+          console.dir(error)
+        })
+    },
+    getArticle () {
+      this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/articles`)
+        .then((res) => {
+          this.articles = res.data.articles
+          console.log(res.data.articles)
+          console.log(this.articles)
+        })
+        .catch((err) => { console.dir(err.response.data.message) })
     }
   },
   mounted () {
     // 監聽scroll
     window.addEventListener('scroll', this.scrollWatch)
+    this.getArticle()
+    this.getProduct()
   }
 }
 </script>

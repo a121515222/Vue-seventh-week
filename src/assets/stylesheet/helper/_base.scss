@@ -10,9 +10,29 @@ img {
 }
 .flex-md-row-cross{
   @media (min-width: 768px){
-    display: flex;
+    display: flex !important;
     &:nth-child(even){
       flex-direction: row-reverse !important;
     }
   }
+}
+.btn-primary,.btn-secondary,.btn-third{
+  color: #fff;
+  &:hover{
+    color: #fff;
+  }
+}
+.cardHover{
+  background:#fff ;
+  transition: all 0.5s;
+  img{
+    opacity:1;
+  }
+  &:hover{
+    background:#F2F2F2;
+    opacity:0.8;
+  }
+}
+.card-foot{
+  padding:0.5rem 1rem
 }

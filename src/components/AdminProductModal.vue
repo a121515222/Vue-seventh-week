@@ -13,14 +13,14 @@
                         <div> <img :src="inputData.imageUrl" :alt="inputData.title" :title="inputData.title" class="img-fluid"> </div>
                         <div class="from-group my-3">
                             <label class="form-label w-100" for="productImageUrl" >主要產品圖片</label>
-                            <input type="text" id="productImageUrl" placeholder="請輸入主要產品圖片網址" v-model.trim="inputData.imageUrl" class="form-control" >
+                            <input type="text" id="productImageUrl" placeholder="請輸入主要產品圖片網址" v-model.trim.lazy="inputData.imageUrl" class="form-control" >
                         </div>
                         <template v-if="inputData.imagesUrl?.length>0">
                             <div class="from-group my-3" v-for="(item,index) in inputData.imagesUrl" :key="item+1">
                                 <p>其他圖片{{index+1}}</p>
                                 <img :src="item" class="img-fluid" :alt="inputData.title">
                                 <label class="form-label w-100" for="productImageUrl" >其他產品圖片{{index+1}}</label>
-                                <input type="text" id="productImageUrl" placeholder="請輸其他產品圖片網址" v-model.trim="inputData.imagesUrl[index]" class="form-control" >
+                                <input type="text" id="productImageUrl" placeholder="請輸其他產品圖片網址" v-model.trim.lazy="inputData.imagesUrl[index]" class="form-control" >
                             </div>
                         </template>
                         <button v-if="inputData.imageUrl!=='' && inputData.imagesUrl?.length<5" class="btn btn-outline-success w-100 d-block my-3" @click="addImg()">新增圖片</button>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="d-flex gap-2">
                             <div class="from-group my-3 w-50">
-                                <label for="is_enabled" class=" w-100">產品狀態</label>
+                                <label for="is_enabled" class=" w-100" style="margin-bottom: 8px;">產品狀態</label>
                                 <select name="productStatus" id="is_enabled" class="form-select" v-model.number="inputData.is_enabled">
                                     <option  value="" disabled >請選擇產品狀態</option>
                                     <option  value=0>未上架</option>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="from-group my-3">
-                            <label class="form-label w-100" for="productDescription" >產品分類</label>
+                            <label class="form-label w-100" for="productDescription" >產品描述</label>
                             <textarea name="productDescription" class="form-control" style="height:80px" id="productDescription"  placeholder="請輸入產品描述" v-model="inputData.description"></textarea>
                         </div>
                     </div>

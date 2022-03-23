@@ -104,7 +104,12 @@ export default {
   },
   methods: {
     addTag () {
-      this.article.tag.push(this.tempTag)
+      if (this.article.tag === '') {
+        this.article.tag = []
+        this.article.tag.push(this.tempTag)
+      } else {
+        this.article.tag.push(this.tempTag)
+      }
       this.tempTag = ''
       console.log(this.article)
     },

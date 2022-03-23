@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
+  <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
   <div class="row">
     <div class="from-group d-flex justify-content-end">
       <button class="btn btn-primary" @click= "isNew = true; openModal()">
@@ -32,7 +32,7 @@
                 <td :class="{ 'text-success': item.isPublic, 'text-danger': item.isPublic === false? true: false}">{{articleStatus(item.isPublic)}}</td>
                 <td><span v-for="(i, index) in item.tag" :key="i + index" class="badge bg-primary mx-1">{{i}}</span></td>
                 <td>
-                <button class="btn btn-outline-secondary" @click= "postId = item.id ; isNew = false ; editArticle(item)">
+                <button class="btn btn-outline-secondary" @click= "postId = item.id ; isNew = false ; editArticle()">
                 <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 編輯文章</button>
                 </td>
@@ -72,6 +72,7 @@ export default {
       },
       pagination: {},
       isLoading: false,
+      isLoadingPage: false,
       postId: '',
       bsModal: '',
       isNew: true
@@ -88,7 +89,6 @@ export default {
       if (checked === true) {
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article/${this.postId}`)
           .then((res) => {
-            alert(res.data.message)
             this.getArticle()
             this.$emitter.emit('push-info', {
               title: '刪除文章結果',
@@ -99,7 +99,6 @@ export default {
           })
           .catch((err) => {
             console.dir(err.response.data.message)
-            alert(err.response.data.message)
             this.$emitter.emit('push-info', {
               title: '刪除文章結果',
               style: 'danger',
@@ -107,15 +106,21 @@ export default {
             })
             this.isLoading = false
           })
+      } else if (checked === false) {
+        this.$emitter.emit('push-info', {
+          title: '刪除文章結果',
+          style: 'success',
+          content: '已取消刪除'
+        })
+        this.isLoading = false
       }
     },
-    editArticle (data) {
-      this.tempArticle = data
+    editArticle () {
+      this.getArticleContent()
       // this.tempArticle.tag = newData.tag.join(' ') 使用join不知道為甚麼會影響 原資料item.tag
       this.openModal()
     },
     sendArticle (Data) {
-      console.log(Data.content)
       this.isLoading = true
       const sendData = {
         data: {
@@ -129,7 +134,6 @@ export default {
           content: Data.content
         }
       }
-      console.log('sendData', sendData)
       if (this.isNew === true) {
         this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article`, sendData)
           .then((res) => {
@@ -140,6 +144,16 @@ export default {
               content: res.data.message
             })
             this.isLoading = false
+            this.tempArticle = {
+              title: '',
+              description: '',
+              image: '',
+              tag: [],
+              create_at: null,
+              author: '',
+              isPublic: false,
+              content: ''
+            }
           })
           .catch((err) => {
             this.$emitter.emit('push-info', {
@@ -153,7 +167,6 @@ export default {
         this.isLoading = true
         this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article/${this.postId}`, sendData)
           .then((res) => {
-            alert(res.data.message)
             this.getArticle()
             this.closeModal()
             this.$emitter.emit('push-info', {
@@ -190,14 +203,22 @@ export default {
     closeModal () {
       this.$refs.adminArticleModal.closeModal()
     },
-    getArticle (page = 1) {
+    getArticleContent () {
       this.isLoading = true
+      this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article/${this.postId}`)
+        .then((res) => {
+          this.tempArticle = res.data.article
+          this.isLoading = false
+        })
+        .catch((err) => { console.dir(err.response.data.message) })
+    },
+    getArticle (page = 1) {
+      this.isLoadingPage = true
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/articles?page=${page}`)
         .then((res) => {
           this.articles = res.data.articles
-          console.log(this.articles)
           this.pagination = res.data.pagination
-          this.isLoading = false
+          this.isLoadingPage = false
         })
         .catch((err) => { console.dir(err.response.data.message) })
     }

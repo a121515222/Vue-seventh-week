@@ -149,7 +149,7 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`).then((res) => {
         this.cartData = res.data.data
         this.cartLength = res.data.data.carts.length
-        this.$emit('send-cartnum', this.cartLength)
+        this.$emitter.emit('push-cart-num', this.cartLength)
       })
         .catch((error) => { console.dir(error) })
     },

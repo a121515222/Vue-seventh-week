@@ -12,7 +12,12 @@ const routes = [
       meta: { title: 'Home' }
     },
     {
-      path: 'article',
+      path: 'articles',
+      component: () => import('../views/Articles.vue'),
+      meta: { title: 'article' }
+    },
+    {
+      path: 'article/:id',
       component: () => import('../views/Article.vue'),
       meta: { title: 'article' }
     },
