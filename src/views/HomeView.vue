@@ -81,9 +81,6 @@
     <div class="banner3 position-relative">
         <div class="from-group d-flex flex-column align-item-center position-absolute top-50 start-50 translate-middle">
             <h2 class="fs-1 text-secondary no-warp">還有更特別的</h2>
-            <div class="align-self-center">
-            <router-link class="btn btn-secondary text-light" to=/products tag="button">等不及了馬上看!</router-link>
-            </div>
         </div>
         <div class="from-group d-flex flex-column align-item-center position-absolute bottom-10 start-50 translate-middle">
             <span class="text-secondary">了解更多</span>
