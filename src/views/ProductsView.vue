@@ -122,9 +122,13 @@ export default {
     guestOpenCart () {
       this.$refs.guestCart.cartOpen()
     },
+    getCart () {
+      this.$refs.guestCart.getCart()
+    },
     guestAddCart (id, title) {
       this.$refs.guestModal.addCart(id, title)
       this.$refs.guestCart.getCart()
+      this.getCart()
     },
     guestProductDetail (id) {
       this.$refs.guestModal.guestModalOpen(id)
@@ -145,6 +149,7 @@ export default {
   mounted () {
     this.getGuestProduct()
     this.$emitter.on('push-cart-num', (num) => { this.cartNum = num })
+    this.getCart()
   }
 }
 </script>

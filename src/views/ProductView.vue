@@ -39,8 +39,12 @@
     </div>
   </div>
 </div>
+<!-- offcanvas -->
+<Cart ref="guestCart"></Cart>
 </template>
 <script>
+// 這裡import購物車是為了能在addCart後取得購物車內數量
+import Cart from '@/components/CartCanvass.vue'
 export default {
   data () {
     return {
@@ -49,6 +53,9 @@ export default {
       isLoading: false,
       isLoadingPage: false
     }
+  },
+  components: {
+    Cart
   },
   methods: {
     addCart (id, title) {
@@ -71,6 +78,8 @@ export default {
           style: 'success',
           content: res.data.message
         })
+        // 更新購物車使購物車能送出購物車內容的長度
+        this.$refs.guestCart.getCart()
       }).catch((error) => { console.dir(error.response) })
     },
     getProduct () {

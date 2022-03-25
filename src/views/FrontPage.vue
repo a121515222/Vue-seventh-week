@@ -1,12 +1,12 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-primary fixed-top" :class="{'bg-secondary': scrollY > 100}">
   <div class="container-fluid">
-    <router-link class="navbar-brand order-1 order-sm-0" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" to="/">logo</router-link>
-    <button class="navbar-toggler order-0 order-sm-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFontPage" aria-controls="navbarFontPage" aria-expanded="false" aria-label="Toggle navigation">
+    <router-link class="logo navbar-brand order-1 order-sm-0 fs-2 hover-color" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" to="/">自種自售</router-link>
+    <button class="navbar-toggler order-0 order-sm-1 hover-color" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFontPage" aria-controls="navbarFontPage" aria-expanded="false" aria-label="Toggle navigation">
       <i class="bi bi-list" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" style="font-size:26px"></i>
     </button>
-    <a href="#" class="order-3" @click.prevent="guestOpenCart">
-    <i class="bi bi-cart3 position-relative" :class="{'text-primary': scrollY > 100 , 'text-secondary':scrollY < 100}"  style="font-size:26px">
+    <a href="#" class="order-3 " @click.prevent="guestOpenCart">
+    <i class="bi bi-cart3 position-relative hover-color" :class="{'text-primary': scrollY > 100 , 'text-secondary':scrollY < 100}"  style="font-size:26px">
       <span v-if="cartNum>0" class="position-absolute start-100 translate-middle badge rounded-pill bg-danger px-2"
                     style="font-size:6px; top:5px ;">
                     {{cartNum}}
@@ -15,10 +15,10 @@
     <div class="collapse navbar-collapse" id="navbarFontPage">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <li class="nav-item">
-          <router-link to="/products" class="nav-link " :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" aria-current="page" >產品列表</router-link>
+          <router-link to="/products" class="nav-link hover-color" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" aria-current="page" >產品列表</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/articles" class="nav-link " :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" aria-current="page" >文章列表</router-link>
+          <router-link to="/articles" class="nav-link hover-color" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" aria-current="page" >文章列表</router-link>
         </li>
       </ul>
     </div>
@@ -60,3 +60,17 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@font-face {
+    font-family: logo;
+    src: url('../assets/font/kurobara-cinderella.ttf');
+  }
+.logo {
+    font-family: logo;
+}
+.hover-color {
+  &:hover {
+    color: #fff !important;
+  }
+}
+</style>

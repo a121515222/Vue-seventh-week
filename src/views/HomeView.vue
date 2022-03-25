@@ -93,19 +93,27 @@
 </div>
 <div class="container">
     <div class="row">
-    <div class="from-group flex-column flex-md-row-cross">
-            <div class="col-12 col-md-6">
-                <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" alt="">
-            </div>
-            <div class="col-12 col-md-6"></div>
-        </div>
-        <div class="from-group flex-column d-flex flex-md-row-cross ">
-            <div class="col-12 col-md-6">
-                <img src="https://upload.cc/i1/2022/03/16/zU8Os9.jpg" alt="">
-            </div>
-            <div class="col-12 col-md-6"></div>
-        </div>
-</div>
+        <template v-for="(item, index) in guestProduct" :key ="item.title+index">
+            <div v-if ="item.title ==='澳洲茶樹精油-5ml'" class="from-group  flex-md-row-cross cardHover">
+                <div class="col-12 col-md-6">
+                    <img :src="item.imageUrl" :alt="item.title" style="max-height:200px; min-width:100% ; object-fit: cover">
+                </div>
+                <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                    <p>{{item.description}}</p>
+                    <div v-if="item.origin_price===item.price" class="d-flex gap-2">
+                        <span>售價:{{item.origin_price}}元</span>
+                        <span>/{{item.unit}}</span>
+                    </div>
+                    <div v-else class="d-flex gap-2">
+                        <span class="text-decoration-line-through text-middle">原價{{item.origin_price}}</span>
+                        <span class="text-danger">特價{{item.price}}元</span>
+                        <span>/{{item.unit}}</span>
+                    </div>
+                    <router-link :to="`/product/${item.id}` " class="btn btn-primary">馬上購買</router-link>
+                </div>
+           </div>
+        </template>
+    </div>
 </div>
 <div class="container-fluid bg-third d-flex justify-content-center align-item-center" style="height:35px">
     <h3 class="text-light">此網頁為練習作品</h3>
@@ -127,6 +135,10 @@ $animationBannerSecond:16s;
   animation-duration: $animationBannerSecond;
   animation-timing-function: ease-in;
   animation-iteration-count: infinite;
+  -webkit-animation:bannerCarousel;
+  -webkit-animation-duration: $animationBannerSecond;
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-iteration-count: infinite;
 }
 .banner2 {
   position: absolute;
@@ -142,6 +154,11 @@ $animationBannerSecond:16s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-delay: $animationBannerSecond * 0.5;
+  -webkit-animation:bannerCarousel;
+  -webkit-animation-duration: $animationBannerSecond;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-delay: $animationBannerSecond * 0.5;
 }
 .banner3 {
     height:30vh;
@@ -179,6 +196,10 @@ $animationBannerSecond:16s;
   animation-duration: 1s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  -webkit-animation: scrollDown;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
 }
 @keyframes scrollDown {
   from {
@@ -186,6 +207,14 @@ $animationBannerSecond:16s;
   }
   to {
   top: 12px
+  }
+}
+@-webkit-keyframes scrollDown {
+  from {
+  -webkit-top: 0
+  }
+  to {
+  -webkit-top: 12px
   }
 }
 @keyframes bannerCarousel {
@@ -206,6 +235,26 @@ $animationBannerSecond:16s;
 }
 100% {
     opacity: 100%;
+}
+}
+@-webkit-keyframes bannerCarousel {
+0% {
+    -webkit-opacity: 100%;
+}
+25% {
+    -webkit-opacity: 50%;
+}
+40% {
+    -webkit-opacity: 0%;
+}
+60% {
+    -webkit-opacity: 0%;
+}
+75% {
+    -webkit-opacity: 50%;
+}
+100% {
+    -webkit-opacity: 100%;
 }
 }
 </style>
