@@ -226,26 +226,6 @@ $animationBannerSecond:16s;
     opacity: 100%;
 }
 }
-@-webkit-keyframes bannerCarousel {
-0% {
-    -webkit-opacity: 100%;
-}
-25% {
-    -webkit-opacity: 50%;
-}
-40% {
-    -webkit-opacity: 0%;
-}
-60% {
-    -webkit-opacity: 0%;
-}
-75% {
-    -webkit-opacity: 50%;
-}
-100% {
-    -webkit-opacity: 100%;
-}
-}
 </style>
 <script>
 export default {
