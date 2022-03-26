@@ -127,17 +127,11 @@ $animationBannerSecond:16s;
   height: 100%;
   background-repeat: no-repeat;
   background-size:cover;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
-  -webkit-animation:bannerCarousel;
-          animation:bannerCarousel;
-  -webkit-animation-duration: $animationBannerSecond;
-          animation-duration: $animationBannerSecond;
-  -webkit-animation-timing-function: ease-in;
-          animation-timing-function: ease-in;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation:bannerCarousel;
+  animation-duration: $animationBannerSecond;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
 }
 .banner2 {
   position: absolute;
@@ -147,19 +141,12 @@ $animationBannerSecond:16s;
   height: 100%;
   background-repeat: no-repeat;
   background-size:cover;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
-  -webkit-animation:bannerCarousel;
-          animation:bannerCarousel;
-  -webkit-animation-duration: $animationBannerSecond;
-          animation-duration: $animationBannerSecond;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-  -webkit-animation-delay: $animationBannerSecond * 0.5;
-          animation-delay: $animationBannerSecond * 0.5;
+  animation:bannerCarousel;
+  animation-duration: $animationBannerSecond;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-delay: $animationBannerSecond * 0.5;
 }
 .banner3 {
     height:30vh;
@@ -179,42 +166,24 @@ $animationBannerSecond:16s;
 //監測到scrollY的值大於60時 使用這個效果
   position: absolute;
   top: 100px;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
   width: 80%;
   height: 60%;
 }
 .frame {
   min-height: 100vh;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
 }
 .frame-short {
   min-height: 50vh;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
 }
 .animation-scrollDown {
   position: absolute;
-  -webkit-animation: scrollDown;
-          animation: scrollDown;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-}
-@-webkit-keyframes scrollDown {
-  from {
-  top: 5px;
-  }
-  to {
-  top: 16px;
-  }
+  animation: scrollDown;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 @keyframes scrollDown {
   from {
@@ -223,26 +192,6 @@ $animationBannerSecond:16s;
   to {
   top: 16px;
   }
-}
-@-webkit-keyframes bannerCarousel {
-0% {
-    opacity: 100%;
-}
-25% {
-    opacity: 50%;
-}
-40% {
-    opacity: 0%;
-}
-60% {
-    opacity: 0%;
-}
-75% {
-    opacity: 50%;
-}
-100% {
-    opacity: 100%;
-}
 }
 @keyframes bannerCarousel {
 0% {
