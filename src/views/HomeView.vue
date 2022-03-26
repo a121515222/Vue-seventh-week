@@ -128,14 +128,14 @@ $animationBannerSecond:16s;
   background-repeat: no-repeat;
   background-size:cover;
   transition: all 0.5s;
-  animation:bannerCarousel;
-  animation-duration: $animationBannerSecond;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
   -webkit-animation:bannerCarousel;
   -webkit-animation-duration: $animationBannerSecond;
   -webkit-animation-timing-function: ease-in;
   -webkit-animation-iteration-count: infinite;
+  animation:bannerCarousel;
+  animation-duration: $animationBannerSecond;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
 }
 .banner2 {
   position: absolute;
@@ -146,16 +146,16 @@ $animationBannerSecond:16s;
   background-repeat: no-repeat;
   background-size:cover;
   transition: all 0.5s;
-  animation:bannerCarousel;
-  animation-duration: $animationBannerSecond;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-delay: $animationBannerSecond * 0.5;
   -webkit-animation:bannerCarousel;
   -webkit-animation-duration: $animationBannerSecond;
   -webkit-animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-delay: $animationBannerSecond * 0.5;
+  animation:bannerCarousel;
+  animation-duration: $animationBannerSecond;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-delay: $animationBannerSecond * 0.5;
 }
 .banner3 {
     height:30vh;
@@ -189,14 +189,14 @@ $animationBannerSecond:16s;
 }
 .animation-scrollDown {
   position: absolute;
-  animation: scrollDown;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
   -webkit-animation: scrollDown;
   -webkit-animation-duration: 1s;
   -webkit-animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
+  animation: scrollDown;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 @keyframes scrollDown {
   from {
@@ -205,26 +205,6 @@ $animationBannerSecond:16s;
   to {
   top: 16px;
   }
-}
-@keyframes bannerCarousel {
-0% {
-    opacity: 100%;
-}
-25% {
-    opacity: 50%;
-}
-40% {
-    opacity: 0%;
-}
-60% {
-    opacity: 0%;
-}
-75% {
-    opacity: 50%;
-}
-100% {
-    opacity: 100%;
-}
 }
 @-webkit-keyframes bannerCarousel {
 0% {
@@ -246,6 +226,27 @@ $animationBannerSecond:16s;
     -webkit-opacity: 100%;
 }
 }
+@keyframes bannerCarousel {
+0% {
+    opacity: 100%;
+}
+25% {
+    opacity: 50%;
+}
+40% {
+    opacity: 0%;
+}
+60% {
+    opacity: 0%;
+}
+75% {
+    opacity: 50%;
+}
+100% {
+    opacity: 100%;
+}
+}
+
 </style>
 <script>
 export default {
