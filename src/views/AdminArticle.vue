@@ -210,7 +210,15 @@ export default {
           this.tempArticle = res.data.article
           this.isLoading = false
         })
-        .catch((err) => { console.dir(err.response.data.message) })
+        .catch((err) => {
+          console.dir(err.response.data.message)
+          this.$emitter.emit('push-info', {
+            title: '取得文章失敗',
+            style: 'danger',
+            content: err.response.data.message
+          })
+          this.isLoading = false
+        })
     },
     getArticle (page = 1) {
       this.isLoadingPage = true
@@ -220,7 +228,15 @@ export default {
           this.pagination = res.data.pagination
           this.isLoadingPage = false
         })
-        .catch((err) => { console.dir(err.response.data.message) })
+        .catch((err) => {
+          console.dir(err.response.data.message)
+          this.$emitter.emit('push-info', {
+            title: '取得文章列表失敗',
+            style: 'danger',
+            content: err.response.data.message
+          })
+          this.isLoading = false
+        })
     }
   },
   mounted () {

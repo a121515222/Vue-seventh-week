@@ -107,6 +107,7 @@ export default {
       }
     },
     adminEditCoupon (coupon) {
+      console.log(coupon)
       this.isLoading = true
       // 轉換時間格式
       coupon.due_date = Math.floor(new Date(coupon.due_date) / 1000)
@@ -123,7 +124,15 @@ export default {
               content: res.data.message
             })
           })
-          .catch((err) => { console.log(err.response.data.message) })
+          .catch((err) => {
+            console.log(err.response.data.message)
+            this.isLoading = false
+            this.$emitter.emit('push-info', {
+              title: '新增優惠券結果',
+              style: 'success',
+              content: err.response.data.message
+            })
+          })
       } else {
         this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${this.postId}`, sendData)
           .then((res) => {

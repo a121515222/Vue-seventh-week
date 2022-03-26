@@ -20,6 +20,10 @@
         <li class="nav-item">
           <router-link to="/articles" class="nav-link hover-color" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" aria-current="page" >文章列表</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/guestOrderList" class="nav-link hover-color" :class="{'text-primary': scrollY > 100, 'text-secondary':scrollY < 100}" aria-current="page" >訂單查詢
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>
@@ -68,7 +72,7 @@ export default {
 .logo {
     font-family: logo;
 }
-.hover-color {
+.hover-color,.active {
   &:hover {
     color: #fff !important;
   }

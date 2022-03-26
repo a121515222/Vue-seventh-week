@@ -1,5 +1,5 @@
 <template>
-<div class="container pt-7">
+<div class="container pt-10">
   <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
      <a href="#" style=" position: fixed; bottom: 20px; right: 20px; z-index: 9; font-size: 50px" @click.prevent="guestOpenCart()">
             <i class="bi bi-cart3 position-relative text-third ">
@@ -86,7 +86,6 @@ export default {
           this.guestShowProduct.push(item)
         }
       })
-      // console.log('infoResult', this.guestShowProduct)
     },
     minFilter (min) {
       if (min) {
@@ -94,7 +93,6 @@ export default {
           this.guestShowProduct = this.guestProduct
         }
         this.guestShowProduct = this.guestShowProduct.filter(item => min <= item.price || min <= item.origin_price)
-        // console.log('minResult', this.guestShowProduct)
       }
     },
     maxFilter (max) {
@@ -102,7 +100,6 @@ export default {
         if (this.guestShowProduct.length === 0) {
           this.guestShowProduct = this.guestProduct
         }
-        // console.log('maxMiddleResult', this.guestShowProduct)
         this.guestShowProduct = this.guestShowProduct.filter(item => item.price <= max || item.origin_price <= max)
       }
     },

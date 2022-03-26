@@ -386,6 +386,9 @@ $spacers: (
   5: $spacer * 3,
   6: $spacer * 3.5,//new
   7: $spacer * 4,//new
+  8: $spacer * 4.5,//new
+  9: $spacer * 5,//new
+  10: $spacer * 5.5,//new
 ) !default;
 
 $negative-spacers: if($enable-negative-margins, negativify-map($spacers), null) !default;
@@ -801,7 +804,7 @@ $btn-box-shadow:              inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($b
 $btn-focus-width:             $input-btn-focus-width !default;
 $btn-focus-box-shadow:        $input-btn-focus-box-shadow !default;
 $btn-disabled-opacity:        .65 !default;
-$btn-active-box-shadow:       inset 0 3px 5px rgba($black, .125) !default;
+$btn-active-box-shadow:       inset 0 3px 5px rgba($white, .125) !default;// inset 0 3px 5px rgba($black, .125) !default;
 
 $btn-link-color:              $link-color !default;
 $btn-link-hover-color:        $link-hover-color !default;

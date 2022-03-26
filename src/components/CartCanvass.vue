@@ -23,6 +23,7 @@
         </tr>
         </thead>
         <tbody>
+          <template v-if="cartLength>0">
             <tr v-for="(item,index) in cartData.carts" :key="item.product.title+index">
                 <th scope="row">{{index+1}}</th>
                 <td><img :src="item.product.imageUrl" alt="" style="width:50px; height:30px"></td>
@@ -36,16 +37,22 @@
                 {{isChangeNum && item.id === cartId?  '確定修改':'修改數量' }}</button></td>
                 <td><button type="button" class="btn btn-outline-dark" @click="deleteCart(item.id)">刪除</button></td>
             </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan='8'>目前購物車沒有東西</td>
+            </tr>
+          </template>
         </tbody>
     </table>
     <div class="align-self-end d-flex gap-5 px-3">
     <p class="text-center fw-bold">小計</p>
     <p class="text-center">{{Math.floor(cartData.final_total)}}元</p>
     </div>
-    <div class="align-self-end pb-1"> <button type="button" class="btn btn-primary" @click="toInputPage()"
+    <div class="align-self-end pb-1"> <button type="button" class="btn btn-primary text-white" @click="toInputPage(); cartClose()"
     :disabled="cartLength === 0" :class="{buttonDisabledCursor : cartLength === 0}">確認</button>
     </div>
-    <CouponInput @getCart= "getCart"></CouponInput>
+    <CouponInput :cart-length="cartLength" @getCart= "getCart"></CouponInput>
     </div>
   </div>
 </template>

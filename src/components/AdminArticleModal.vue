@@ -85,7 +85,7 @@ export default {
       },
       editor: ClassicEditor,
       editorConfig: {
-        toolbar: ['heading', 'typing', 'bold', 'italic', '|', 'link']
+        toolbar: ['heading', 'bold', 'italic', '|', 'link']
       },
       tempTag: ''
     }
@@ -111,7 +111,6 @@ export default {
         this.article.tag.push(this.tempTag)
       }
       this.tempTag = ''
-      console.log(this.article)
     },
     deleteTag (index) {
       this.article.tag.splice(index, 1)

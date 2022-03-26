@@ -61,7 +61,7 @@
 <script>
 import GuestProductModal from '@/components/GuestProductModal.vue'
 import CartCanvass from '@/components/CartCanvass.vue'
-import { getTime } from '@/assets/util/methods.js'
+import { getTime } from '@/assets/util/ReadTime.js'
 export default {
   data () {
     return {

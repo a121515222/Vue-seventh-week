@@ -9,13 +9,19 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-4 my-3">
-                        <p>主要圖片</p>
+                      <div class="from-group my-3">
+                            <label class="form-label w-100" for="productImageUrl" >
+                              圖片上傳
+                              <span class="spinner-border spinner-border-sm" v-if="isLoading" role="status"></span></label>
+                            <input type="file" name="file-to-upload" ref="upLoadFile" :disabled="isLoading || inputData.imagesUrl?.length === 5" @change="uploadImg"
+                            :class="{buttonDisabledCursor : isLoading || inputData.imagesUrl?.length === 5}" class="form-control" >
+                      </div>
                         <div> <img :src="inputData.imageUrl" :alt="inputData.title" :title="inputData.title" class="img-fluid"> </div>
                         <div class="from-group my-3">
                             <label class="form-label w-100" for="productImageUrl" >主要產品圖片</label>
                             <input type="text" id="productImageUrl" placeholder="請輸入主要產品圖片網址" v-model.trim.lazy="inputData.imageUrl" class="form-control" >
                         </div>
-                        <template v-if="inputData.imagesUrl?.length>0">
+                        <template v-if="inputData.imageUrl">
                             <div class="from-group my-3" v-for="(item,index) in inputData.imagesUrl" :key="item+1">
                                 <p>其他圖片{{index+1}}</p>
                                 <img :src="item" class="img-fluid" :alt="inputData.title">
@@ -23,8 +29,10 @@
                                 <input type="text" id="productImageUrl" placeholder="請輸其他產品圖片網址" v-model.trim.lazy="inputData.imagesUrl[index]" class="form-control" >
                             </div>
                         </template>
-                        <button v-if="inputData.imageUrl!=='' && inputData.imagesUrl?.length<5" class="btn btn-outline-success w-100 d-block my-3" @click="addImg()">新增圖片</button>
-                        <button v-if="inputData.imagesUrl?.length!==0" class="btn btn-outline-danger w-100 d-block" @click="deleteImg()">刪除圖片</button>
+                        <button v-if="inputData.imageUrl" :disabled="inputData.imagesUrl?.length===5"
+                        :class="{buttonDisabledCursor : inputData.imagesUrl?.length===5}" class="btn btn-outline-success w-100 d-block my-3"
+                        @click="addImg() ">新增圖片</button>
+                        <button v-if="inputData.imagesUrl?.length > 1" class="btn btn-outline-danger w-100 d-block" @click="deleteImg()">刪除圖片</button>
                     </div>
                     <div class="col-8 my-3" >
                         <div class="from-group my-3">
@@ -43,11 +51,11 @@
                         <div class="d-flex gap-2">
                             <div class="from-group my-3 w-50">
                                 <label class="form-label w-100" for="productOrigin_price" >產品原價</label>
-                                <input type="number" id="productOrigin_price" placeholder="請輸入產品原價" v-model.number="inputData.origin_price" class="form-control">
+                                <input type="number" id="productOrigin_price" placeholder="請輸入產品原價" min=0 v-model.number="inputData.origin_price" class="form-control">
                             </div>
                             <div class="from-group my-3 w-50">
                                 <label class="form-label w-100" for="productPrice" >產品售價</label>
-                                <input type="number" id="productPrice" placeholder="請輸入產品售價" v-model.number="inputData.price" class="form-control">
+                                <input type="number" id="productPrice" placeholder="請輸入產品售價" min=0 v-model.number="inputData.price" class="form-control">
                             </div>
                         </div>
                         <div class="d-flex gap-2">
@@ -89,12 +97,67 @@ export default {
   props: ['inputProduct', 'isNew'],
   data () {
     return {
-      inputData: {},
-      bsModal: ''
+      inputData: {
+        imagesUrl: []
+      },
+      bsModal: '',
+      isLoading: false
     }
   },
   emits: ['send-input-data', 'send-close-resetInput'],
   methods: {
+    uploadImg () {
+      this.isLoading = true
+      const uploadFile = this.$refs.upLoadFile.files[0]
+      const formData = new FormData()
+      formData.append('file-to-upload', uploadFile)
+      this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/upload`, formData)
+        .then((res) => {
+          if (this.inputData.imageUrl === undefined || '') {
+            this.inputData.imageUrl = res.data.imageUrl
+            this.addImg()
+          } else if (this.inputData.imageUrl !== '' && this.inputData.imagesUrl.length < 6) {
+            if (this.inputData.imagesUrl.length === 0) {
+              this.addImg()
+            }
+            this.inputData.imagesUrl.forEach((item, index) => {
+              if (item === '' && index < 5) {
+                this.inputData.imagesUrl.splice(index, 1, res.data.imageUrl)
+                if (index < 5) {
+                  this.addImg()
+                }
+              } else if (item !== '' && index < 5) {
+                this.addImg()
+                this.inputData.imagesUrl.splice(index, 1, res.data.imageUrl)
+              }
+            })
+          }
+          this.isLoading = false
+          this.$emitter.emit('push-info', {
+            title: '上傳圖片結果',
+            style: 'success',
+            content: '上傳成功'
+          })
+          this.$refs.upLoadFile.value = ''
+        })
+        .catch((err) => {
+          this.isLoading = false
+          console.dir(err)
+          if (this.inputData.imagesUrl.length === 5) {
+            this.$emitter.emit('push-info', {
+              title: '上傳圖片結果',
+              style: 'danger',
+              content: '上傳失敗，已達最大上傳圖片數'
+            })
+          } else {
+            this.$emitter.emit('push-info', {
+              title: '上傳圖片結果',
+              style: 'danger',
+              content: '上傳失敗'
+            })
+          }
+        })
+    },
     open () {
       this.bsModal.show()
     },

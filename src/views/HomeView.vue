@@ -200,18 +200,10 @@ $animationBannerSecond:16s;
 }
 @keyframes scrollDown {
   from {
-  top: 0
+  top: 5px;
   }
   to {
-  top: 12px
-  }
-}
-@-webkit-keyframes scrollDown {
-  from {
-  -webkit-top: 0
-  }
-  to {
-  -webkit-top: 12px
+  top: 16px;
   }
 }
 @keyframes bannerCarousel {
@@ -273,8 +265,6 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`).then((res) => {
         this.guestProduct = res.data.products
         this.guestShowProduct = this.guestProduct
-        console.log(res.data.products)
-        console.log(this.guestShowProduct)
       })
         .catch((error) => {
           console.dir(error)
@@ -284,8 +274,6 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/articles`)
         .then((res) => {
           this.articles = res.data.articles
-          console.log(res.data.articles)
-          console.log(this.articles)
         })
         .catch((err) => { console.dir(err.response.data.message) })
     }

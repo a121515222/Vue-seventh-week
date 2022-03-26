@@ -105,7 +105,8 @@ export default {
     }
   },
   mounted () {
-    this.active = this.enabled
+    // 當開啟新增優惠券時this.enabled為undefined所以加上||0
+    this.active = this.enabled || 0
   }
 }
 </script>

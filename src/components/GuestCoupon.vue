@@ -2,7 +2,8 @@
     <div class="from-group d-flex flex-column">
       <input type="text" class="form-control" placeholder="請輸入優惠券碼" v-model= "code">
     <div class="align-self-end">
-      <button class="btn btn-primary mt-1" type="button" @click= "guestSendCoupon">
+      <button class="btn btn-primary text-white mt-1" type="button" @click= "guestSendCoupon"
+      :disabled="cartLength===0" :class="{buttonDisabledCursor :cartLength===0}">
         <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         送出
       </button>
@@ -11,6 +12,7 @@
 </template>
 <script>
 export default {
+  props: ['cartLength'],
   data () {
     return {
       code: '',

@@ -157,7 +157,6 @@ export default {
       if (this.isNew === true) {
         // this.sendToken()
         this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`, sendData).then((res) => {
-          console.log(res.data)
           this.getProduct()
           this.resetModal()
           this.isLoading = false
@@ -167,7 +166,6 @@ export default {
             content: res.data.message
           })
         }).catch((err) => {
-          console.log(err.response)
           this.$emitter.emit('push-info', {
             title: '新增產品結果',
             style: 'danger',

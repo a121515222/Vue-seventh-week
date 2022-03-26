@@ -37,6 +37,18 @@ const routes = [
       name: 'SendInfo',
       component: () => import('../views/SendInfo.vue'),
       meta: { title: 'SendInfo' }
+    },
+    {
+      path: 'guestOrderList',
+      name: 'GuestOrderList',
+      component: () => import('../views/GuestOrders.vue'),
+      meta: { title: 'GuestOrderList' }
+    },
+    {
+      path: 'guestOrderPay/:id',
+      name: 'GuestOrderPay',
+      component: () => import('../views/GuestOrderEdit.vue'),
+      meta: { title: 'GuestOrderPay' }
     }]
   },
   {

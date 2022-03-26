@@ -20,7 +20,7 @@
                         <div class="d-flex gap-2">
                             <div class="from-group my-3 w-50">
                                 <label class="form-label w-100" for="couponPercent" >折扣幅度</label>
-                                <input type="number" id="couponPercent" placeholder="請輸入折扣幅度" v-model.number= "couponData.percent" class="form-control">
+                                <input type="number" id="couponPercent" placeholder="請輸入折扣幅度,例如80為8折" max=100 v-model.number= "couponData.percent" class="form-control">
                             </div>
                             <div class="from-group my-3 w-50">
                                 <label class="form-label w-100" for="couponDate" >折扣到期日</label>
@@ -30,7 +30,7 @@
                         <div class="d-flex gap-2">
                             <div class="from-group my-3 w-50">
                                 <label for="is_enabled" class="form-label w-100">優惠卷啟用</label>
-                                <Switch :info= "couponData.title" :enabled= "couponData.is_enabled" @send-enable= "getEnable"></Switch>
+                                <Switch :info= "couponData.title" :enabled="couponData.is_enabled" @send-enable="getEnable"></Switch>
                             </div>
                     </div>
                 </div>

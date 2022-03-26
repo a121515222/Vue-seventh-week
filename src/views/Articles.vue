@@ -1,11 +1,12 @@
 <template>
-<div class="container pt-6">
+<div class="container pt-10">
   <div class="row">
     <template v-for="(item, index) in articles" :key="item.title+index">
 <div class="card col-12 col-sm-6 cardHover ps-0 " >
   <div class="row g-0">
     <div class="col-md-4">
-      <img :src="item.image" class="img-fluid w-100 h-100" :alt="item.title" style="min-height:220px;max-height:220px; object-fit:contain">
+      <img :src="item.image" class="img-fluid w-100 h-100"
+      :alt="item.title" style="min-height:220px;max-height:220px;">
     </div>
     <div class="col-md-8 d-flex flex-column  justify-content-center">
       <div class="card-body">
@@ -39,8 +40,6 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/articles`)
         .then((res) => {
           this.articles = res.data.articles
-          console.log(res.data.articles)
-          console.log(this.articles)
         })
         .catch((err) => { console.dir(err.response.data.message) })
     }
