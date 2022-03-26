@@ -193,6 +193,10 @@ $animationBannerSecond:16s;
   animation-duration: 1s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  -webkit-animation: scrollDown;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
 }
 @keyframes scrollDown {
   from {
@@ -224,22 +228,22 @@ $animationBannerSecond:16s;
 }
 @-webkit-keyframes bannerCarousel {
 0% {
-    opacity: 100%;
+    -webkit-opacity: 100%;
 }
 25% {
-    opacity: 50%;
+    -webkit-opacity: 50%;
 }
 40% {
-    opacity: 0%;
+    -webkit-opacity: 0%;
 }
 60% {
-    opacity: 0%;
+    -webkit-opacity: 0%;
 }
 75% {
-    opacity: 50%;
+    -webkit-opacity: 50%;
 }
 100% {
-    opacity: 100%;
+    -webkit-opacity: 100%;
 }
 }
 </style>
