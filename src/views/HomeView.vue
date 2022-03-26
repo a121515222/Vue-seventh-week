@@ -122,7 +122,7 @@ $animationBannerSecond:16s;
 .banner {
   position: absolute;
   top: 0;
-  background-image: url(https://upload.cc/i1/2022/03/16/zU8Os9.jpg);
+  background-image: url(https://upload.cc/i1/2022/03/26/VEKZkG.jpg);
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
@@ -140,7 +140,7 @@ $animationBannerSecond:16s;
 .banner2 {
   position: absolute;
   top: 0;
-  background-image: url(https://upload.cc/i1/2022/03/16/LkU1hR.jpg);
+  background-image: url(https://upload.cc/i1/2022/03/26/hdM1VB.jpg);
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
