@@ -65,7 +65,7 @@
         </select>
         <div class="d-flex flex-row-reverse w-100 mt-2">
           <button class="btn btn-primary text-white" @click="pay()"
-          :disabled="iisLoading || payment === 0" :class="{buttonDisabledCursor : isLoading || payment === 0}">
+          :disabled="isLoading || payment === 0" :class="{buttonDisabledCursor : isLoading || payment === 0}">
             <span v-show="isLoading" class="spinner-border spinner-border-sm"
             role="status" aria-hidden="true"></span>
             確認付款</button>

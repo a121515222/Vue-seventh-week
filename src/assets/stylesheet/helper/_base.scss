@@ -18,7 +18,7 @@ img {
 }
 .btn-primary,.btn-secondary,.btn-third{
   color: #fff;
-  &:hover{
+  &:hover,&:focus,&:disabled{
     color: #fff;
   }
 }

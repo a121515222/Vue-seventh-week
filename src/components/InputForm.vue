@@ -118,9 +118,9 @@ export default {
     userInfo: {
       handler (nweValue) {
         this.user = JSON.parse(JSON.stringify(nweValue))
-      },
-      deep: true
+      }
     },
+    deep: true,
     messageInf (nweValue) {
       this.message = nweValue
     }

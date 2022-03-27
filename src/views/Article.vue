@@ -1,5 +1,5 @@
 <template>
-<div class="container pt-6">
+<div class="container pt-10">
   <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
   <div class="row">
     <div class="col-12 col-lg-6">

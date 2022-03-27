@@ -1,10 +1,13 @@
 <template>
 <div class="container-fluid pt-6 px-0">
     <div class="frame d-flex justify-content-center align-item-center position-relative" :class="{ 'frame-short':scrollY > 10 }">
-        <div class="banner" :class="{ 'banner-center': scrollY > 10}">
-        </div>
-        <div class="banner2" :class="{ 'banner-center': scrollY > 10}">
-        </div>
+        <ul class="bannerGroup px-0" :class="{ 'banner-center': scrollY > 10 }" ref="BannerImages">
+            <li  class="d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===0}" style="background-image:url(https://upload.cc/i1/2022/03/26/VEKZkG.jpg)"></li>
+            <li  class="d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===1}" style="background-image:url(https://upload.cc/i1/2022/03/26/hdM1VB.jpg)"></li>
+            <li  class="d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===2}" style="background-image:url(https://upload.cc/i1/2022/03/27/bytXzS.jpg)"></li>
+            <li  class="bannerSpecial d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===3}" style="background-image:url(https://upload.cc/i1/2022/03/27/GMxio4.jpg)"></li>
+            <li  class="d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===4}" style="background-image:url(https://upload.cc/i1/2022/03/27/7urNmk.jpg)"></li>
+        </ul>
         <div class="from-group d-flex flex-column position-absolute top-50 start-50 translate-middle">
         <h1 class=" text-secondary no-warp">想體驗新鮮的農產品嗎?</h1>
         <div class="align-self-center">
@@ -118,44 +121,34 @@
 
 </template>
 <style lang="scss">
-$animationBannerSecond:16s;
-.banner {
-  position: absolute;
-  top: 0;
-  background-image: url(https://upload.cc/i1/2022/03/26/VEKZkG.jpg);
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size:cover;
-  transition: all 0.5s;
-  animation:bannerCarousel;
-  animation-duration: $animationBannerSecond;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
-  -webkit-animation:bannerCarousel;
-  -webkit-animation-duration: $animationBannerSecond;
-  -webkit-animation-timing-function: ease-in;
-  -webkit-animation-iteration-count: infinite;
+$animationDuration:6s;
+.d-none-slow{
+    transition: all $animationDuration;
+    opacity: 0;
 }
-.banner2 {
-  position: absolute;
-  top: 0;
-  background-image: url(https://upload.cc/i1/2022/03/26/hdM1VB.jpg);
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size:cover;
-  transition: all 0.5s;
-  animation:bannerCarousel;
-  animation-duration: $animationBannerSecond;
+.bannerGroup {
+    position: relative;
+    width: 100%;
+    li {
+        list-style: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size:cover;
+        background-position:center center;
+    }
+}
+.bannerAnimation {
+  transition: all $animationDuration;
+  opacity: 1;
+  animation-duration: $animationDuration;
   animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-delay: $animationBannerSecond * 0.5;
-  -webkit-animation:bannerCarousel;
-  -webkit-animation-duration: $animationBannerSecond;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-delay: $animationBannerSecond * 0.5;
+  animation-iteration-count: infinite;;
+}
+.bannerSpecial {
+    background-position:50% 70% !important;
 }
 .banner3 {
     height:30vh;
@@ -206,46 +199,6 @@ $animationBannerSecond:16s;
   top: 16px;
   }
 }
-@keyframes bannerCarousel {
-0% {
-    opacity: 100%;
-}
-25% {
-    opacity: 50%;
-}
-40% {
-    opacity: 0%;
-}
-60% {
-    opacity: 0%;
-}
-75% {
-    opacity: 50%;
-}
-100% {
-    opacity: 100%;
-}
-}
-@-webkit-keyframes bannerCarousel {
-0% {
-    -webkit-opacity: 100%;
-}
-25% {
-    -webkit-opacity: 50%;
-}
-40% {
-    -webkit-opacity: 0%;
-}
-60% {
-    -webkit-opacity: 0%;
-}
-75% {
-    -webkit-opacity: 50%;
-}
-100% {
-    -webkit-opacity: 100%;
-}
-}
 </style>
 <script>
 export default {
@@ -253,10 +206,20 @@ export default {
     return {
       scrollY: 0,
       guestProduct: [],
-      articles: []
+      articles: [],
+      animationAction: 0,
+      animationPreAction: 0,
+      imgLen: 0,
+      animationDuration: 3000
     }
   },
   methods: {
+    runAnimation () {
+      setInterval(() => {
+        this.animationPreAction = this.animationAction
+        this.animationAction += 1
+      }, this.animationDuration)
+    },
     scrollWatch () {
       // 取得scrollY數值
       this.scrollY = window.scrollY
@@ -283,6 +246,8 @@ export default {
     window.addEventListener('scroll', this.scrollWatch)
     this.getArticle()
     this.getProduct()
+    this.imgLen = this.$refs.BannerImages.children.length
+    this.runAnimation()
   }
 }
 </script>
