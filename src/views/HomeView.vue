@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid pt-6 px-0">
+<div class="container-fluid pt-10 px-0">
     <div class="frame d-flex justify-content-center align-item-center position-relative" :class="{ 'frame-short':scrollY > 10 }">
         <ul class="bannerGroup px-0" :class="{ 'banner-center': scrollY > 10 }" ref="BannerImages">
             <li  class="d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===0}" style="background-image:url(https://upload.cc/i1/2022/03/26/VEKZkG.jpg)"></li>
@@ -22,11 +22,11 @@
             </div>
     </div>
 </div>
-<div class="container">
+<div class="container my-2">
     <!-- 產品交錯卡片 -->
     <div class="row">
         <template v-for="(item, index) in guestProduct" :key ="item.title+index">
-            <div v-if ="item.title ==='台農1號百香果' || item.title ==='粉豆'" class="from-group  flex-md-row-cross cardHover">
+            <div v-if ="item.title ==='台農1號百香果' || item.title ==='粉豆'" class="from-group  flex-md-row-cross cardHover px-0">
                 <div class="col-12 col-md-6">
                     <img :src="item.imageUrl" :alt="item.title" style="max-height:200px; min-width:100% ; object-fit: cover">
                 </div>
@@ -47,7 +47,7 @@
         </template>
       </div>
 </div>
-<div class="container-fluid px-0">
+<div class="container-fluid px-0 my-2">
     <div class="banner4 position-relative">
         <div class="from-group d-flex flex-column align-item-center position-absolute top-50 start-50 translate-middle">
             <h2 class="fs-1 text-secondary no-warp">小知識</h2>
@@ -61,12 +61,12 @@
             </div>
     </div>
 </div>
-<div class="container">
+<div class="container my-2">
     <div class="row">
         <!-- 文章卡片 -->
         <template v-for="(item, index) in articles" :key ="item+index">
             <div v-if="index<4" class="col-sm-12 col-md-6 col-lg-3 ">
-            <div class="card w-100 h-100 border-top-0 border-bottom-0 cardHover" >
+            <div class="card w-100 h-100 cardHover" >
              <img :src="item.image" class="card-img-top" :alt="item.title" style="min-height:200px;max-height:200px;min-width:100% ; object-fit: cover">
             <div class="card-body">
                 <h2>{{item.title}}</h2>
@@ -80,7 +80,7 @@
         </template>
       </div>
 </div>
-<div class="container-fluid px-0">
+<div class="container-fluid px-0 my-2">
     <div class="banner3 position-relative">
         <div class="from-group d-flex flex-column align-item-center position-absolute top-50 start-50 translate-middle">
             <h2 class="fs-1 text-secondary no-warp">還有更特別的</h2>
@@ -91,10 +91,10 @@
             </div>
     </div>
 </div>
-<div class="container">
+<div class="container my-2">
     <div class="row">
         <template v-for="(item, index) in guestProduct" :key ="item.title+index">
-            <div v-if ="item.title ==='澳洲茶樹精油-5ml'" class="from-group  flex-md-row-cross cardHover">
+            <div v-if ="item.title ==='澳洲茶樹精油-5ml'" class="from-group  flex-md-row-cross cardHover px-0">
                 <div class="col-12 col-md-6">
                     <img :src="item.imageUrl" :alt="item.title" style="max-height:200px; min-width:100% ; object-fit: cover">
                 </div>
@@ -143,9 +143,6 @@ $animationDuration:6s;
 .bannerAnimation {
   transition: all $animationDuration;
   opacity: 1;
-  animation-duration: $animationDuration;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;;
 }
 .bannerSpecial {
     background-position:50% 70% !important;

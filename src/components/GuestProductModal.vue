@@ -7,10 +7,13 @@
           <button type="button" class="btn-close" aria-label="Close" @click="guestModalClose()"></button>
         </div>
         <div class="modal-body">
-        <img class="img-fluid" :src="product.imageUrl" :alt="`${ product.title } 照片`">
-        <div class="d-flex">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+               <img class="img-fluid" style="max-height:480px; width:100%; object-fit: cover;object-position:center center;" :src="product.imageUrl" :alt="`${ product.title } 照片`">
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="d-flex">
             <p>{{product.title}}<span class="badge bg-primary">{{product.category}}</span></p>
-
         </div>
         <p>商品描述:{{product.description}}</p>
         <p>商品內容:{{product.content}}</p>
@@ -23,7 +26,8 @@
         <span class="text-danger">特價{{product.price}}元</span>
         <span>/{{product.unit}}</span>
         </div>
-
+            </div>
+          </div>
         </div>
         <div class="modal-footer gap-3">
           <button type="button" class="btn btn-success" @click="qty-=1" :disabled="qty<2"
