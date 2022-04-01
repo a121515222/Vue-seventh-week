@@ -33,7 +33,9 @@
                 <td v-if="isChangeNum && item.id === cartId" style="min-width:48px">
                   <input type="number" min="1" max="100" v-model.lazy="changeNum" class="form-control" style="max-width:46px"></td>
                 <td style="text-align:center;"> {{item.product.origin_price>item.product.price === false?  item.product.origin_price:item.product.price}}</td>
-                <td class="d-flex flex-column gap-1"><button type="button" class="btn btn-outline-primary" @click="changeCartNum(item.qty,item.id,item.product_id)">
+                <td class="d-flex flex-column gap-1">
+                  <button type="button" class="btn btn-outline-primary" :disabled="item.id===isCartLoading" :class="{buttonDisabledCursor:item.id===isCartLoading}"
+                  @click="changeCartNum(item.qty,item.id,item.product_id)">
                 <span v-show="item.id===isCartLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 {{isChangeNum && item.id === cartId?  '確定':'編輯' }}</button>
                 <button type="button" class="d-block-576-button btn btn-outline-dark" @click="deleteCart(item.id)">刪除</button>
