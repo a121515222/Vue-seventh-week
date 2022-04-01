@@ -5,7 +5,7 @@
       <h5 class="offcanvas-title" >購物車</h5>
       <button type="button" class="btn-close text-reset" aria-label="Close" @click="cartClose()"></button>
     </div>
-    <div class="offcanvas-body d-flex flex-column" style="min-width:343px">
+    <div class="offcanvas-body d-flex flex-column px-1 px-sm-3" style="min-width:343px">
     <div class="align-self-end"><button type="button" class="btn btn-outline-danger" @click="deleteAllCarts()"
     :disabled="cartLength === 0" :class="{buttonDisabledCursor : cartLength === 0}">刪除所有</button></div>
 
