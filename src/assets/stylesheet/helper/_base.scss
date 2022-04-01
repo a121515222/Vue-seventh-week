@@ -16,6 +16,11 @@ img {
     }
   }
 }
+.btn-outline-primary{
+  &:hover,&:focus,&:disabled{
+    color: #fff;
+  }
+}
 .btn-primary,.btn-secondary,.btn-third{
   color: #fff;
   &:hover,&:focus,&:disabled{

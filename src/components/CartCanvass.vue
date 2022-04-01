@@ -30,7 +30,8 @@
                 <td>{{item.product.title}}</td>
                 <td class="d-none-576" style="text-align:center">{{Math.floor(item.final_total)}}</td>
                 <td v-if="!isChangeNum || item.id !== cartId" style="text-align:center;"> {{item.qty}}</td>
-                <td v-if="isChangeNum && item.id === cartId"><input type="number" min="1" max="100" v-model="changeNum" class="form-control" style="width:65px"></td>
+                <td v-if="isChangeNum && item.id === cartId" style="min-width:48px">
+                  <input type="number" min="1" max="100" v-model.lazy="changeNum" class="form-control" style="max-width:46px"></td>
                 <td style="text-align:center;"> {{item.product.origin_price>item.product.price === false?  item.product.origin_price:item.product.price}}</td>
                 <td class="d-flex flex-column gap-1"><button type="button" class="btn btn-outline-primary" @click="changeCartNum(item.qty,item.id,item.product_id)">
                 <span v-show="item.id===isCartLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -62,7 +63,7 @@
 </template>
 <style lang="scss">
 td,th {
-  padding: 4px !important;
+  padding: 2px !important;
   @media (min-width:576px) {
   padding: 8px !important;
   }
