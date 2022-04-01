@@ -1,6 +1,6 @@
 <template>
   <div class="container pt-2">
-    <ul class="pictureWall">
+    <ul class="pictureWall px-0">
       <template v-for="(item, index) in pictures" :key="item">
         <li v-if="index<16" style="overflow: hidden;" class="pictureBox"
         :class="`box${index}`">
