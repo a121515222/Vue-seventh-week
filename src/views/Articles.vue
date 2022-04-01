@@ -2,7 +2,7 @@
 <div class="container pt-10">
   <div class="row">
     <template v-for="(item, index) in articles" :key="item.title+index">
-<div class="card col-12 col-sm-6 cardHover ps-0 " >
+<div class="card col-12 col-sm-6 cardHover px-0 ps-sm-0 " >
   <div class="row g-0">
     <div class="col-md-4">
       <img :src="item.image" class="img-fluid w-100 h-100"

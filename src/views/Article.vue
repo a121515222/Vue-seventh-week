@@ -1,8 +1,8 @@
 <template>
 <div class="container pt-10">
   <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
-  <div class="row">
-    <div class="col-12 col-lg-6">
+  <div class="row ">
+    <div class="col-12 col-lg-6 px-0">
       <img :src="article.image">
     </div>
     <div class="col-12 col-lg-6">
@@ -17,7 +17,7 @@
   <div class="row py-3" v-if="filterProducts.length > 0">
     <h2>推薦產品</h2>
     <template v-for="(item) in filterProducts" :key="item.id">
-    <div v-if="item.is_enabled===1||4" class="card col-12 col-sm-6 col-lg-4 col-xl-3 px-0 position-relative cardHover">
+    <div v-if="item.is_enabled===1||4" class="card col-12 col-sm-6 col-lg-4 col-xl-3 px-0  position-relative cardHover">
         <img :src="item.imageUrl" :alt="item.title" class="img-fluid card-img-top" style="max-height:200px">
         <p v-if="item.is_enabled === 4"  class="position-absolute top-0 end-0 bg-secondary text-primary p-1">促銷中</p>
         <div class="card-body pb-0">

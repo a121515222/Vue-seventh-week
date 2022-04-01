@@ -3,7 +3,7 @@
     <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
     <h2>訂單與付款頁</h2>
     <div class="table-responsive">
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped text-nowrap">
       <thead>
         <tr>
           <th scope="col">訂單編號</th>

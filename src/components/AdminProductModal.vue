@@ -78,7 +78,7 @@
                         </div>
                         <div class="from-group my-3">
                             <label class="form-label w-100" for="productDescription" >產品描述</label>
-                            <textarea name="productDescription" class="form-control" style="height:80px" id="productDescription"  placeholder="請輸入產品描述" v-model="inputData.description"></textarea>
+                            <textarea name="productDescription" class="form-control" style="height:150px" id="productDescription"  placeholder="請輸入產品描述" v-model="inputData.description"></textarea>
                         </div>
                     </div>
                 </div>

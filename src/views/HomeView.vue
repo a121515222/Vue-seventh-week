@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid pt-10 px-0">
+<div class="container-fluid pt-7 px-0">
     <div class="frame d-flex justify-content-center align-item-center position-relative" :class="{ 'frame-short':scrollY > 10 }">
         <ul class="bannerGroup px-0" :class="{ 'banner-center': scrollY > 10 }" ref="BannerImages">
             <li  class="d-none-slow" :class="{'bannerAnimation': animationAction % imgLen ===0}" style="background-image:url(https://upload.cc/i1/2022/03/26/VEKZkG.jpg)"></li>
@@ -26,7 +26,7 @@
     <!-- 產品交錯卡片 -->
     <div class="row">
         <template v-for="(item, index) in guestProduct" :key ="item.title+index">
-            <div v-if ="item.title ==='台農1號百香果' || item.title ==='粉豆'" class="from-group  flex-md-row-cross cardHover px-0">
+            <div v-if ="item.title ==='台農1號百香果' || item.title ==='醜豆'" class="from-group  flex-md-row-cross cardHover px-sm-0 ">
                 <div class="col-12 col-md-6">
                     <img :src="item.imageUrl" :alt="item.title" style="max-height:200px; min-width:100% ; object-fit: cover">
                 </div>
@@ -94,7 +94,7 @@
 <div class="container my-2">
     <div class="row">
         <template v-for="(item, index) in guestProduct" :key ="item.title+index">
-            <div v-if ="item.title ==='澳洲茶樹精油-5ml'" class="from-group  flex-md-row-cross cardHover px-0">
+            <div v-if ="item.title ==='澳洲茶樹精油-5ml'" class="from-group  flex-md-row-cross cardHover px-sm-0">
                 <div class="col-12 col-md-6">
                     <img :src="item.imageUrl" :alt="item.title" style="max-height:200px; min-width:100% ; object-fit: cover">
                 </div>

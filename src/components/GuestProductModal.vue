@@ -8,8 +8,8 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-12 col-sm-6">
-               <img class="img-fluid" style="max-height:480px; width:100%; object-fit: cover;object-position:center center;" :src="product.imageUrl" :alt="`${ product.title } 照片`">
+            <div class="col-12 col-sm-6 px-0 px-sm-2">
+               <img class="img-fluid guestModalImg px-0 px-sm-2" style="width:100%; object-fit: cover;object-position:center center;" :src="product.imageUrl" :alt="`${ product.title } 照片`">
             </div>
             <div class="col-12 col-sm-6">
               <div class="d-flex">
@@ -29,22 +29,39 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer gap-3">
-          <button type="button" class="btn btn-success" @click="qty-=1" :disabled="qty<2"
+        <div class="modal-footer gap-1 gap-sm-3 ">
+          <button type="button" class="btn btn-primary" @click="qty-=1" :disabled="qty<2"
           :class="{buttonDisabledCursor : qty<2}"><i class="bi bi-dash"></i></button>
           <span style="min-width:20px"> {{qty}}</span>
-          <button type="button" class="btn btn-success" @click="qty+=1" :disabled="qty===100"
+          <button type="button" class="btn btn-primary" @click="qty+=1" :disabled="qty===100"
             :class="{buttonDisabledCursor : qty===100}"><i class="bi bi-plus"></i></button>
-          <button type="button" class="btn btn-success" @click="addCart(product.id, product.title)" :disabled="product.id===isLoading  || qty<1"
+          <button type="button" class="btn btn-secondary" @click="addCart(product.id, product.title)" :disabled="product.id===isLoading  || qty<1"
           :class="{buttonDisabledCursor : product.id===isLoading || qty<1}">
           <span v-show="product.id===isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           加入購物車</button>
-          <button type="button" class="btn btn-secondary" @click="guestModalClose()">關閉</button>
+          <button type="button" class="d-none-366px btn btn-third" @click="guestModalClose()">關閉</button>
         </div>
       </div>
     </div>
   </div>
 </template>
+<style lang="scss">
+.guestModalImg {
+  max-height: 30vh;
+  @media (min-width:576px) {
+    max-height: 40vh;
+  }
+  @media (min-width:992px) {
+    max-height: 50vh;
+  }
+}
+.d-none-366px {
+  display: none;
+  @media (min-width:366px) {
+    display: block;
+  }
+}
+</style>
 <script>
 import BsModal from 'bootstrap/js/dist/modal'
 export default {
@@ -62,7 +79,6 @@ export default {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`).then((res) => {
         this.product = res.data.product
         this.bsModal.show()
-        console.log(this.product)
       }).catch((error) => { console.dir(error) })
     },
     guestModalClose () {
