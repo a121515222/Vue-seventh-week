@@ -162,7 +162,7 @@ $animationDuration:6s;
     background-position: 50% 70%;
 }
 .banner-center {
-//監測到scrollY的值大於60時 使用這個效果
+//監測到scrollY的值大於設定值時 使用這個效果
   position: absolute;
   top: 100px;
   transition: all 0.5s;
@@ -205,7 +205,6 @@ export default {
       guestProduct: [],
       articles: [],
       animationAction: 0,
-      animationPreAction: 0,
       imgLen: 0,
       animationDuration: 3000
     }
@@ -213,7 +212,6 @@ export default {
   methods: {
     runAnimation () {
       setInterval(() => {
-        this.animationPreAction = this.animationAction
         this.animationAction += 1
       }, this.animationDuration)
     },
