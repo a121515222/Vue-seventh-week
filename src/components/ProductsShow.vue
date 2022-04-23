@@ -5,14 +5,14 @@
         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3">
           <a href="#" class="text-black" @click.prevent="inspectId(item.id); $router.push(`/product/${item.id}`)" style="text-decoration:none;">
             <div v-if="item.is_enabled === 1 || 4" class="card  px-0 position-relative cardHover">
-              <img :src="item.imageUrl" :alt="item.title" class="img-fluid card-img-top" style="max-height:200px">
+              <img :src="item.imageUrl" :alt="item.title" class="img-fluid card-img-top" style="max-height:200px;min-height:200px;">
               <p v-if="item.is_enabled === 4"  class="position-absolute top-0 end-0 bg-secondary text-primary p-1">促銷中</p>
               <div class="position-absolute top-33 end-0 bg-third d-flex justify-content-center align-items-center" style="border-radius:5px; height:33px; width:33px">
                 <a v-if="favorites.indexOf(item.id) === -1" class="text-danger fs-4" title="加入我的最愛" href="#"
                 @click.prevent="addFavorites(item.id, item.title)"><i class="bi bi-suit-heart"></i></a>
                 <a v-else-if="favorites.indexOf(item.id) > -1" class="text-danger fs-4" title="移除我的最愛" href="#"
                 @click.prevent="deleteFavorites(item.id, item.title)"><i class="bi bi-suit-heart-fill"></i></a></div>
-              <div class="card-body pb-0">
+              <div class="card-body pb-0 border-top">
                 <h3 class="fa-3 fw-bold">{{item.title}}</h3>
                 <div v-html="item.description" class="lineClamp"></div>
               </div>

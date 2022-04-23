@@ -12,7 +12,8 @@
               <div class="from-group my-3">
                 <label class="form-label w-100" for="productImageUrl" >
                 圖片上傳
-                  <span class="spinner-border spinner-border-sm" v-if="isLoading" role="status"></span></label>
+                  <span class="spinner-border spinner-border-sm" v-if="isLoading" role="status"></span>
+                </label>
                 <input type="file" name="file-to-upload" ref="upLoadFile" :disabled="isLoading || inputData.imagesUrl?.length === 5" @change="uploadImg"
                 :class="{buttonDisabledCursor : isLoading || inputData.imagesUrl?.length === 5}" class="form-control" >
               </div>
@@ -124,22 +125,10 @@ export default {
         .then((res) => {
           if (this.inputData.imageUrl === undefined || '') {
             this.inputData.imageUrl = res.data.imageUrl
-            this.addImg()
           } else if (this.inputData.imageUrl !== '' && this.inputData.imagesUrl.length < 6) {
-            if (this.inputData.imagesUrl.length === 0) {
-              this.addImg()
+            if (this.inputData.imagesUrl.length < 6) {
+              this.inputData.imagesUrl.push(res.data.imageUrl)
             }
-            this.inputData.imagesUrl.forEach((item, index) => {
-              if (item === '' && index < 5) {
-                this.inputData.imagesUrl.splice(index, 1, res.data.imageUrl)
-                if (index < 5) {
-                  this.addImg()
-                }
-              } else if (item !== '' && index < 5) {
-                this.addImg()
-                this.inputData.imagesUrl.splice(index, 1, res.data.imageUrl)
-              }
-            })
           }
           this.isLoading = false
           this.$emitter.emit('push-info', {
