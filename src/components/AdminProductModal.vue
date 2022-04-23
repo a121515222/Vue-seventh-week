@@ -45,7 +45,7 @@
               </div>
               <div class="from-group my-3">
                 <label class="form-label w-100" for="productContent" >產品內容</label>
-                  input type="text" id="productContent" placeholder="請輸入產品內容" v-model.trim="inputData.content" class="form-control">
+                  <input type="text" id="productContent" placeholder="請輸入產品內容" v-model.trim="inputData.content" class="form-control">
               </div>
               <div class="d-flex gap-2">
                 <div class="from-group my-3 w-50">
@@ -77,7 +77,12 @@
               </div>
                 <div class="from-group my-3">
                   <label class="form-label w-100" for="productDescription" >產品描述</label>
-                  <textarea name="productDescription" class="form-control" style="height:150px" id="productDescription"  placeholder="請輸入產品描述" v-model="inputData.description"></textarea>
+                  <ckeditor
+                  :editor="editor"
+                  :config="editorConfig"
+                  placeholder= "請輸入文章內容"
+                  id="productDescription"  v-model="inputData.description">
+                </ckeditor>
                 </div>
             </div>
           </div>
@@ -92,6 +97,7 @@
 </template>
 <script>
 import BsModal from 'bootstrap/js/dist/modal'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 export default {
   props: ['inputProduct', 'isNew'],
   data () {
@@ -100,7 +106,11 @@ export default {
         imagesUrl: []
       },
       bsModal: '',
-      isLoading: false
+      isLoading: false,
+      editor: ClassicEditor,
+      editorConfig: {
+        toolbar: ['heading', 'bold', 'italic', '|', 'link']
+      }
     }
   },
   emits: ['send-input-data', 'send-close-resetInput'],
@@ -188,3 +198,8 @@ export default {
   }
 }
 </script>
+<style>
+  .ck-editor__editable_inline {
+    min-height: 200px;
+  }
+</style>

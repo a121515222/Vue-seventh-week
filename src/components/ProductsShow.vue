@@ -3,7 +3,7 @@
     <template v-if="guestShowProduct.length > 0">
       <template v-for="(item) in guestShowProduct" :key="item.id">
         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3">
-          <a href="#" class="text-black" @click.prevent.self="inspectId(item.id); $router.push(`/product/${item.id}`)" style="text-decoration:none;">
+          <a href="#" class="text-black" @click.prevent="inspectId(item.id); $router.push(`/product/${item.id}`)" style="text-decoration:none;">
             <div v-if="item.is_enabled === 1 || 4" class="card  px-0 position-relative cardHover">
               <img :src="item.imageUrl" :alt="item.title" class="img-fluid card-img-top" style="max-height:200px">
               <p v-if="item.is_enabled === 4"  class="position-absolute top-0 end-0 bg-secondary text-primary p-1">促銷中</p>
@@ -14,7 +14,7 @@
                 @click.prevent="deleteFavorites(item.id, item.title)"><i class="bi bi-suit-heart-fill"></i></a></div>
               <div class="card-body pb-0">
                 <h3 class="fa-3 fw-bold">{{item.title}}</h3>
-                <p class="lineClamp">{{item.description}}</p>
+                <div v-html="item.description" class="lineClamp"></div>
               </div>
               <div class="card-footer bg-transparent border-top-0">
                 <div v-if="item.origin_price === item.price">

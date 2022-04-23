@@ -3,7 +3,7 @@
     <ul class="pictureWall px-0">
       <template v-for="(item, index) in pictures" :key="item">
         <li v-if="index<16" style="overflow: hidden;" class="pictureBox"
-        :class="`box${index}`">
+        :class="`gridBox${index}`">
           <img :src="item" style="object-fit: cover; object-position:center center ; height:100%; width:100%" :alt="item">
         </li>
       </template>
@@ -89,34 +89,34 @@ export default {
     box-shadow:2px 2px 5px 2px rgb(202, 201, 201);
     }
   }
-  .box0 {
+  .gridBox0 {
     grid-column: 1 / 3 ;
     grid-row: 1 / 3
   }
-  .box2 {
+  .gridBox2 {
     grid-column: 4 /6 ;
   }
-  .box4 {
+  .gridBox4 {
     grid-column: 3 / 7 ;
   }
-  .box6 {
+  .gridBox6 {
     grid-column: 2 / 5 ;
   }
-  .box8 {
+  .gridBox8 {
     grid-column: 1 / 3 ;
     grid-row: 4 / 6 ;
   }
-  .box9 {
+  .gridBox9 {
     grid-column: 5 / 6 ;
     grid-row: 3 / 6
   }
-  .box10,.box12 {
+  .gridBox10,.gridBox12 {
     grid-column: 3 / 5 ;
   }
-  .box14 {
+  .gridBox14 {
     grid-column: 1 / 5 ;
   }
-  .box15 {
+  .gridBox15 {
     grid-column: 5 / 7 ;
   }
 </style>
