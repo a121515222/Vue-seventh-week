@@ -1,25 +1,25 @@
 <template>
-<div class="d-flex flex-column">
-  <table class="table table-hover table-striped">
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        <th scope="col">商品名稱</th>
-        <th scope="col">總價格</th>
-        <th scope="col">數量</th>
-        <th scope="col">單價</th>
-      </tr>
-    </thead>
+  <div class="d-flex flex-column">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">商品名稱</th>
+          <th scope="col">總價格</th>
+          <th scope="col">數量</th>
+          <th scope="col">單價</th>
+        </tr>
+      </thead>
     <tbody>
       <tr
-        v-for="(item,) in productList"
-        :key="item.id"
+      v-for="(item,) in productList"
+      :key="item.id"
       >
         <td>
           <img
-            :src="item.product.imageUrl"
-            alt=""
-            style="width: 50px; height: 30px"
+          :src="item.product.imageUrl"
+          :alt="item.title"
+          style="width: 50px; height: 30px"
           />
         </td>
         <td>{{ item.product.title }}</td>
@@ -28,16 +28,12 @@
           {{ item.qty }}
         </td>
         <td>
-          {{
-            item.product.origin_price > item.product.price
-              ? item.product.origin_price
-              : item.product.price
-          }}
+          {{item.product.origin_price > item.product.price? item.product.origin_price : item.product.price}}
         </td>
       </tr>
     </tbody>
-  </table>
-</div>
+    </table>
+  </div>
 </template>
 <script>
 export default {

@@ -67,8 +67,8 @@ $colors: (
 // scss-docs-end colors-map
 
 // scss-docs-start theme-color-variables
-$primary:       #44881f ;//$blue !default;
-$secondary:     #f5c131;//$gray-600 !default;
+$primary:       #036415 ;//$blue !default;
+$secondary:     #FCD058;//$gray-600 !default;
 $third:         #89c534;//new
 $success:       $green !default;
 $info:          $cyan !default;
@@ -76,7 +76,7 @@ $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $gray-100 !default;
 $dark:          $gray-900 !default;
-$middle:        $gray-500 !default;// new
+$middle:        $gray-300 !default;// new
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
@@ -403,7 +403,12 @@ $position-values: (
   0: 0,
   10: 10%,
   20: 20%,
+  25: 25%,
+  28: 28%,
   30: 30%,
+  33: 33%,
+  34: 34%,
+  35: 35%,
   50: 50%,
   100: 100%
 ) !default;

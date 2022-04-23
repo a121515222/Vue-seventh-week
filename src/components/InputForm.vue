@@ -1,9 +1,9 @@
 <template>
-<div class="row">
-<Form ref="form" v-slot="{ errors }" @submit="onSubmit" class="d-flex flex-column col-12 col-lg-8 mx-auto">
+  <div class="row">
+   <Form ref="form" v-slot="{ errors }" @submit="onSubmit" class="d-flex flex-column col-12 col-lg-8 mx-auto">
     <div class="my-3 position-relative">
-    <label class="form-label" for="name">姓名</label>
-    <Field
+      <label class="form-label" for="name">姓名</label>
+      <Field
         id="name"
         name="姓名"
         type="text"
@@ -12,14 +12,13 @@
         placeholder="請輸入 姓名" rules="required"
         v-model="user.name"
         :disabled="isEdit || false"
-    >
-    </Field>
-<error-message name="姓名" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      >
+      </Field>
+      <error-message name="姓名" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
     </div>
-
     <div class="my-3 position-relative">
-    <label class="form-label" for="tel">電話</label>
-    <Field
+      <label class="form-label" for="tel">電話</label>
+      <Field
         id="tel"
         name="電話"
         type="text"
@@ -29,14 +28,13 @@
         :rules="phoneCheck"
         v-model="user.tel"
         :disabled="isEdit || false"
-    >
-    </Field>
-<error-message name="電話" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      >
+      </Field>
+      <error-message name="電話" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
     </div>
-
     <div class="my-3 position-relative">
-    <label class="form-label" for="email">信箱</label>
-    <Field
+      <label class="form-label" for="email">信箱</label>
+      <Field
         id="email"
         name="信箱"
         type="email"
@@ -45,14 +43,13 @@
         placeholder="信箱" rules="email|required"
         v-model="user.email"
         :disabled="isEdit || false"
-    >
-    </Field>
-<error-message name="信箱" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      >
+      </Field>
+      <error-message name="信箱" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
     </div>
-
     <div class="my-3 position-relative">
-    <label class="form-label" for="address">地址</label>
-    <Field
+      <label class="form-label" for="address">地址</label>
+      <Field
         id="address"
         name="地址"
         type="text"
@@ -61,20 +58,19 @@
         placeholder="請輸入地址" rules="required"
         v-model="user.address"
         :disabled="isEdit || false"
-    >
-    </Field>
-<error-message name="地址" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      >
+      </Field>
+      <error-message name="地址" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
     </div>
-
     <div class="my-3 position-relative">
-    <label class="form-label" for="message">留言</label>
-    <textarea class="form-control" id="message" style="height:100px" v-model="message"
-     :class="{buttonDisabledCursor :isEdit}" :disabled="isEdit"></textarea>
+      <label class="form-label" for="message">留言</label>
+      <textarea class="form-control" id="message" style="height:100px" v-model="message"
+      :class="{buttonDisabledCursor :isEdit}" :disabled="isEdit"></textarea>
     </div>
     <button class="btn btn-primary text-white align-self-end" type="submit"
     :disabled="Object.keys(errors).length > 0 || userDataWatch || isLoading || isEdit" :class="{buttonDisabledCursor : Object.keys(errors).length > 0 || userDataWatch}">送出表單</button>
-</Form>
-</div>
+   </Form>
+  </div>
 </template>
 <script>
 // 匯入 vee-validate 主套件
@@ -118,9 +114,9 @@ export default {
     userInfo: {
       handler (nweValue) {
         this.user = JSON.parse(JSON.stringify(nweValue))
-      }
+      },
+      deep: true
     },
-    deep: true,
     messageInf (nweValue) {
       this.message = nweValue
     }

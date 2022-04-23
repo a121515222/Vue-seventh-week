@@ -3,87 +3,87 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/FrontPage.vue'),
+    component: () => import('../views/Front/FrontPage.vue'),
     meta: { title: 'Home' },
     children: [{
       path: '',
       name: 'HomeView',
-      component: () => import('../views/HomeView.vue'),
+      component: () => import('../views/Front/HomeView.vue'),
       meta: { title: 'Home' }
     },
     {
       path: 'articles',
-      component: () => import('../views/Articles.vue'),
+      component: () => import('../views/Front/Articles.vue'),
       meta: { title: 'article' }
     },
     {
       path: 'article/:id',
-      component: () => import('../views/Article.vue'),
+      component: () => import('../views/Front/Article.vue'),
       meta: { title: 'article' }
     },
     {
       path: 'products',
       name: 'Products',
-      component: () => import('../views/ProductsView.vue'),
+      component: () => import('../views/Front/ProductsView.vue'),
       meta: { title: 'Products' }
     },
     {
       path: 'product/:id',
-      component: () => import('../views/ProductView.vue'),
+      component: () => import('../views/Front/ProductView.vue'),
       meta: { title: 'Product' }
     },
     {
       path: 'sendInfo',
       name: 'SendInfo',
-      component: () => import('../views/SendInfo.vue'),
+      component: () => import('../views/Front/SendInfo.vue'),
       meta: { title: 'SendInfo' }
     },
     {
       path: 'guestOrderList',
       name: 'GuestOrderList',
-      component: () => import('../views/GuestOrders.vue'),
+      component: () => import('../views/Front/GuestOrders.vue'),
       meta: { title: 'GuestOrderList' }
     },
     {
       path: 'guestOrderPay/:id',
       name: 'GuestOrderPay',
-      component: () => import('../views/GuestOrderEdit.vue'),
+      component: () => import('../views/Front/GuestOrderEdit.vue'),
       meta: { title: 'GuestOrderPay' }
     }]
   },
   {
     path: '/logIn',
     name: 'LogIn',
-    component: () => import('../views/LogIn.vue'),
+    component: () => import('../views/Admin/LogIn.vue'),
     meta: { title: 'LogIn' }
   },
   {
     path: '/admin',
     name: 'DashBoard',
-    component: () => import('../views/DashBoard.vue'),
+    component: () => import('../views/Admin/DashBoard.vue'),
     children: [
       {
         path: 'adminProducts',
         name: 'AdminProducts',
-        component: () => import('../views/AdminProduct.vue'),
+        component: () => import('../views/Admin/AdminProduct.vue'),
         meta: { title: 'AdminProducts' }
       },
       {
         path: 'adminCoupons',
         name: 'AdminCoupons',
-        component: () => import('../views/AdminCoupon.vue'),
+        component: () => import('../views/Admin/AdminCoupon.vue'),
         meta: { title: 'AdminCoupons' }
       },
       {
         path: 'adminOrders',
         name: 'AdminOrders',
-        component: () => import('../views/AdminOrder.vue'),
+        component: () => import('../views/Admin/AdminOrder.vue'),
         meta: { title: 'AdminOrders' }
       },
       {
         path: 'adminArticles',
         name: 'AdminArticles',
-        component: () => import('../views/AdminArticle.vue'),
+        component: () => import('../views/Admin/AdminArticle.vue'),
         meta: { title: 'AdminArticle' }
       }
     ]
@@ -91,7 +91,7 @@ const routes = [
   {
     path: '/:matchPath(.*)*',
     name: 'FindNoPage',
-    component: () => import('../views/FindNoPage.vue')
+    component: () => import('../views/Front/FindNoPage.vue')
   }
 ]
 

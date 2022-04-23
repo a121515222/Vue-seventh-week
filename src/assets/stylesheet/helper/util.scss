@@ -1,0 +1,40 @@
+.buttonDisabledCursor:disabled {
+  cursor: not-allowed;
+  pointer-events: all ;
+}
+// 文字只出現3行其它為...並隱藏
+.lineClamp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.customScrollBar {
+  &::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 15px;
+	background-color: #F5F5F5;
+  width:10px;
+  height: 8px;
+}
+  &::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+  width:10px;
+  height: 8px;
+}
+  &::-webkit-scrollbar-thumb
+{
+	border-radius: 15px;
+	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #c6b7b7;
+  width:10px;
+  height: 8px;
+  &:hover{
+    background-color: #cdcaca;
+  }
+}
+}

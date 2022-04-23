@@ -1,51 +1,51 @@
 <template>
   <div class="container">
     <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
-      <div class="row py-5">
-        <h2>訂單管理</h2>
-        <div class="col-12 py-3">
-          <div class="accordion" id="orderManger">
-            <div class="accordion-item" v-for= "(item, index) in orders" :key= "item.id + index">
-              <h2 class="accordion-header" :id= "`list${item.id}`">
-                <button class="accordion-button " @click= "postId = item.id" :class= "{ collapsed: index !== 0 }" type="button" data-bs-toggle= "collapse" :data-bs-target="`#collapse${item.id}`" aria-expanded="true" :aria-controls= "`collapse${item.id}`">
-                  {{`訂單編號${item.id}`}}
-                </button>
-              </h2>
-              <div :id= "`collapse${item.id}`" class="accordion-collapse collapse " :class= "{ show: index === 0 }"  :aria-labelledby= "`list${item.id}`" data-bs-parent="#orderManger">
-                <div class="accordion-body">
-                  <div class="card">
-                    <div class="card-header bg-primary text-light">訂單內容</div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-5">
-                          <h5>客戶資料</h5>
-                          <table class="table table-hover table-striped">
-                            <thead>
-                              <tr>
-                                <th style="width:100px">姓名</th>
-                                <td >{{item.user.name}}</td>
-                              </tr>
-                              <tr>
-                                <th>住址</th>
-                                <td>{{item.user.address}}</td>
-                              </tr>
-                              <tr>
-                                <th>電話</th>
-                                <td>{{item.user.tel}}</td>
-                              </tr>
-                              <tr>
-                                <th>E-mail</th>
-                                <td>{{item.user.email}}</td>
-                              </tr>
-                            </thead>
-                          </table>
-                        </div>
+    <div class="row py-5">
+      <h2>訂單管理</h2>
+      <div class="col-12 py-3">
+        <div class="accordion" id="orderManger">
+          <div class="accordion-item" v-for="(item, index) in orders" :key="item.id + index">
+            <h2 class="accordion-header" :id="`list${item.id}`">
+              <button class="accordion-button " @click="postId = item.id" :class="{collapsed: index !== 0}" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapse${item.id}`" aria-expanded="true" :aria-controls="`collapse${item.id}`">
+                {{`訂單編號${item.id}`}}
+              </button>
+            </h2>
+            <div :id="`collapse${item.id}`" class="accordion-collapse collapse " :class="{show: index === 0}"  :aria-labelledby="`list${item.id}`" data-bs-parent="#orderManger">
+              <div class="accordion-body">
+                <div class="card">
+                  <div class="card-header bg-primary text-light">訂單內容</div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-5">
+                        <h5>客戶資料</h5>
+                        <table class="table table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th style="width:100px">姓名</th>
+                              <td >{{item.user.name}}</td>
+                            </tr>
+                            <tr>
+                              <th>住址</th>
+                              <td>{{item.user.address}}</td>
+                            </tr>
+                            <tr>
+                              <th>電話</th>
+                              <td>{{item.user.tel}}</td>
+                            </tr>
+                            <tr>
+                              <th>E-mail</th>
+                              <td>{{item.user.email}}</td>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
                         <div class="col-7">
                           <div class="d-flex justify-content-between">
-                          <h5>訂單細節</h5>
-                          <button class="btn btn-outline-secondary py-0" :disabled= "isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}"
-                          @click= "postId = item.id; deleteOrder()">
-                            <span v-show="isLoading === true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <h5>訂單細節</h5>
+                            <button class="btn btn-outline-secondary py-0" :disabled="isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}"
+                            @click="postId = item.id; deleteOrder()">
+                              <span v-show="isLoading === true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             刪除訂單</button>
                           </div>
                           <table class="table table-hover table-striped">
@@ -57,18 +57,18 @@
                               </tr>
                               <tr>
                                 <th>下單時間</th>
-                                <td>{{getTime(item.create_at)}}</td>
+                                <td>{{showTime(item.create_at | 0)}}</td>
                                 <td></td>
                               </tr>
                               <tr>
                                 <th>付款時間</th>
-                                <td>{{getTime(item.paid_date)}}</td>
+                                <td>{{showTime(item.paid_date | 0)}}</td>
                                 <td></td>
                               </tr>
                               <tr>
                                 <th>付款狀態</th>
-                                <td :class= "{ 'text-success': item.is_paid === true, 'text-danger': item.is_paid === false }">{{item.is_paid === true? '已付款':'未付款'}}</td>
-                                <td><Switch @click= "postId = item.id" :info= "item.id" :enabled= "switchStatus(item.is_paid)" @send-enable= "changeIsPaid"></Switch></td>
+                                <td :class="{'text-success': item.is_paid === true, 'text-danger': item.is_paid === false}">{{item.is_paid === true? '已付款':'未付款'}}</td>
+                                <td><SwitchClick @click="postId = item.id" :info="item.id" :enabled="switchStatus(item.is_paid)" @send-enable="changeIsPaid"></SwitchClick></td>
                               </tr>
                               <tr>
                                 <th>總金額</th>
@@ -80,25 +80,26 @@
                         </div>
                         <div class="col-12">
                           <h5>產品清單</h5>
-                          <List :data= "item"></List>
+                          <OrderList :data= "item"></OrderList>
                         </div>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-         </div>
+          </div>
         </div>
-        <Pagination :pagination= "pagination" @send-page= "getOrder"> </Pagination>
       </div>
+      <PaginationComponent :pagination="pagination" @send-page="getOrder"></PaginationComponent>
+    </div>
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/PaginationComponent.vue'
-import Switch from '@/components/SwitchClick.vue'
-import List from '@/components/OrderList.vue'
+import PaginationComponent from '@/components/PaginationComponent.vue'
+import SwitchClick from '@/components/SwitchClick.vue'
+import OrderList from '@/components/OrderList.vue'
+import { getTime } from '@/methods/ReadTime'
 export default {
   data () {
     return {
@@ -109,9 +110,9 @@ export default {
     }
   },
   components: {
-    Pagination,
-    Switch,
-    List
+    PaginationComponent,
+    SwitchClick,
+    OrderList
   },
   methods: {
     deleteOrder () {
@@ -175,15 +176,8 @@ export default {
           this.isLoading = false
         })
     },
-    getTime (time) {
-      let result = ''
-      if (time) {
-        const theDate = new Date(time * 1000).toISOString().split('T')
-        result = theDate[0]
-      } else if (time === undefined) {
-        result = '未付款或時間錯誤'
-      }
-      return result
+    showTime (time) {
+      return getTime(time)
     }
   },
   mounted () {

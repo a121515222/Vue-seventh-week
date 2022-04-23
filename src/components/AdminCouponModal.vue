@@ -2,51 +2,51 @@
   <div class="modal fade" id="modalCouponData" tabindex="-1"  aria-hidden="true" ref="theCouponModal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{isNew?"新增優惠券":"編輯優惠券"}}</h5>
-                <button type="button" class="btn-close" @click="close()"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-8 my-3 mx-auto" >
-                        <div class="from-group my-3">
-                            <label class="form-label w-100" for="couponName" >優惠券名稱</label>
-                            <input type="text" id="couponName" placeholder="請輸入優惠券名稱" v-model.trim= "couponData.title" class="form-control" >
-                        </div>
-                        <div class="from-group my-3">
-                            <label class="form-label w-100" for="couponCode" >折扣碼</label>
-                            <input type="text" id="couponCode" placeholder="請輸入折扣碼" v-model.trim= "couponData.code" class="form-control">
-                        </div>
-                        <div class="d-flex gap-2">
-                            <div class="from-group my-3 w-50">
-                                <label class="form-label w-100" for="couponPercent" >折扣幅度</label>
-                                <input type="number" id="couponPercent" placeholder="請輸入折扣幅度,例如80為8折" max=100 v-model.number= "couponData.percent" class="form-control">
-                            </div>
-                            <div class="from-group my-3 w-50">
-                                <label class="form-label w-100" for="couponDate" >折扣到期日</label>
-                                <input type="date" id="couponDate" placeholder="請選擇折扣到期日"  v-model= "couponData.due_date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <div class="from-group my-3 w-50">
-                                <label for="is_enabled" class="form-label w-100">優惠卷啟用</label>
-                                <Switch :info= "couponData.title" :enabled="couponData.is_enabled" @send-enable="getEnable"></Switch>
-                            </div>
-                    </div>
+          <div class="modal-header">
+            <h5 class="modal-title">{{isNew?"新增優惠券":"編輯優惠券"}}</h5>
+            <button type="button" class="btn-close" @click="close()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-8 my-3 mx-auto" >
+                <div class="from-group my-3">
+                    <label class="form-label w-100" for="couponName" >優惠券名稱</label>
+                    <input type="text" id="couponName" placeholder="請輸入優惠券名稱" v-model.trim= "couponData.title" class="form-control" >
                 </div>
+                <div class="from-group my-3">
+                    <label class="form-label w-100" for="couponCode" >折扣碼</label>
+                    <input type="text" id="couponCode" placeholder="請輸入折扣碼" v-model.trim= "couponData.code" class="form-control">
+                </div>
+                <div class="d-flex gap-2">
+                  <div class="from-group my-3 w-50">
+                    <label class="form-label w-100" for="couponPercent" >折扣幅度</label>
+                    <input type="number" id="couponPercent" placeholder="請輸入折扣幅度,例如80為8折" max=100 v-model.number= "couponData.percent" class="form-control">
+                  </div>
+                  <div class="from-group my-3 w-50">
+                    <label class="form-label w-100" for="couponDate" >折扣到期日</label>
+                    <input type="date" id="couponDate" placeholder="請選擇折扣到期日"  v-model="couponData.due_date" class="form-control">
+                  </div>
+                </div>
+                <div class="d-flex gap-2">
+                  <div class="from-group my-3 w-50">
+                    <label for="is_enabled" class="form-label w-100">優惠卷啟用</label>
+                    <SwitchClick :info= "couponData.title" :enabled="couponData.is_enabled" @send-enable="getEnable"></SwitchClick>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="close()">關閉</button>
-                <button type="button" class="btn btn-primary" @click="editCoupon()">確定</button>
+              <button type="button" class="btn btn-secondary" @click="close()">關閉</button>
+              <button type="button" class="btn btn-primary" @click="editCoupon()">確定</button>
             </div>
+          </div>
         </div>
     </div>
-</div>
-</div>
+  </div>
 </template>
 <script>
 import BsModal from 'bootstrap/js/dist/modal'
-import Switch from './SwitchClick.vue'
+import SwitchClick from './SwitchClick.vue'
 export default {
   props: ['sendCoupon', 'isNew'],
   data () {
@@ -56,7 +56,7 @@ export default {
     }
   },
   components: {
-    Switch
+    SwitchClick
   },
   emits: ['send-coupon-data', 'send-close-resetCouponData'],
   methods: {

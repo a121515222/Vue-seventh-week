@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-view/>
+    <RouterView/>
   </div>
   <Notify></Notify>
 </template>

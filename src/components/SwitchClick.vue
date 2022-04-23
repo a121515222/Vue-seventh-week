@@ -1,20 +1,48 @@
 <template>
   <div class="switch">
-         <input class="switch-checkbox" :id= "info || 'tempID'" type="checkbox" name="switch-checkbox"
-             :checked="active === 1? true:false" @click="activeChange(); $emit('send-enable', active)">
-         <label class="switch-label" :for= "info || 'tempID'">
-             <span class="switch-txt" turnOn="是" turnOff="否"></span>
-             <span class="switch-Round-btn"></span>
-         </label>
-     </div>
+    <input class="switch-checkbox" :id="info || 'tempID'" type="checkbox" name="switch-checkbox"
+    :checked="active === 1? true:false" @click="activeChange(); $emit('send-enable', active)">
+    <label class="switch-label" :for="info || 'tempID'">
+      <span class="switch-txt" turnOn="是" turnOff="否"></span>
+      <span class="switch-Round-btn"></span>
+   </label>
+  </div>
 </template>
+<script>
+export default {
+  props: ['info', 'enabled'],
+  data () {
+    return {
+      active: 0
+    }
+  },
+  methods: {
+    activeChange () {
+      if (this.active === 0) {
+        this.active = 1
+      } else if (this.active === 1) {
+        this.active = 0
+      }
+    }
+  },
+  watch: {
+    enabled (newValue) {
+      this.active = newValue
+    }
+  },
+  mounted () {
+    // 當開啟新增優惠券時this.enabled為undefined所以加上||0
+    this.active = this.enabled || 0
+  }
+}
+</script>
 <style lang="scss">
 @import "~bootstrap/scss/functions";
 @import "../assets/stylesheet/helper/variables";
-.line-through{
+  .line-through{
     text-decoration: line-through;
-}
-.switch { /*==設定開關鈕的長寬==*/
+  }
+  .switch { /*==設定開關鈕的長寬==*/
     position: relative;
     width: 65px;
     height: 25px;
@@ -82,31 +110,3 @@
     right: 0;
   }
 </style>
-<script>
-export default {
-  props: ['info', 'enabled'],
-  data () {
-    return {
-      active: 0
-    }
-  },
-  methods: {
-    activeChange () {
-      if (this.active === 0) {
-        this.active = 1
-      } else if (this.active === 1) {
-        this.active = 0
-      }
-    }
-  },
-  watch: {
-    enabled (newValue) {
-      this.active = newValue
-    }
-  },
-  mounted () {
-    // 當開啟新增優惠券時this.enabled為undefined所以加上||0
-    this.active = this.enabled || 0
-  }
-}
-</script>

@@ -1,22 +1,27 @@
 <template>
-    <div class="from-group d-flex flex-column">
-      <input type="text" class="form-control" placeholder="請輸入優惠券碼" v-model= "code">
-    <div class="align-self-end">
-      <button class="btn btn-primary text-white mt-1" type="button" @click= "guestSendCoupon"
-      :disabled="cartLength===0 || code === ''" :class="{buttonDisabledCursor :cartLength===0 || code === ''}">
+  <div class="from-group d-flex flex-row">
+    <input type="text" class="form-control" placeholder="請輸入優惠券碼" v-model= "code">
+    <button type="button" class="btn btn-primary text-white text-nowrap h-100" @click= "guestSendCoupon"
+      :disabled="cartLength === 0 || code === ''" :class="{buttonDisabledCursor :cartLength === 0 || code === ''}">
         <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        送出
-      </button>
-    </div>
-    </div>
+      送出
+    </button>
+  </div>
 </template>
 <script>
 export default {
-  props: ['cartLength'],
+  props: ['cartLength', 'cartLoading'],
   data () {
     return {
       code: '',
       isLoading: false
+    }
+  },
+  watch: {
+    cartLoading (newValue) {
+      if (newValue === false) {
+        this.isLoading = false
+      } else if (newValue === true) { this.isLoading = true }
     }
   },
   methods: {
@@ -32,7 +37,7 @@ export default {
             alert(res.data.message)
             this.isLoading = false
             this.$emit('get-cart')
-          }).catch((err) => { console.dir(err.data.message) })
+          }).catch((err) => { console.dir(err.response.data.message) })
       }
     }
   }

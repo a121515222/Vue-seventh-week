@@ -1,22 +1,22 @@
 <template>
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <router-link to="/admin/adminProducts" class="nav-link" aria-current="page" >管理產品列表</router-link>
+          <RouterLink to="/admin/adminProducts" class="nav-link" aria-current="page" >管理產品列表</RouterLink>
         </li>
         <li class="nav-item">
-          <router-link to="/admin/adminCoupons" class="nav-link" aria-current="page" >管理優惠券</router-link>
+          <RouterLink to="/admin/adminCoupons" class="nav-link" aria-current="page" >管理優惠券</RouterLink>
         </li>
         <li class="nav-item">
-          <router-link to="/admin/adminOrders" class="nav-link" aria-current="page" >管理訂單</router-link>
+          <RouterLink to="/admin/adminOrders" class="nav-link" aria-current="page" >管理訂單</RouterLink>
         </li>
         <li class="nav-item">
-          <router-link to="/admin/adminArticles" class="nav-link" aria-current="page" >管理文章</router-link>
+          <RouterLink to="/admin/adminArticles" class="nav-link" aria-current="page" >管理文章</RouterLink>
         </li>
       </ul>
       <button type="button" class="btn btn-primary" @click="logOut">登出</button>
@@ -25,8 +25,8 @@
       </span>
     </div>
   </div>
-</nav>
-  <router-view v-if="logInResult"></router-view>
+  </nav>
+  <RouterView v-if="logInResult"></RouterView>
 </template>
 <script>
 export default {
@@ -53,7 +53,7 @@ export default {
         alert('已成功登出')
         this.$router.push('/logIn')
       }).catch((err) => {
-        console.dir(err.response)
+        console.dir(err.response.data.message)
       })
     }
   },

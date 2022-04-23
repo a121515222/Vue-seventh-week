@@ -3,35 +3,35 @@
     <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
     <h2>訂單與付款頁</h2>
     <div class="table-responsive">
-    <table class="table table-hover table-striped text-nowrap">
-      <thead>
-        <tr>
-          <th scope="col">訂單編號</th>
-          <th scope="col">訂購時間</th>
-          <th scope="col">姓名</th>
-          <th scope="col">電話</th>
-          <th scope="col">是否付款</th>
-          <th scope="col">詳細資料與付款</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item) in orders" :key ="item.id">
-          <td>{{item.id}}</td>
-          <td>{{showTime(item.create_at ||0)}}</td>
-          <td>{{item.user.name}}</td>
-          <td>{{item.user.tel}}</td>
-          <td :class="{'text-success' :item.is_paid, 'text-danger' :!item.is_paid }">{{item.is_paid? '已付款':'未付款'}}</td>
-          <td><button class="btn btn-primary" @click="goToOrder(item.id)">開啟</button></td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="table table-hover table-striped text-nowrap">
+        <thead>
+          <tr>
+            <th scope="col">訂單編號</th>
+            <th scope="col">訂購時間</th>
+            <th scope="col">姓名</th>
+            <th scope="col">電話</th>
+            <th scope="col">是否付款</th>
+            <th scope="col">詳細資料與付款</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item) in orders" :key ="item.id">
+            <td>{{item.id}}</td>
+            <td>{{showTime(item.create_at || 0)}}</td>
+            <td>{{item.user.name}}</td>
+            <td>{{item.user.tel}}</td>
+            <td :class="{'text-success' : item.is_paid, 'text-danger' : !item.is_paid }">{{item.is_paid? '已付款':'未付款'}}</td>
+            <td><button  type="button" class="btn btn-primary" @click="goToOrder(item.id)">開啟</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <Pagination :pagination="pagination"></Pagination>
+    <PaginationComponent :pagination="pagination"></PaginationComponent>
   </div>
 </template>
 <script>
-import Pagination from '@/components/PaginationComponent.vue'
-import { getTime } from '../assets/util/ReadTime'
+import PaginationComponent from '@/components/PaginationComponent.vue'
+import { getTime } from '@/methods/ReadTime'
 export default {
   data () {
     return {
@@ -48,7 +48,7 @@ export default {
     }
   },
   components: {
-    Pagination
+    PaginationComponent
   },
   methods: {
     showTime (time) {
@@ -67,7 +67,7 @@ export default {
         })
         .catch((err) => {
           this.isLoadingPage = false
-          console.log(err)
+          console.log(err.response.data.message)
           this.$emitter.emit('push-info', {
             title: '取得訂單列表結果',
             style: 'danger',

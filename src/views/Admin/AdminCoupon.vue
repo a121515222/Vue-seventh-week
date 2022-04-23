@@ -1,57 +1,62 @@
 <template>
-    <div class= "container">
-      <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
+  <div class= "container">
+    <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
     <div class= "row py-5">
-        <h2>優惠券列表</h2>
-        <div class= "d-flex justify-content-end">
-                <!-- Button trigger modal -->
-                <button type = "button" class = "btn btn-primary" @click = "isNew = true;openModal();">
-                    增加優惠券
-                </button>
-            </div>
-            <div class = "col-12 py-3">
-                <div class = "border rounded">
-                    <table class = "table table-hover ">
-                        <tr>
-                            <th>名稱</th>
-                            <th>折扣幅度</th>
-                            <th>使用期限</th>
-                            <th>優惠碼</th>
-                            <th>是否啟用</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr v-for = "(item,index) in coupons" :key = "item.id+index">
-                            <td>{{ item.title }}</td>
-                            <td>{{ item.percent }}</td>
-                            <td>{{ getTime(item.due_date) }}</td>
-                            <td>{{ item.code }}</td>
-                            <td :class="{ 'text-success': item.is_enabled === 1, 'text-danger': item.is_enabled === 0}">
-                                {{ couponStatus(item.is_enabled) }}
-                            </td>
-                            <td><button class= "btn btn-outline-success" :data-index= "index" type= "button"
-                                    @click= "postId = item.id;isNew= false;openModal(item);">
-                                    <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                    編輯</button></td>
-                            <td><button class= "btn btn-outline-danger" type= "button"
-                                    @click= "postId= item.id; deleteCoupon(index);">
-                                    <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                    刪除</button></td>
-                        </tr>
-                    </table>
-                    <p class = "px-1">一共有{{ coupons.length }}項優惠券</p>
-                </div>
-                <Pagination :pagination = "page" @send-page = "getCoupon">
-                </Pagination>
-            </div>
-   </div>
-   </div>
-   <!-- Modal -->
-    <CouponModal ref="myCouponModal"  :send-coupon="sendCoupon" :is-new="isNew" @send-close-resetCouponData= "resetCoupon()" @send-coupon-data= "adminEditCoupon"></CouponModal>
+      <h2>優惠券列表</h2>
+      <div class= "d-flex justify-content-end">
+          <!-- Button trigger modal -->
+          <button type ="button" class ="btn btn-primary" @click ="isNew = true;openModal();">
+            增加優惠券
+          </button>
+      </div>
+      <div class = "col-12 py-3">
+        <div class = "border rounded">
+          <table class = "table table-hover ">
+            <tr>
+              <th>名稱</th>
+              <th>折扣幅度</th>
+              <th>使用期限</th>
+              <th>優惠碼</th>
+              <th>是否啟用</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr v-for ="(item,index) in coupons" :key ="item.id+index">
+              <td>{{item.title}}</td>
+              <td>{{item.percent}}</td>
+              <td>{{showTime(item.due_date | 0)}}</td>
+              <td>{{item.code}}</td>
+              <td :class="{'text-success': item.is_enabled === 1, 'text-danger': item.is_enabled === 0}">
+                {{couponStatus(item.is_enabled)}}
+              </td>
+              <td>
+                <button class="btn btn-outline-success" :data-index="index" type="button"
+                @click="postId = item.id;isNew= false;openModal(item);">
+                  <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  編輯</button>
+              </td>
+              <td>
+                <button class="btn btn-outline-danger" type= "button"
+                @click="postId= item.id; deleteCoupon(index);">
+                  <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                刪除</button>
+              </td>
+            </tr>
+          </table>
+          <p class = "px-1">一共有{{coupons.length}}項優惠券</p>
+        </div>
+        <PaginationComponent :pagination ="page" @send-page ="getCoupon">
+        </PaginationComponent>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <AdminCouponModal ref="myCouponModal"  :send-coupon="sendCoupon" :is-new="isNew" @send-close-resetCouponData="resetCoupon()" @send-coupon-data="adminEditCoupon"></AdminCouponModal>
 </template>
 <script>
-import Pagination from '@/components/PaginationComponent.vue'
-import CouponModal from '@/components/AdminCouponModal.vue'
+import PaginationComponent from '@/components/PaginationComponent.vue'
+import AdminCouponModal from '@/components/AdminCouponModal.vue'
+import { getTime } from '@/methods/ReadTime'
 export default {
   data () {
     return {
@@ -70,8 +75,8 @@ export default {
     }
   },
   components: {
-    Pagination,
-    CouponModal
+    PaginationComponent,
+    AdminCouponModal
   },
   methods: {
     deleteCoupon (index) {
@@ -182,9 +187,8 @@ export default {
       this.sendCoupon.due_date = null
       this.sendCoupon.code = ''
     },
-    getTime (time) {
-      const theDate = new Date(time * 1000).toISOString().split('T')
-      return theDate[0]
+    showTime (time) {
+      return getTime(time)
     },
     getCoupon (page = 1) {
       this.isLoading = true

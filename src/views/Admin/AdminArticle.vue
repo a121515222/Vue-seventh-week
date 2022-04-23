@@ -1,61 +1,64 @@
 <template>
-<div class="container">
-  <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
-  <div class="row">
-    <div class="from-group d-flex justify-content-end">
-      <button class="btn btn-primary" @click= "isNew = true; openModal()">
-      新增文章</button>
-    </div>
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header bg-primary text-light">
-          文章列表
-        </div>
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>發布日期</th>
-                <th>文章標題</th>
-                <th>作者</th>
-                <th>是否公開</th>
-                <th>標籤</th>
-                <th>編輯與詳細內容</th>
-                <th>刪除</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for= "(item) in articles" :key="item.id">
-                <td>{{getTime(item.create_at)}}</td>
-                <td>{{item.title}}</td>
-                <td>{{item.author}}</td>
-                <td :class="{ 'text-success': item.isPublic, 'text-danger': item.isPublic === false? true: false}">{{articleStatus(item.isPublic)}}</td>
-                <td><span v-for="(i, index) in item.tag" :key="i + index" class="badge bg-primary mx-1">{{i}}</span></td>
-                <td>
-                <button class="btn btn-outline-secondary" @click= "postId = item.id ; isNew = false ; editArticle()">
-                <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                編輯文章</button>
+  <div class="container">
+    <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+    <div class="row">
+      <div class="from-group d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" @click="isNew = true; openModal()">
+        新增文章</button>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header bg-primary text-light">
+            <h3>文章列表</h3>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>發布日期</th>
+                  <th>文章標題</th>
+                  <th>作者</th>
+                  <th>是否公開</th>
+                  <th>標籤</th>
+                  <th>編輯與詳細內容</th>
+                  <th>刪除</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for= "(item) in articles" :key="item.id">
+                  <td>{{showTime(item.create_at | 0)}}</td>
+                  <td>{{item.title}}</td>
+                  <td>{{item.author}}</td>
+                  <td :class="{ 'text-success': item.isPublic, 'text-danger': item.isPublic === false? true: false}">{{articleStatus(item.isPublic)}}</td>
+                  <td><span v-for="(i, index) in item.tag" :key="i + index" class="badge bg-primary mx-1">{{i}}</span></td>
+                  <td>
+                    <button type="button" class="btn btn-outline-secondary" @click="postId = item.id ; isNew = false ; editArticle()">
+                      <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      編輯文章
+                    </button>
                 </td>
-                <td>
-                <button class="btn btn-outline-dark" @click= "postId = item.id ; deleteArticle()">
-                <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                刪除文章</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td>
+                    <button type="button" class="btn btn-outline-dark" @click="postId = item.id ; deleteArticle()">
+                      <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    刪除文章
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <PaginationComponent :pagination= "pagination"></PaginationComponent>
+      </div>
     </div>
-    <Pagination :pagination= "pagination"></Pagination>
-    </div>
-  </div>
   <!-- Modal -->
-  <ArticleModal ref= "adminArticleModal" :get-article= "tempArticle" :is-new="isNew" @send-article= "sendArticle"></ArticleModal>
-</div>
+    <AdminArticleModal ref= "adminArticleModal" :get-article= "tempArticle" :is-new="isNew" @send-article= "sendArticle"></AdminArticleModal>
+  </div>
 </template>
 <script>
-import Pagination from '@/components/PaginationComponent.vue'
-import ArticleModal from '@/components/AdminArticleModal.vue'
+import PaginationComponent from '@/components/PaginationComponent.vue'
+import AdminArticleModal from '@/components/AdminArticleModal.vue'
+import { getTime } from '@/methods/ReadTime'
 export default {
   data () {
     return {
@@ -79,8 +82,8 @@ export default {
     }
   },
   components: {
-    ArticleModal,
-    Pagination
+    AdminArticleModal,
+    PaginationComponent
   },
   methods: {
     deleteArticle () {
@@ -193,9 +196,8 @@ export default {
         return '公開'
       }
     },
-    getTime (time) {
-      const theDate = new Date(time * 1000).toISOString().split('T')
-      return theDate[0]
+    showTime (time) {
+      return getTime(time)
     },
     openModal () {
       this.$refs.adminArticleModal.openModal()
