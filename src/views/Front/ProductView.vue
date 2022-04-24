@@ -15,19 +15,19 @@
         </template>
       </div>
       <div class="col-12 col-lg-6 d-flex flex-column justify-content-between pe-0 mt-3">
-        <div class="from-group">
+        <div class="from-group pe-2">
           <h2 class="fw-bold fs-2">{{product.title}}</h2>
-          <p class="fs-4">{{product.description}}</p>
+          <div class="fs-4" v-html="product.description"></div>
         </div>
         <div class="from-group">
           <template v-if="product.origin_price === product.price">
-            <div class="d-flex justify-content-end gap-2">
+            <div class="d-flex justify-content-end gap-2 pe-2">
               <span>售價{{product.origin_price}}元</span>
               <span>/{{product.unit}}</span>
             </div>
           </template>
           <template v-else-if="product.origin_price > product.price">
-            <div class="d-flex justify-content-end gap-2">
+            <div class="d-flex justify-content-end gap-2 pe-2">
               <span class="text-decoration-line-through text-middle">原價{{product.origin_price}}</span>
               <span class="text-danger">特價{{product.price}}元</span>
               <span>/{{product.unit}}</span>

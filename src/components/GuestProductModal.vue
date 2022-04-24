@@ -15,7 +15,7 @@
                 <div class="d-flex my-2">
                 <p class="mb-0">{{product.title}}<span class="badge bg-primary ms-1">{{product.category}}</span></p>
                 </div>
-                <p>商品描述:{{product.description}}</p>
+                <div v-html="product.description"></div>
                 <p>商品內容:{{product.content}}</p>
               </div>
               <div class="from-group align-self-end">

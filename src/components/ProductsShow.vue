@@ -9,9 +9,9 @@
               <p v-if="item.is_enabled === 4"  class="position-absolute top-0 end-0 bg-secondary text-primary p-1">促銷中</p>
               <div class="position-absolute top-33 end-0 bg-third d-flex justify-content-center align-items-center" style="border-radius:5px; height:33px; width:33px">
                 <a v-if="favorites.indexOf(item.id) === -1" class="text-danger fs-4" title="加入我的最愛" href="#"
-                @click.prevent="addFavorites(item.id, item.title)"><i class="bi bi-suit-heart"></i></a>
+                @click.stop.prevent="addFavorites(item.id, item.title)"><i class="bi bi-suit-heart"></i></a>
                 <a v-else-if="favorites.indexOf(item.id) > -1" class="text-danger fs-4" title="移除我的最愛" href="#"
-                @click.prevent="deleteFavorites(item.id, item.title)"><i class="bi bi-suit-heart-fill"></i></a></div>
+                @click.stop.prevent="deleteFavorites(item.id, item.title)"><i class="bi bi-suit-heart-fill"></i></a></div>
               <div class="card-body pb-0 border-top">
                 <h3 class="fa-3 fw-bold">{{item.title}}</h3>
                 <div v-html="item.description" class="lineClamp"></div>
@@ -26,7 +26,7 @@
                   <span class="text-danger">特價{{item.price}}元</span>
                   <span>/{{item.unit}}</span>
                 </div>
-                <button type="button" class="btn btn-outline-secondary text-primary w-100 mb-1" @click="guestProductDetail(item.id)"
+                <button type="button" class="btn btn-outline-secondary text-primary w-100 mb-1" @click.stop.prevent="guestProductDetail(item.id)"
                 :disabled="item.id === isGuestPageLoading" :class="{buttonDisabledCursor : item.id === isGuestPageLoading}">
                   <span v-show="item.id === isGuestPageLoading" class="spinner-border spinner-border-sm"
                   role="status" aria-hidden="true">
@@ -37,7 +37,7 @@
                   <span v-show="item.id === isGuestPageLoading" class="spinner-border spinner-border-sm"
                   role="status" aria-hidden="true">
                   </span>商品詳細資訊</RouterLink>
-                <button type="button" class="btn btn-primary w-100 text-secondary" @click="guestAddCart(item.id, item.title)"
+                <button type="button" class="btn btn-primary w-100 text-secondary" @click.stop.prevent="guestAddCart(item.id, item.title)"
                 :disabled="item.id === isGuestPageLoading" :class="{buttonDisabledCursor : item.id === isGuestPageLoading}">
                   <span v-show="item.id === isGuestPageLoading" class="spinner-border spinner-border-sm"
                   role="status" aria-hidden="true">
