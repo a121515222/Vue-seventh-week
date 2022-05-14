@@ -1,17 +1,30 @@
 <template>
   <div class="container">
-    <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
+    <VueLoading :active="isLoading" :z-index="1060"/>
     <div class="row py-5">
       <h2>訂單管理</h2>
       <div class="col-12 py-3">
         <div class="accordion" id="orderManger">
-          <div class="accordion-item" v-for="(item, index) in orders" :key="item.id + index">
+          <div class="accordion-item"
+          v-for="(item, index) in orders"
+          :key="item.id + index">
             <h2 class="accordion-header" :id="`list${item.id}`">
-              <button class="accordion-button " @click="postId = item.id" :class="{collapsed: index !== 0}" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapse${item.id}`" aria-expanded="true" :aria-controls="`collapse${item.id}`">
+              <button class="accordion-button" type="button"
+              @click="postId = item.id"
+              :class="{collapsed: index !== 0}"
+              data-bs-toggle="collapse"
+              aria-expanded="true"
+              :data-bs-target="`#collapse${item.id}`"
+              :aria-controls="`collapse${item.id}`"
+              >
                 {{`訂單編號${item.id}`}}
               </button>
             </h2>
-            <div :id="`collapse${item.id}`" class="accordion-collapse collapse " :class="{show: index === 0}"  :aria-labelledby="`list${item.id}`" data-bs-parent="#orderManger">
+            <div class="accordion-collapse collapse"
+            :id="`collapse${item.id}`"
+            :class="{show: index === 0}"
+            data-bs-parent="#orderManger"
+            :aria-labelledby="`list${item.id}`">
               <div class="accordion-body">
                 <div class="card">
                   <div class="card-header bg-primary text-light">訂單內容</div>
@@ -43,10 +56,14 @@
                         <div class="col-7">
                           <div class="d-flex justify-content-between">
                             <h5>訂單細節</h5>
-                            <button class="btn btn-outline-secondary py-0" :disabled="isLoading === true" :class="{'buttonDisabledCursor': isLoading === true}"
+                            <button class="btn btn-outline-secondary py-0"
+                            :disabled="isLoading === true"
+                            :class="{'buttonDisabledCursor': isLoading === true}"
                             @click="postId = item.id; deleteOrder()">
-                              <span v-show="isLoading === true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            刪除訂單</button>
+                              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                              v-show="isLoading === true"></span>
+                              刪除訂單
+                            </button>
                           </div>
                           <table class="table table-hover table-striped">
                             <thead>
@@ -67,8 +84,15 @@
                               </tr>
                               <tr>
                                 <th>付款狀態</th>
-                                <td :class="{'text-success': item.is_paid === true, 'text-danger': item.is_paid === false}">{{item.is_paid === true? '已付款':'未付款'}}</td>
-                                <td><SwitchClick @click="postId = item.id" :info="item.id" :enabled="switchStatus(item.is_paid)" @send-enable="changeIsPaid"></SwitchClick></td>
+                                <td :class="{'text-success': item.is_paid === true, 'text-danger': item.is_paid === false}">
+                                  {{item.is_paid === true? '已付款':'未付款'}}
+                                </td>
+                                <td><SwitchClick
+                                    @click="postId = item.id"
+                                    :info="item.id"
+                                    :enabled="switchStatus(item.is_paid)"
+                                    @send-enable="changeIsPaid"/>
+                                </td>
                               </tr>
                               <tr>
                                 <th>總金額</th>
@@ -80,7 +104,7 @@
                         </div>
                         <div class="col-12">
                           <h5>產品清單</h5>
-                          <OrderList :data= "item"></OrderList>
+                          <OrderList :data= "item"/>
                         </div>
                     </div>
                   </div>
@@ -90,7 +114,7 @@
           </div>
         </div>
       </div>
-      <PaginationComponent :pagination="pagination" @send-page="getOrder"></PaginationComponent>
+      <PaginationComponent :pagination="pagination" @send-page="getOrder"/>
     </div>
   </div>
 </template>
@@ -100,6 +124,7 @@ import PaginationComponent from '@/components/PaginationComponent.vue'
 import SwitchClick from '@/components/SwitchClick.vue'
 import OrderList from '@/components/OrderList.vue'
 import { getTime } from '@/methods/ReadTime'
+
 export default {
   data () {
     return {

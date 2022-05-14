@@ -1,6 +1,6 @@
 <template>
   <div class="container pt-10">
-    <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+    <VueLoading :active="isLoadingPage" :z-index="1060"/>
     <h2>訂單與付款頁</h2>
     <div class="table-responsive">
       <table class="table table-hover table-striped text-nowrap">
@@ -20,18 +20,27 @@
             <td>{{showTime(item.create_at || 0)}}</td>
             <td>{{item.user.name}}</td>
             <td>{{item.user.tel}}</td>
-            <td :class="{'text-success' : item.is_paid, 'text-danger' : !item.is_paid }">{{item.is_paid? '已付款':'未付款'}}</td>
-            <td><button  type="button" class="btn btn-primary" @click="goToOrder(item.id)">開啟</button></td>
+            <td :class="{'text-success' : item.is_paid, 'text-danger' : !item.is_paid }">
+              {{item.is_paid? '已付款':'未付款'}}
+            </td>
+            <td>
+              <button class="btn btn-primary" type="button"
+              @click="goToOrder(item.id)">
+                開啟
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <PaginationComponent :pagination="pagination"></PaginationComponent>
+    <PaginationComponent :pagination="pagination"/>
   </div>
 </template>
+
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import { getTime } from '@/methods/ReadTime'
+
 export default {
   data () {
     return {

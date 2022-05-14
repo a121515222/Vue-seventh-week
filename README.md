@@ -1,6 +1,6 @@
-# first-week-7
-
-## Project setup
+# 本作本為小農電商網頁
+--網址:http://vue-eshop.chun-chia.site/
+## 使用工具
 ```
 npm install
 ```

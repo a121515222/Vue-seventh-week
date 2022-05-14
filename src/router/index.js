@@ -33,22 +33,41 @@ const routes = [
       meta: { title: 'Product' }
     },
     {
-      path: 'sendInfo',
-      name: 'SendInfo',
-      component: () => import('../views/Front/SendInfo.vue'),
-      meta: { title: 'SendInfo' }
-    },
-    {
-      path: 'guestOrderList',
-      name: 'GuestOrderList',
-      component: () => import('../views/Front/GuestOrders.vue'),
-      meta: { title: 'GuestOrderList' }
-    },
-    {
       path: 'guestOrderPay/:id',
       name: 'GuestOrderPay',
-      component: () => import('../views/Front/GuestOrderEdit.vue'),
+      component: () => import('../views/Front/GuestOrderPay.vue'),
       meta: { title: 'GuestOrderPay' }
+    },
+    {
+      path: 'payProcess',
+      component: () => import('../views/Front/GuestPayProcess.vue'),
+      meta: { title: 'PayProcess' },
+      children: [
+        {
+          path: 'sendInfo',
+          name: 'SendInfo',
+          component: () => import('../views/Front/SendInfo.vue'),
+          meta: { title: 'SendInfo' }
+        },
+        {
+          path: 'guestOrderPay/:id',
+          name: 'GuestOrderPay',
+          component: () => import('../views/Front/GuestOrderPay.vue'),
+          meta: { title: 'GuestOrderPay' }
+        },
+        {
+          path: 'guestOrderFinished',
+          name: 'GuestOrderPay',
+          component: () => import('../views/Front/GuestOrderFinished.vue'),
+          meta: { title: 'GuestOrderFinished' }
+        }
+      ]
+    },
+    {
+      path: 'guestOrderLists',
+      name: 'GuestOrderLists',
+      component: () => import('../views/Front/GuestOrderLists.vue'),
+      meta: { title: 'GuestOrderLists' }
     }]
   },
   {

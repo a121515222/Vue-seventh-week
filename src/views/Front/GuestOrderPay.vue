@@ -1,6 +1,6 @@
 <template>
-  <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
   <div class="container pt-9">
+    <VueLoading :active="isLoadingPage" :z-index="1060"/>
     <div class="row justify-content-center">
       <div class="col-12 col-lg-8">
         <h2 class="mb-3  border-bottom border-2">已購商品清單</h2>
@@ -63,11 +63,13 @@
             <option value="2" >信用卡</option>
             <option value="3" >貨到付款</option>
             </select>
-            <button  type="button" class="btn btn-primary text-white text-nowrap" @click="pay()"
-            :disabled="isLoading || payment === 0" :class="{buttonDisabledCursor : isLoading || payment === 0}">
+            <button class="btn btn-primary text-white text-nowrap" type="button"
+            @click="pay()"
+            :disabled="isLoading || payment === 0" :class="{buttonDisabledCursor : isLoading || payment === 0}"
+            >
               <span v-show="isLoading" class="spinner-border spinner-border-sm"
               role="status" aria-hidden="true"></span>
-            確認付款
+              確認付款
             </button>
           </div>
         </div>
@@ -75,10 +77,9 @@
     </template>
   </div>
 </template>
-<script>
-import InputForm from '@/components/InputForm.vue'
-export default {
 
+<script>
+export default {
   data () {
     return {
       user: {},
@@ -93,10 +94,6 @@ export default {
       isLoading: false
     }
   },
-  components: {
-    // eslint-disable-next-line vue/no-unused-components
-    InputForm
-  },
   methods: {
     pay () {
       this.isLoading = true
@@ -109,10 +106,8 @@ export default {
             content: `${res.data.message}`
           })
           this.getOrder()
-          const confirmResult = confirm('點選確定，移動至產品頁面。')
-          if (confirmResult === true) {
-            this.$router.push('/products')
-          }
+          alert('已完成付款')
+          this.$router.push('/payProcess/guestOrderFinished')
         })
         .catch((err) => {
           console.dir(err.response.data.message)

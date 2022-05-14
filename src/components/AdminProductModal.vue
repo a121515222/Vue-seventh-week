@@ -4,64 +4,110 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{isNew?"新增產品":"編輯產品"}}</h5>
-          <button type="button" class="btn-close" @click="close()"></button>
+          <button class="btn-close" type="button"
+          @click="close()">
+          </button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-4 my-3">
               <div class="from-group my-3">
-                <label class="form-label w-100" for="productImageUrl" >
+                <label class="form-label w-100" for="productImageUrl">
                 圖片上傳
-                  <span class="spinner-border spinner-border-sm" v-if="isLoading" role="status"></span>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  v-if="isLoading"
+                  >
+                  </span>
                 </label>
-                <input type="file" name="file-to-upload" ref="upLoadFile" :disabled="isLoading || inputData.imagesUrl?.length === 5" @change="uploadImg"
-                :class="{buttonDisabledCursor : isLoading || inputData.imagesUrl?.length === 5}" class="form-control" >
+                <input class="form-control" type="file" name="file-to-upload" ref="upLoadFile"
+                :disabled="isLoading || inputData.imagesUrl?.length === 5"
+                @change="uploadImg"
+                :class="{buttonDisabledCursor : isLoading || inputData.imagesUrl?.length === 5}"
+                >
               </div>
-              <div><img :src="inputData.imageUrl" :alt="inputData.title + 'picture'" :title="inputData.title" class="img-fluid"></div>
+              <div><img class="img-fluid"
+              :src="inputData.imageUrl"
+              :alt="inputData.title + 'picture'"
+              :title="inputData.title"
+              >
+              </div>
               <div class="from-group my-3">
-                <label class="form-label w-100" for="productImageUrl" >主要產品圖片</label>
-                <input type="text" id="productImageUrl" placeholder="請輸入主要產品圖片網址" v-model.trim.lazy="inputData.imageUrl" class="form-control" >
+                <label class="form-label w-100" for="productImageUrl" >
+                  主要產品圖片
+                </label>
+                <input class="form-control" type="text" id="productImageUrl" placeholder="請輸入主要產品圖片網址"
+                v-model.trim.lazy="inputData.imageUrl">
               </div>
               <template v-if="inputData.imageUrl">
-                <div class="from-group my-3" v-for="(item,index) in inputData.imagesUrl" :key="item+1">
+                <div class="from-group my-3"
+                v-for="(item,index) in inputData.imagesUrl"
+                :key="item+1">
                   <p>其他圖片{{index+1}}</p>
-                  <img :src="item" class="img-fluid" :alt="inputData.title">
+                  <img class="img-fluid"
+                  :src="item"
+                  :alt="inputData.title">
                   <label class="form-label w-100" for="productImageUrl" >其他產品圖片{{index+1}}</label>
-                  <input type="text" id="productImageUrl" placeholder="請輸其他產品圖片網址" v-model.trim.lazy="inputData.imagesUrl[index]" class="form-control" >
+                  <input class="form-control" type="text" id="productImageUrl" placeholder="請輸其他產品圖片網址"
+                  v-model.trim.lazy="inputData.imagesUrl[index]"
+                  >
                 </div>
               </template>
-              <button v-if="inputData.imageUrl" :disabled="inputData.imagesUrl?.length===5"
-              :class="{buttonDisabledCursor : inputData.imagesUrl?.length===5}" class="btn btn-outline-success w-100 d-block my-3"
-              @click="addImg() ">新增圖片</button>
-              <button v-if="inputData.imagesUrl?.length > 1" class="btn btn-outline-danger w-100 d-block" @click="deleteImg()">刪除圖片</button>
+              <button class="btn btn-outline-success w-100 d-block my-3"
+              v-if="inputData.imageUrl"
+              :disabled="inputData.imagesUrl?.length===5"
+              :class="{buttonDisabledCursor : inputData.imagesUrl?.length===5}"
+              @click="addImg() "
+              >
+                新增圖片
+              </button>
+              <button class="btn btn-outline-danger w-100 d-block"
+              v-if="inputData.imagesUrl?.length > 1"
+              @click="deleteImg()"
+              >
+                刪除圖片
+              </button>
             </div>
             <div class="col-8 my-3" >
               <div class="from-group my-3">
                 <label class="form-label w-100" for="productName" >產品名稱</label>
-                <input type="text" id="productName" placeholder="請輸入產品名稱" v-model.trim="inputData.title" class="form-control" >
+                <input class="form-control" type="text" id="productName" placeholder="請輸入產品名稱"
+                v-model.trim="inputData.title"
+                >
               </div>
               <div class="from-group my-3">
                 <label class="form-label w-100" for="productCategory" >產品分類</label>
-                <input type="text" id="productCategory" placeholder="請輸入產品分類" v-model.trim="inputData.category" class="form-control">
+                <input class="form-control" type="text" id="productCategory" placeholder="請輸入產品分類"
+                v-model.trim="inputData.category"
+                >
               </div>
               <div class="from-group my-3">
                 <label class="form-label w-100" for="productContent" >產品內容</label>
-                  <input type="text" id="productContent" placeholder="請輸入產品內容" v-model.trim="inputData.content" class="form-control">
+                  <input class="form-control" type="text" id="productContent" placeholder="請輸入產品內容"
+                  v-model.trim="inputData.content"
+                  >
               </div>
               <div class="d-flex gap-2">
                 <div class="from-group my-3 w-50">
                   <label class="form-label w-100" for="productOrigin_price" >產品原價</label>
-                  <input type="number" id="productOrigin_price" placeholder="請輸入產品原價" min=0 v-model.number="inputData.origin_price" class="form-control">
+                  <input class="form-control" type="number" id="productOrigin_price" placeholder="請輸入產品原價"
+                  min=0
+                  v-model.number="inputData.origin_price"
+                  >
                 </div>
                 <div class="from-group my-3 w-50">
                   <label class="form-label w-100" for="productPrice" >產品售價</label>
-                  <input type="number" id="productPrice" placeholder="請輸入產品售價" min=0 v-model.number="inputData.price" class="form-control">
+                  <input class="form-control" type="number" id="productPrice" placeholder="請輸入產品售價"
+                  min=0
+                  v-model.number="inputData.price"
+                  >
                 </div>
               </div>
               <div class="d-flex gap-2">
                 <div class="from-group my-3 w-50">
                   <label for="is_enabled" class=" w-100" style="margin-bottom: 8px;">產品狀態</label>
-                  <select name="productStatus" id="is_enabled" class="form-select" v-model.number="inputData.is_enabled">
+                  <select class="form-select" name="productStatus" id="is_enabled"
+                  v-model.number="inputData.is_enabled"
+                  >
                     <option  value="" disabled >請選擇產品狀態</option>
                     <option  value=0>未上架</option>
                     <option  value=1>已上架</option>
@@ -73,32 +119,46 @@
                 </div>
                 <div class="from-group my-3 w-50">
                   <label class="form-label w-100" for="productUnit" >產品單位</label>
-                  <input type="text" id="productUnit" placeholder="請輸入產品單位" v-model.trim="inputData.unit" class="form-control">
+                  <input class="form-control" type="text" id="productUnit" placeholder="請輸入產品單位"
+                  v-model.trim="inputData.unit"
+                  >
                 </div>
               </div>
-                <div class="from-group my-3">
-                  <label class="form-label w-100" for="productDescription" >產品描述</label>
-                  <ckeditor
+              <div class="from-group my-3">
+                <label class="form-label w-100" for="productDescription" >產品描述</label>
+                <ckeditor
                   :editor="editor"
                   :config="editorConfig"
                   placeholder= "請輸入文章內容"
-                  id="productDescription"  v-model="inputData.description">
+                  id="productDescription"
+                  v-model="inputData.description"
+                  >
                 </ckeditor>
-                </div>
+              </div>
             </div>
           </div>
         </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="close()">關閉</button>
-            <button type="button" class="btn btn-primary" @click="editProductList()">確定</button>
+            <button class="btn btn-secondary" type="button"
+            @click="close()"
+            >
+              關閉
+            </button>
+            <button class="btn btn-primary" type="button"
+            @click="editProductList()"
+            >
+              確定
+            </button>
           </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import BsModal from 'bootstrap/js/dist/modal'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+
 export default {
   props: ['inputProduct', 'isNew'],
   data () {
@@ -187,8 +247,3 @@ export default {
   }
 }
 </script>
-<style>
-  .ck-editor__editable_inline {
-    min-height: 200px;
-  }
-</style>

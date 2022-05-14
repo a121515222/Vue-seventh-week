@@ -1,11 +1,12 @@
 <template>
-  <div class= "container">
-    <VueLoading :active="isLoading" :z-index="1060"></VueLoading>
-    <div class= "row py-5">
+  <div class="container">
+    <VueLoading :active="isLoading" :z-index="1060"/>
+    <div class="row py-5">
       <h2>產品列表</h2>
       <div class="d-flex justify-content-end">
         <!-- Button trigger modal -->
-        <button type="button" class ="btn btn-primary" @click="isNew = true;openModal();">
+        <button class="btn btn-primary" type="button"
+        @click="isNew = true;openModal();">
           增加商品
         </button>
       </div>
@@ -30,39 +31,54 @@
               <td>{{productStatus(item.is_enabled)}}
               </td>
               <td>
-                <button class="btn btn-outline-primary" :data-index ="index" type="button"
-                @click="showProduct(item)">查看細節</button></td>
+                <button class="btn btn-outline-primary" type="button"
+                :data-index="index"
+                @click="showProduct(item)"
+                >
+                  查看細節
+                </button>
+              </td>
               <td>
-                <button class="btn btn-outline-success" :data-index="index" type="button"
-                @click="postId = item.id;isNew= false;openModal(item);" :disabled="isLoading === true"
+                <button class="btn btn-outline-success"  type="button"
+                :data-index="index"
+                @click="postId = item.id;isNew= false;openModal(item);"
+                :disabled="isLoading === true"
                 :class="{'buttonDisabledCursor' : isLoading === true}">
-                  <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  v-if="isLoading"></span>
                   編輯
                 </button>
               </td>
               <td>
-                <button class="btn btn-outline-danger" type="button" :disabled="isLoading === true"
-                  :class="{'buttonDisabledCursor' : isLoading === true}"
-                  @click="postId = item.id; deleteProduct();">
-                  <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <button class="btn btn-outline-danger" type="button"
+                :disabled="isLoading === true"
+                :class="{'buttonDisabledCursor' : isLoading === true}"
+                @click="postId = item.id; deleteProduct();"
+                >
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  v-if="isLoading"></span>
                   刪除
                 </button>
               </td>
             </tr>
           </table>
-          <p class = "px-1">一共有{{products.length}}項產品</p>
+          <p class="px-1">一共有{{products.length}}項產品</p>
         </div>
-        <PaginationComponent :pagination = "page" @send-page = "getProduct">
-        </PaginationComponent>
+        <PaginationComponent :pagination="page" @send-page="getProduct"/>
       </div>
       <h2>單一產品細節</h2>
-      <div class = "col-8 mx-auto py-3">
+      <div class="col-8 mx-auto py-3">
         <template v-if="productTemp.id">
           <div class="card">
-            <div class = "card-body">
-              <div class="img"><img class="img-fluid" :src="productTemp.imageUrl" :alt="productTemp.title"></div>
+            <div class="card-body">
+              <div class="img">
+                <img class="img-fluid"
+                :src="productTemp.imageUrl"
+                :alt="productTemp.title">
+              </div>
               <div class v-on="d-flex">
-                <p>{{productTemp.title}}<span class="badge bg-primary">{{productTemp.category}}</span>
+                <p>
+                  {{productTemp.title}}<span class="badge bg-primary">{{productTemp.category}}</span>
                 </p>
               </div>
               <p>商品描述:{{productTemp.description}}</p>
@@ -74,9 +90,11 @@
               </div>
             </div>
           </div>
-          <div class = "d-flex gap-3 py-3">
-            <div class="w-25" v-for ="(img,index) in productTemp.imagesUrl" :key ="img+index"><img :src="img"
-              :alt="productTemp.title">
+          <div class="d-flex gap-3 py-3">
+            <div class="w-25"
+            v-for="(img,index) in productTemp.imagesUrl"
+            :key="img+index">
+              <img :src="img" :alt="productTemp.title">
             </div>
           </div>
         </template>
@@ -84,13 +102,19 @@
       </div>
     </div>
     <!-- Modal -->
-    <AdminProductModal :input-product = "inputProductOut" :is-new = "isNew" @send-input-data = "editProductList"
-    @send-close-resetInput= "resetModal" ref = "myModal"></AdminProductModal>
+    <AdminProductModal  ref="myModal"
+    :input-product="inputProductOut"
+    :is-new="isNew"
+    @send-input-data="editProductList"
+    @send-close-resetInput= "resetModal"
+    />
   </div>
 </template>
+
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminProductModal from '@/components/AdminProductModal.vue'
+
 export default {
   data () {
     return {
@@ -121,8 +145,6 @@ export default {
   methods: {
     openModal (data) {
       this.$refs.myModal.open()
-      // 把id寫入postId
-      // 把products的資料取出傳到inputProduct
       if (this.isNew === false) {
         Object.keys(data).forEach((item) => {
           Object.keys(this.inputProductOut).forEach((i) => {
@@ -179,8 +201,7 @@ export default {
             content: err.response.data.message
           })
         })
-      } else if (this.isNew === false) { // 編輯商品
-        // this.sendToken()
+      } else if (this.isNew === false) {
         this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${this.postId}`, sendData).then((res) => {
           this.getProduct()
           this.closeModal()
@@ -246,16 +267,9 @@ export default {
       };
       return result
     },
-    // sendToken () {
-    //   const myToken = document.cookie.replace(/(?:(?:^|.*;\s*)myHextoken\s*=\s*([^;]*).*$)|^.*$/, '$1')
-    //   this.$http.defaults.headers.common.Authorization = myToken
-    // },
     getProduct (page = 1) {
       this.isLoading = true
-      // 判斷目前頁面
       if (this.$route.fullPath === '/admin/adminProducts') {
-        // 取得所存在cookie的token
-        // this.sendToken()
         this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`).then((res) => {
           this.products = res.data.products
           this.page = res.data.pagination

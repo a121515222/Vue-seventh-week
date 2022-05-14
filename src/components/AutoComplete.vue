@@ -1,12 +1,20 @@
 <template>
-  <ul ref="listUl" class="autoUl position-absolute top-100 w-33 w-sm-50" v-if="inFoList.length > 0 && (focus || mouseIn) ">
-    <li class="auto py-0" v-for="(item,index) in inFoList" :key="item+index" style="height:36px"
-    :class="{'autoBackground' : (index === listCounter)}" @click="sendAutoComplete(item);"
-    @mouseover="mouseoverHover(index)" @mouseleave="mouseleaveCancelHover(index)"><p class="py-1 my-0">{{item}}</p></li>
+  <ul  class="autoUl position-absolute top-100 w-33 w-sm-50" ref="listUl"
+  v-if="inFoList.length > 0 && (focus || mouseIn)"
+  >
+    <li class="auto py-0" style="height:36px"
+    v-for="(item,index) in inFoList"
+    :key="item+index"
+    :class="{'autoBackground' : (index === listCounter)}"
+    @click="sendAutoComplete(item);"
+    @mouseover="mouseoverHover(index)"
+    @mouseleave="mouseleaveCancelHover(index)">
+      <p class="py-1 my-0">{{item}}</p>
+    </li>
   </ul>
 </template>
-<script>
 
+<script>
 export default {
   props: ['outData', 'inputData', 'focus'],
   emits: ['sendAutoCompleteResult', 'sendInfoBlank'],
@@ -105,6 +113,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
   .autoUl {
     background: #fff;

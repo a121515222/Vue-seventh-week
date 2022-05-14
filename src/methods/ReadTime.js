@@ -1,4 +1,5 @@
 import moment from 'moment'
+
 export function getTime (time) {
   let result = ''
   if (time) {

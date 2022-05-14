@@ -1,13 +1,23 @@
 <template>
-  <div class="offcanvas offcanvas-end " data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-  aria-labelledby="offcanvasScrollingLabel" ref="rightCart" style="width:700px;">
+  <div class="offcanvas offcanvas-end" style="width:700px;" data-bs-scroll="true" data-bs-backdrop="false"
+  tabindex="-1" aria-labelledby="offcanvasScrollingLabel" ref="rightCart">
     <div class="offcanvas-header">
       <h3 class="offcanvas-title fa-3 fw-bold">購物車</h3>
-      <button type="button" class="btn-close text-reset" aria-label="Close" @click="cartClose()"></button>
+      <button class="btn-close text-reset" type="button" aria-label="Close"
+      @click="cartClose()"
+      >
+      </button>
     </div>
     <div class="offcanvas-body d-flex flex-column px-sm-3" style="min-width:343px">
-      <div class="align-self-end"><button type="button" class="btn btn-outline-danger" @click="deleteAllCarts()"
-      :disabled="cartLength === 0" :class="{buttonDisabledCursor : cartLength === 0}">刪除所有</button></div>
+      <div class="align-self-end">
+        <button class="btn btn-outline-danger" type="button"
+        @click="deleteAllCarts()"
+        :disabled="cartLength === 0"
+        :class="{buttonDisabledCursor : cartLength === 0}"
+        >
+          刪除所有
+        </button>
+      </div>
         <table class="table table-hover table-striped text-nowrap">
           <thead>
             <tr>
@@ -23,28 +33,51 @@
           </thead>
           <tbody>
             <template v-if="cartLength > 0">
-              <tr v-for="(item,index) in cartData.carts" :key="item.product.title+index">
+              <tr
+              v-for="(item,index) in cartData.carts"
+              :key="item.product.title+index">
                 <th scope="row">{{index+1}}</th>
-                <td class="d-none-576"><img :src="item.product.imageUrl" :alt="item.title" style="min-width:50px;max-width:50px; min-height:30px; max-height:30px;"></td>
+                <td class="d-none-576">
+                  <img style="min-width:50px;max-width:50px; min-height:30px; max-height:30px;"
+                  :src="item.product.imageUrl"
+                  :alt="item.title"
+                  >
+                </td>
                 <td>{{item.product.title}}</td>
                 <td class="d-none-576" style="text-align:center">{{Math.floor(item.final_total)}}</td>
-                <td v-if="!isChangeNum || item.id !== cartId" style="text-align:center;"> {{item.qty}}</td>
+                <td  style="text-align:center;" v-if="!isChangeNum || item.id !== cartId">
+                  {{item.qty}}
+                </td>
                 <td v-if="isChangeNum && item.id === cartId" style="min-width:48px">
-                  <input type="number" min="1" max="100" v-model.lazy="changeNum" class="form-control specialWidth"></td>
-                <td style="text-align:center;"> {{item.product.origin_price>item.product.price === false?  item.product.origin_price:item.product.price}}</td>
+                  <input class="form-control specialWidth" type="number" min="1" max="100" v-model.lazy="changeNum"></td>
+                <td style="text-align:center;">
+                  {{item.product.origin_price>item.product.price === false?  item.product.origin_price:item.product.price}}
+                </td>
                 <td class="d-flex flex-column gap-1">
-                  <button type="button" class="btn btn-outline-primary" :disabled="isCartLoading" :class="{buttonDisabledCursor:isCartLoading}"
-                  @click="changeCartNum(item.qty,item.id,item.product_id)">
-                  <span v-show="isCartLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <button type="button" class="btn btn-outline-primary"
+                  :disabled="isCartLoading"
+                  :class="{buttonDisabledCursor:isCartLoading}"
+                  @click="changeCartNum(item.qty,item.id,item.product_id)"
+                  >
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  v-show="isCartLoading"
+                  >
+                  </span>
                   {{isChangeNum && item.id === cartId?  '確定':'編輯' }}</button>
-                  <button type="button" class="d-block-576-button btn btn-outline-dark" @click="deleteCart(item.id)"
+                  <button class="d-block-576-button btn btn-outline-dark" type="button"
+                  @click="deleteCart(item.id)"
                   :disabled="isCartLoading" :class="{buttonDisabledCursor:isCartLoading}"
-                  >刪除</button>
+                  >
+                    刪除
+                  </button>
                 </td>
                 <td class="d-none-576">
-                  <button type="button" class=" btn btn-outline-dark" @click="deleteCart(item.id)"
+                  <button type="button" class=" btn btn-outline-dark"
+                  @click="deleteCart(item.id)"
                   :disabled="isCartLoading" :class="{buttonDisabledCursor:isCartLoading}"
-                  >刪除</button>
+                  >
+                    刪除
+                  </button>
                 </td>
               </tr>
             </template>
@@ -60,7 +93,7 @@
         <p class="text-center">{{Math.floor(cartData.final_total)}}元</p>
       </div>
       <div class="align-self-end pb-1">
-        <button type="button" class="btn btn-primary text-white" @click="toInputPage(); cartClose()"
+        <button type="button" class="btn btn-primary text-white" @click="toPayProcess(); cartClose()"
         :disabled="cartLength === 0 || isCartLoading" :class="{buttonDisabledCursor : cartLength === 0 || isCartLoading}">確認</button>
       </div>
       <template v-if="cartLength > 0">
@@ -76,9 +109,11 @@
       </div>
   </div>
 </template>
+
 <script>
 import BsOffcanvas from 'bootstrap/js/dist/offcanvas'
 import GuestCoupon from '@/components/GuestCoupon.vue'
+
 export default {
   data () {
     return {
@@ -100,10 +135,10 @@ export default {
       this.$router.push('/products')
       this.cartClose()
     },
-    toInputPage () {
+    toPayProcess () {
       if (this.isChangeNum === true) {
         alert('請完成購物車數量修改')
-      } else { this.$router.push('/sendInfo') }
+      } else { this.$router.push('/payProcess/sendInfo') }
     },
     deleteAllCarts () {
       if (confirm('確定將會刪除所有購物車內容?') === true) {
@@ -208,6 +243,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
   .specialWidth {
     max-width:46px;

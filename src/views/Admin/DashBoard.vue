@@ -1,33 +1,39 @@
 <template>
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarText"
+    aria-controls="navbarText"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <RouterLink to="/admin/adminProducts" class="nav-link" aria-current="page" >管理產品列表</RouterLink>
+          <RouterLink class="nav-link" aria-current="page" to="/admin/adminProducts">管理產品列表</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/admin/adminCoupons" class="nav-link" aria-current="page" >管理優惠券</RouterLink>
+          <RouterLink class="nav-link" aria-current="page" to="/admin/adminCoupons">管理優惠券</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/admin/adminOrders" class="nav-link" aria-current="page" >管理訂單</RouterLink>
+          <RouterLink class="nav-link" aria-current="page" to="/admin/adminOrders">管理訂單</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/admin/adminArticles" class="nav-link" aria-current="page" >管理文章</RouterLink>
+          <RouterLink class="nav-link" aria-current="page" to="/admin/adminArticles">管理文章</RouterLink>
         </li>
       </ul>
-      <button type="button" class="btn btn-primary" @click="logOut">登出</button>
+      <button class="btn btn-primary" type="button" @click="logOut">登出</button>
       <span class="navbar-text">
        後台
       </span>
     </div>
   </div>
   </nav>
-  <RouterView v-if="logInResult"></RouterView>
+  <RouterView v-if="logInResult"/>
 </template>
+
 <script>
 export default {
   data () {

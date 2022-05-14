@@ -1,16 +1,20 @@
 <template>
   <div class="container pt-10">
-    <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+    <VueLoading :active="isLoadingPage" :z-index="1060"/>
     <div class="row card flex-md-row mx-0">
-      <div class=" col-12 col-lg-6 ps-0">
+      <div class="col-12 col-lg-6 ps-0">
         <template v-if="images.length > 2">
           <div class="img-fluid" style="height:360px; overflow:hidden;">
-            <img :src="images[pictureIndex]" :alt="`${product.title} picture`" style="object-fit:cover; width:100%; height:100%;">
+            <img style="object-fit:cover; width:100%; height:100%;"
+            :src="images[pictureIndex]"
+            :alt="`${product.title} picture`" >
           </div>
         </template>
         <template v-else-if="images.length <= 2">
           <div class="img-fluid" style="height:360px; overflow:hidden;">
-          <img :src="product.imageUrl" :alt="`${product.title} picture`" style="object-fit:cover; width:100%; height:100%;">
+          <img style="object-fit:cover; width:100%; height:100%;"
+          :src="product.imageUrl"
+          :alt="`${product.title} picture`" >
         </div>
         </template>
       </div>
@@ -34,18 +38,23 @@
             </div>
           </template>
           <div class="d-flex justify-content-end gap-3 ">
-            <button type="button" class="btn btn-primary text-secondary text-nowrap" @click="qty -= 1" :disabled="qty < 2"
+            <button type="button" class="btn btn-primary text-secondary text-nowrap"
+            @click="qty -= 1" :disabled="qty < 2"
             :class="{buttonDisabledCursor : qty < 2}">
               <i class="bi bi-dash"></i>
             </button>
             <span class="align-self-center px-1" style="min-width:20px"> {{qty}}</span>
-            <button type="button" class="btn btn-primary text-secondary text-nowrap" @click="qty += 1" :disabled="qty === 100"
+            <button type="button" class="btn btn-primary text-secondary text-nowrap"
+            @click="qty += 1" :disabled="qty === 100"
             :class="{buttonDisabledCursor : qty === 100}">
               <i class="bi bi-plus"></i>
             </button>
-            <button type="button" class="btn btn-primary text-secondary text-nowrap" @click="addCart(product.id, product.title)" :disabled="isLoading || qty < 1"
+            <button type="button" class="btn btn-primary text-secondary text-nowrap"
+            @click="addCart(product.id, product.title)"
+            :disabled="isLoading || qty < 1"
             :class="{buttonDisabledCursor : isLoading || qty < 1}">
-              <span v-show="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+              v-show="isLoading"></span>
               加入購物車
             </button>
           </div>
@@ -53,29 +62,37 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 py-3" v-if="images.length > 2" >
+      <div class="col-12 py-3" v-if="images.length > 2">
         <h3 class="fa-2 fw-bold">產品圖片</h3>
         <div class="d-flex flex-row gap-3 customScrollBar" style="overflow-x:scroll">
           <div class="pictureSize" v-for="(i, index) in images" :key="i + index">
             <a href="#" @click.prevent="changePicture(index)">
-               <img :src="i" :alt="product.title + 'picture' + index" style="height:100%; width:100%; object-fit: cover">
+               <img style="height:100%; width:100%; object-fit: cover"
+               :src="i" :alt="product.title + 'picture' + index">
             </a>
          </div>
         </div>
       </div>
       <div class="col-12 my-3" v-if="filterProducts.length > 0">
         <h3 class="fw-bold fa-2">推薦產品</h3>
-        <ProductsShow :guest-show-product="filterProducts" :is-guest-page-loading="isLoadingPage"
-        @send-id="guestProductDetail" @inspect-id="inspectRouteId"  @add-cart="guestAddCart"></ProductsShow>
+        <ProductsShow
+        :guest-show-product="filterProducts"
+        :is-guest-page-loading="isLoadingPage"
+        @send-id="guestProductDetail"
+        @inspect-id="inspectRouteId"
+        @add-cart="guestAddCart"
+        />
       </div>
     </div>
   </div>
   <!-- Modal -->
-  <GuestProductModal ref="guestModal" @send-id="getId"></GuestProductModal>
+  <GuestProductModal ref="guestModal" @send-id="getId"/>
 </template>
+
 <script>
 import ProductsShow from '@/components/ProductsShow.vue'
 import GuestProductModal from '@/components/GuestProductModal.vue'
+
 export default {
   data () {
     return {
@@ -185,6 +202,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
   .pictureSize {
     height: 280px;

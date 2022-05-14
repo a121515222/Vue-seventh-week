@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+    <VueLoading :active="isLoadingPage" :z-index="1060"/>
     <div class="row">
       <div class="from-group d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" @click="isNew = true; openModal()">
-        新增文章</button>
+        <button class="btn btn-primary" type="button"
+        @click="isNew = true; openModal()">
+          新增文章
+        </button>
       </div>
       <div class="col-12">
         <div class="card">
@@ -29,18 +31,22 @@
                   <td>{{showTime(item.create_at | 0)}}</td>
                   <td>{{item.title}}</td>
                   <td>{{item.author}}</td>
-                  <td :class="{ 'text-success': item.isPublic, 'text-danger': item.isPublic === false? true: false}">{{articleStatus(item.isPublic)}}</td>
+                  <td :class="{ 'text-success': item.isPublic, 'text-danger': item.isPublic === false? true: false}">
+                    {{articleStatus(item.isPublic)}}
+                  </td>
                   <td><span v-for="(i, index) in item.tag" :key="i + index" class="badge bg-primary mx-1">{{i}}</span></td>
                   <td>
-                    <button type="button" class="btn btn-outline-secondary" @click="postId = item.id ; isNew = false ; editArticle()">
+                    <button class="btn btn-outline-secondary" type="button"
+                    @click="postId = item.id ; isNew =false ; editArticle()">
                       <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                       編輯文章
                     </button>
                 </td>
                   <td>
-                    <button type="button" class="btn btn-outline-dark" @click="postId = item.id ; deleteArticle()">
-                      <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    刪除文章
+                    <button  class="btn btn-outline-dark" type="button"
+                    @click="postId = item.id ; deleteArticle()">
+                      <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      刪除文章
                     </button>
                   </td>
                 </tr>
@@ -48,17 +54,23 @@
             </table>
           </div>
         </div>
-        <PaginationComponent :pagination= "pagination"></PaginationComponent>
+        <PaginationComponent :pagination= "pagination"/>
       </div>
     </div>
   <!-- Modal -->
-    <AdminArticleModal ref= "adminArticleModal" :get-article= "tempArticle" :is-new="isNew" @send-article= "sendArticle"></AdminArticleModal>
+    <AdminArticleModal ref="adminArticleModal"
+    :get-article="tempArticle"
+    :is-new="isNew"
+    @send-article="sendArticle"
+    />
   </div>
 </template>
+
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminArticleModal from '@/components/AdminArticleModal.vue'
 import { getTime } from '@/methods/ReadTime'
+
 export default {
   data () {
     return {

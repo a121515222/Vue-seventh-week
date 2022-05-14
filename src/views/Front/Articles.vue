@@ -1,31 +1,49 @@
 <template>
-  <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+  <VueLoading :active="isLoadingPage" :z-index="1060"/>
   <div class="container pt-10 ">
     <div class="input-group position-relative">
-      <input type="text" v-model.lazy="keyWord" @focus="inputFocused=true" @blur="inputFocused = false"
+      <input type="text"
+      v-model.lazy="keyWord"
+      @focus="inputFocused=true"
+      @blur="inputFocused = false"
       class="form-control" placeholder="請輸入關鍵字">
-      <AutoComplete :out-data="articles" :inputData="keyWord" :focus="inputFocused" @sendAutoCompleteResult="search;searchArticle()"></AutoComplete>
+      <AutoComplete
+      :out-data="articles"
+      :inputData="keyWord"
+      :focus="inputFocused"
+      @sendAutoCompleteResult="search;searchArticle()"
+      />
     </div>
   <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 py-2">
-    <button type="button" class="btn btn-primary text-secondary" @click="sortNewToOld">日期新到舊排序</button>
-    <button type="button" class="btn btn-primary text-secondary" @click="sortOldToNew">日期舊到新排序</button>
-    <button type="button" class="btn btn-primary text-secondary" @click="this.keyWord = ''; this.showArticles = this.articles">
+    <button class="btn btn-primary text-secondary" type="button"
+    @click="sortNewToOld">
+      日期新到舊排序
+    </button>
+    <button class="btn btn-primary text-secondary" type="button"
+    @click="sortOldToNew">
+      日期舊到新排序
+    </button>
+    <button class="btn btn-primary text-secondary" type="button"
+    @click="this.keyWord = ''; this.showArticles = this.articles"
+    >
       清除搜尋
     </button>
-    <button type="button" class="btn btn-primary text-secondary" @click="searchArticle">
+    <button class="btn btn-primary text-secondary" type="button"
+    @click="searchArticle">
       搜尋
     </button>
   </div>
-  <div class="row px-special">
+  <div class="row px-special my-3">
     <template v-if="this.showArticles.length > 0">
       <template v-for="(item, index) in showArticles" :key="item.title + index">
         <div class="card col-12 col-sm-6 cardHover px-0 ps-sm-0 " >
           <div class="row g-0">
             <div class="col-md-4">
-              <img :src="item.image" class="img-fluid w-100 h-100"
-              :alt="item.title" style="min-height:220px;max-height:220px;">
+              <img class="img-fluid w-100 h-100" style="object-fit:cover; min-height:300px; max-height:300px;"
+              :src="item.image"
+              :alt="item.title">
             </div>
-            <div class="col-md-8 d-flex flex-column  justify-content-center">
+            <div class="col-md-8 d-flex flex-column justify-content-center">
               <div class="card-body">
                 <h2 class="card-title fs-2 fw-bold">{{item.title}}</h2>
                 <p class="card-text">公布日期:{{showTime(item.create_at)}}</p>
@@ -45,9 +63,11 @@
   </div>
   </div>
 </template>
+
 <script>
 import { getTime } from '@/methods/ReadTime'
 import AutoComplete from '@/components/AutoComplete.vue'
+
 export default {
   data () {
     return {

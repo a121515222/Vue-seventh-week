@@ -1,11 +1,17 @@
 <template>
   <div class="input-group">
-    <input ref="searchInput" type="text" class="form-control w-sm-50 position-relative" @focus="inputFocused = true; enterCounter = 0 ;" @blur="inputFocused=false"
+    <input  class="form-control w-sm-50 position-relative" ref="searchInput" type="text"
+    @focus="inputFocused = true; enterCounter = 0 ;"
+    @blur="inputFocused=false"
     v-model.lazy="searchInfo" placeholder="請輸入搜尋關鍵字">
-    <AutoComplete  :inputData="searchInfo" :focus="inputFocused" @sendAutoCompleteResult="writeSearchInfo"
-    @sendInfoBlank="cleanSearch"></AutoComplete>
-    <input type="number" class="form-control w-sm-25" placeholder="請輸入最低價格" v-model.number="minPrice">
-    <input type="number" class="form-control w-sm-25" placeholder="請輸入最高價格" v-model.number="maxPrice">
+    <AutoComplete
+    :inputData="searchInfo"
+    :focus="inputFocused"
+    @sendAutoCompleteResult="writeSearchInfo"
+    @sendInfoBlank="cleanSearch"
+    />
+    <input class="form-control w-sm-25" type="number"  placeholder="請輸入最低價格" v-model.number="minPrice">
+    <input class="form-control w-sm-25" type="number"  placeholder="請輸入最高價格" v-model.number="maxPrice">
   </div>
   <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 py-2 ">
     <button v-if="favorites.length !== 0" type="button" class="btn btn-primary text-secondary text-nowrap" @click="$emit('showMyFavorites')" >顯示我的最愛</button>
@@ -15,8 +21,10 @@
     <button type="button" class="btn btn-primary text-secondary text-nowrap" @click="sendSearchInfo()">搜尋</button>
   </div>
 </template>
+
 <script>
 import AutoComplete from '@/components/AutoComplete.vue'
+
 export default {
   emits: ['sendSearchInfo', 'searchInfo', 'minPrice', 'maxPrice', 'hight-to-low', 'low-to-hight', 'showMyFavorites'],
   components: {
@@ -63,9 +71,7 @@ export default {
         this.enterCounter += 1
         if (this.autoCompleteSwitched === true && this.enterCounter > 2) {
           this.$emit('sendSearchInfo', this.searchInfo, this.minPrice, this.maxPrice)
-          // 不知道為甚麼需要讓input不再focus狀態才會顯示用autoComplete所填入資料
           this.sendSearch = document.getElementById('searchInput')
-          this.$refs.searchInput.blur()
           this.enterCounter = 0
           this.autoCompleteSwitched = false
         }

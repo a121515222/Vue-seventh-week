@@ -1,31 +1,37 @@
 <template>
   <div class="container pt-10">
-  <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+  <VueLoading :active="isLoadingPage" :z-index="1060"/>
   <div class="row my-3">
     <div class="col-12 col-lg-6 px-0" style="min-height:45vh; max-height:45vh;" >
-      <img :src="article.image" :alt="article.title + 'picture'"  style="width:100%; height:100%; object-fit:cover;">
+      <img style="width:100%; height:100%; object-fit:cover;"
+      :src="article.image"
+      :alt="article.title + 'picture'">
     </div>
     <div class="col-12 col-lg-6 mt-3">
       <h2 class="fw-bold fa-2 mb-2">{{article.title}}</h2>
       <p class="fa-4 mb-2">作者:{{article.author}}</p>
-      <!-- 得不到時間報錯，所以先給一個數值 -->
       <p class="fa-4 mb-2">發布時間:{{showTime(article.create_at || 0)}}</p>
       <p class="mb-2" v-html="article.content"></p>
     </div>
   </div>
   <div class="row my-3" v-if="filterProducts.length > 0">
     <h2 class="fw-bold fa-2">推薦產品</h2>
-    <ProductsShow :guest-show-product="filterProducts" :is-guest-page-loading="isGuestPageLoading"
-    @send-id="guestProductDetail" @add-cart="guestAddCart"></ProductsShow>
+    <ProductsShow :guest-show-product="filterProducts"
+    :is-guest-page-loading="isGuestPageLoading"
+    @send-id="guestProductDetail"
+    @add-cart="guestAddCart"
+    />
   </div>
   <!-- Modal -->
-  <GuestProductModal ref="guestModal" @send-id="getId"></GuestProductModal>
+  <GuestProductModal ref="guestModal" @send-id="getId"/>
   </div>
 </template>
+
 <script>
 import GuestProductModal from '@/components/GuestProductModal.vue'
 import { getTime } from '@/methods/ReadTime.js'
 import ProductsShow from '@/components/ProductsShow.vue'
+
 export default {
   data () {
     return {

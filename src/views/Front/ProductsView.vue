@@ -1,20 +1,26 @@
 <template>
   <div class="container pt-10">
-    <VueLoading :active="isLoadingPage" :z-index="1060"></VueLoading>
+    <VueLoading :active="isLoadingPage" :z-index="1060"/>
     <SearchBar  @sendSearchInfo= "guestShowSearch"
-    @hight-to-low="sortHightToLow" @low-to-hight="sortLowToHight" @show-my-favorites="showMyFavorites"></SearchBar>
-    <ProductsShow :guest-show-product="guestShowProduct" :is-guest-page-loading="isGuestPageLoading"
-    @send-id="guestProductDetail" @add-cart="guestAddCart"></ProductsShow>
+    @hight-to-low="sortHightToLow"
+    @low-to-hight="sortLowToHight"
+    @show-my-favorites="showMyFavorites"
+    />
+    <ProductsShow
+    :guest-show-product="guestShowProduct"
+    :is-guest-page-loading="isGuestPageLoading"
+    @send-id="guestProductDetail"
+    @add-cart="guestAddCart"/>
     <!-- Modal -->
-    <GuestProductModal ref="guestModal" @send-id="getId"></GuestProductModal>
+    <GuestProductModal ref="guestModal" @send-id="getId"/>
   </div>
 </template>
 
 <script>
 import GuestProductModal from '@/components/GuestProductModal.vue'
-
 import SearchBar from '@/components/SearchBar.vue'
 import ProductsShow from '@/components/ProductsShow.vue'
+
 export default {
   data () {
     return {
@@ -69,28 +75,28 @@ export default {
         })
       })
     },
-    minFilter (min) {
+    minFilter (min, max, info) {
       if (min) {
-        if (this.guestShowProduct.length === 0) {
+        if (this.guestShowProduct.length === 0 && !info && !max) {
           this.guestShowProduct = this.guestProduct
         }
         this.guestShowProduct = this.guestShowProduct.filter(item => min <= item.price || min <= item.origin_price)
       }
     },
-    maxFilter (max) {
+    maxFilter (max, min, info) {
       if (max) {
-        if (this.guestShowProduct.length === 0) {
+        if (this.guestShowProduct.length === 0 && !info && !min) {
           this.guestShowProduct = this.guestProduct
         }
-        this.guestShowProduct = this.guestShowProduct.filter(item => item.price <= max || item.origin_price <= max)
+        this.guestShowProduct = this.guestShowProduct.filter(item => max >= item.price || max >= item.origin_price)
       }
     },
     guestShowSearch (info, min, max) {
       if (info || min || max) {
         this.guestShowProduct = []
         this.infoFilter(info)
-        this.minFilter(min)
-        this.maxFilter(max)
+        this.minFilter(min, max, info)
+        this.maxFilter(max, min, info)
       } else {
         this.guestShowProduct = this.guestProduct
       }

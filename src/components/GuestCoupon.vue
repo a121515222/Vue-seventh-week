@@ -1,13 +1,17 @@
 <template>
   <div class="from-group d-flex flex-row">
-    <input type="text" class="form-control" placeholder="請輸入優惠券碼" v-model= "code">
-    <button type="button" class="btn btn-primary text-white text-nowrap h-100" @click= "guestSendCoupon"
-      :disabled="cartLength === 0 || code === ''" :class="{buttonDisabledCursor :cartLength === 0 || code === ''}">
-        <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <input type="text" class="form-control" placeholder="請輸入優惠券碼"
+    v-model= "code">
+    <button class="btn btn-primary text-white text-nowrap h-100" type="button"
+    @click= "guestSendCoupon"
+    :disabled="cartLength === 0 || code === ''"
+    :class="{buttonDisabledCursor :cartLength === 0 || code === ''}">
+      <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       送出
     </button>
   </div>
 </template>
+
 <script>
 export default {
   props: ['cartLength', 'cartLoading'],

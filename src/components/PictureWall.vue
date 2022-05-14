@@ -2,14 +2,18 @@
   <div class="container pt-2">
     <ul class="pictureWall px-0">
       <template v-for="(item, index) in pictures" :key="item">
-        <li v-if="index<16" style="overflow: hidden;" class="pictureBox"
+        <li class="pictureBox" style="overflow: hidden;"
+        v-if="index<16"
         :class="`gridBox${index}`">
-          <img :src="item" style="object-fit: cover; object-position:center center ; height:100%; width:100%" :alt="item">
+          <img style="object-fit: cover; object-position:center center ; height:100%; width:100%"
+          :src="item"
+          :alt="item">
         </li>
       </template>
     </ul>
   </div>
 </template>
+
 <script>
 export default {
   data () {
@@ -44,6 +48,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
   ul{
     list-style-type: none;
