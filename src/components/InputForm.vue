@@ -175,7 +175,7 @@ export default {
               content: `${res.data.message}`
             })
             this.orderid = res.data.orderId
-            this.$router.push(`/payProcess/guestOrderPay/${this.orderid}`)
+            this.$router.push(`/guestOrderPay/${this.orderid}`)
           }).catch((err) => {
             this.isLoading = false
             this.$emitter.emit('push-info', {

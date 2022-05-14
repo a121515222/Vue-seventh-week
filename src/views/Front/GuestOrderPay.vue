@@ -3,6 +3,7 @@
     <VueLoading :active="isLoadingPage" :z-index="1060"/>
     <div class="row justify-content-center">
       <div class="col-12 col-lg-8">
+        <GuestPayProcessInspector :current-status='confirmAndPay' :payment='is_paid' />
         <h2 class="mb-3  border-bottom border-2">已購商品清單</h2>
         <div class="table-responsive">
           <table class="table table-hover ">
@@ -65,7 +66,8 @@
             </select>
             <button class="btn btn-primary text-white text-nowrap" type="button"
             @click="pay()"
-            :disabled="isLoading || payment === 0" :class="{buttonDisabledCursor : isLoading || payment === 0}"
+            :disabled="isLoading || payment === 0"
+            :class="{buttonDisabledCursor : isLoading || payment === 0}"
             >
               <span v-show="isLoading" class="spinner-border spinner-border-sm"
               role="status" aria-hidden="true"></span>
@@ -79,6 +81,7 @@
 </template>
 
 <script>
+import GuestPayProcessInspector from '@/components/GuestPayProcessInspector.vue'
 export default {
   data () {
     return {
@@ -91,8 +94,12 @@ export default {
       is_paid: '',
       payment: 0,
       isLoadingPage: false,
-      isLoading: false
+      isLoading: false,
+      confirmAndPay: 'confirmAndPay'
     }
+  },
+  components: {
+    GuestPayProcessInspector
   },
   methods: {
     pay () {
@@ -107,7 +114,7 @@ export default {
           })
           this.getOrder()
           alert('已完成付款')
-          this.$router.push('/payProcess/guestOrderFinished')
+          this.$router.push('/guestOrderFinished')
         })
         .catch((err) => {
           console.dir(err.response.data.message)

@@ -138,7 +138,7 @@ export default {
     toPayProcess () {
       if (this.isChangeNum === true) {
         alert('請完成購物車數量修改')
-      } else { this.$router.push('/payProcess/sendInfo') }
+      } else { this.$router.push('/sendInfo') }
     },
     deleteAllCarts () {
       if (confirm('確定將會刪除所有購物車內容?') === true) {
