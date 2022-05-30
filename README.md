@@ -26,6 +26,7 @@
 ### 首頁
 #### 首頁主視覺動畫效果
 ![](https://i.imgur.com/PzNqWc3.gif)
+
 [主視覺筆記](https://hackmd.io/yDLNyVh2QLigktdZBAZnEQ)
 
 #### 主要產品
@@ -40,6 +41,7 @@
 
 #### AutoComplete
 ![](https://imgur.com/TG3Foa8.gif)
+
 [AutoComplete功能製作筆記](https://hackmd.io/ytuKPw8TTbCeHoaYGg9F1g)
 
 #### 購物車
