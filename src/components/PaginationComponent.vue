@@ -29,6 +29,7 @@
 
 <script>
 export default {
-  props: ['pagination']
+  props: ['pagination'],
+  emit: ['sendPage']
 }
 </script>

@@ -1,8 +1,8 @@
-# 本作本為自重自售小農電商網頁
+# 本作品為自種自售小農電商網頁
 > 網址:https://vue-eshop.chun-chia.site/
 
 ## 使用技術
-- 以 `Vue 3` 與 `Vue Cli` 以option API進行開發。
+- 以 `Vue 3` 與 `Vue Cli` 以options API進行開發。
 - 使用 `Bootstrap 5` 作為 CSS 框架，以進行切版,並且使用Modal、Toast、Offcanvas等元件。
 - 使用 `ESLint standard` 確保程式碼品質。
 - 使用 `Pinia.js` 作為狀態管理工具實現跨元件資料傳遞。

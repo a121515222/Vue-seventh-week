@@ -114,7 +114,7 @@
           </div>
         </div>
       </div>
-      <PaginationComponent :pagination="pagination" @send-page="getOrder"/>
+      <PaginationComponent :pagination="pagination" @send-page="page=getOrder($event)"/>
     </div>
   </div>
 </template>
@@ -133,7 +133,8 @@ export default {
       orders: [],
       pagination: {},
       postId: '',
-      isLoading: false
+      isLoading: false,
+      page: null
     }
   },
   components: {
