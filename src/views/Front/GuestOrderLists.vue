@@ -40,6 +40,8 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import { getTime } from '@/methods/ReadTime'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -60,6 +62,7 @@ export default {
     PaginationComponent
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     showTime (time) {
       return getTime(time)
     },
@@ -77,11 +80,13 @@ export default {
         .catch((err) => {
           this.isLoadingPage = false
           console.log(err.response.data.message)
-          this.$emitter.emit('push-info', {
-            title: '取得訂單列表結果',
-            style: 'danger',
-            content: `${err.response.data.message}`
-          })
+          this.addMessage(
+            {
+              title: '取得訂單列表結果',
+              style: 'danger',
+              content: `${err.response.data.message}`
+            }
+          )
         })
     }
   },

@@ -70,6 +70,8 @@
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminArticleModal from '@/components/AdminArticleModal.vue'
 import { getTime } from '@/methods/ReadTime'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -98,6 +100,7 @@ export default {
     PaginationComponent
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     deleteArticle () {
       const checked = confirm('確定刪除文章?')
       this.isLoading = true
@@ -105,34 +108,39 @@ export default {
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article/${this.postId}`)
           .then((res) => {
             this.getArticle()
-            this.$emitter.emit('push-info', {
-              title: '刪除文章結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '刪除文章結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
             this.isLoading = false
           })
           .catch((err) => {
             console.dir(err.response.data.message)
-            this.$emitter.emit('push-info', {
-              title: '刪除文章結果',
-              style: 'danger',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '刪除文章結果',
+                style: 'danger',
+                content: err.response.data.message
+              }
+            )
             this.isLoading = false
           })
       } else if (checked === false) {
-        this.$emitter.emit('push-info', {
-          title: '刪除文章結果',
-          style: 'success',
-          content: '已取消刪除'
-        })
+        this.addMessage(
+          {
+            title: '刪除文章結果',
+            style: 'success',
+            content: '已取消刪除'
+          }
+        )
         this.isLoading = false
       }
     },
     editArticle () {
       this.getArticleContent()
-      // this.tempArticle.tag = newData.tag.join(' ') 使用join不知道為甚麼會影響 原資料item.tag
       this.openModal()
     },
     sendArticle (Data) {
@@ -153,11 +161,13 @@ export default {
         this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article`, sendData)
           .then((res) => {
             this.getArticle()
-            this.$emitter.emit('push-info', {
-              title: '新增文章/編輯結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增文章/編輯結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
             this.isLoading = false
             this.tempArticle = {
               title: '',
@@ -171,11 +181,13 @@ export default {
             }
           })
           .catch((err) => {
-            this.$emitter.emit('push-info', {
-              title: '新增文章/編輯結果',
-              style: 'danger',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增文章/編輯結果',
+                style: 'danger',
+                content: err.response.data.message
+              }
+            )
             this.isLoading = false
           })
       } else if (this.isNew === false) {
@@ -184,19 +196,23 @@ export default {
           .then((res) => {
             this.getArticle()
             this.closeModal()
-            this.$emitter.emit('push-info', {
-              title: '新增文章/編輯結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增文章/編輯結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
             this.isLoading = false
           })
           .catch((err) => {
-            this.$emitter.emit('push-info', {
-              title: '新增文章/編輯結果',
-              style: 'danger',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增文章/編輯結果',
+                style: 'danger',
+                content: err.response.data.message
+              }
+            )
             this.isLoading = false
           })
       }
@@ -226,11 +242,13 @@ export default {
         })
         .catch((err) => {
           console.dir(err.response.data.message)
-          this.$emitter.emit('push-info', {
-            title: '取得文章失敗',
-            style: 'danger',
-            content: err.response.data.message
-          })
+          this.addMessage(
+            {
+              title: '取得文章失敗',
+              style: 'danger',
+              content: err.response.data.message
+            }
+          )
           this.isLoading = false
         })
     },
@@ -244,11 +262,13 @@ export default {
         })
         .catch((err) => {
           console.dir(err.response.data.message)
-          this.$emitter.emit('push-info', {
-            title: '取得文章列表失敗',
-            style: 'danger',
-            content: err.response.data.message
-          })
+          this.addMessage(
+            {
+              title: '取得文章列表失敗',
+              style: 'danger',
+              content: err.response.data.message
+            }
+          )
           this.isLoading = false
         })
     }

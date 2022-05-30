@@ -200,20 +200,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~bootstrap/scss/functions";
-@import "../../assets/stylesheet/helper/variables";
+@import "../../assets/stylesheet/helper/color";
+
 $animationDuration:6s;
-  .btnStyle {
-    border: 3px solid #fff;
-    &:hover {
-      border: 3px solid rgb(255, 0, 0);
-      color: #fff !important;
-      text-shadow: 1px 1px 0 rgb(0, 0, 0);
-    }
-  }
-  .textShadow {
-    text-shadow: 2px 2px 0px rgb(0, 0, 0);
-  }
   .btn-primary {
     color: $secondary;
   }

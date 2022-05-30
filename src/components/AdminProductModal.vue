@@ -158,6 +158,8 @@
 <script>
 import BsModal from 'bootstrap/js/dist/modal'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   props: ['inputProduct', 'isNew'],
@@ -176,6 +178,7 @@ export default {
   },
   emits: ['send-input-data', 'send-close-resetInput'],
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     uploadImg () {
       this.isLoading = true
       const uploadFile = this.$refs.upLoadFile.files[0]
@@ -191,28 +194,34 @@ export default {
             }
           }
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '上傳圖片結果',
-            style: 'success',
-            content: '上傳成功'
-          })
+          this.addMessage(
+            {
+              title: '上傳圖片結果',
+              style: 'success',
+              content: '上傳成功'
+            }
+          )
           this.$refs.upLoadFile.value = ''
         })
         .catch((err) => {
           this.isLoading = false
           console.dir(err)
           if (this.inputData.imagesUrl.length === 5) {
-            this.$emitter.emit('push-info', {
-              title: '上傳圖片結果',
-              style: 'danger',
-              content: '上傳失敗，已達最大上傳圖片數'
-            })
+            this.addMessage(
+              {
+                title: '上傳圖片結果',
+                style: 'danger',
+                content: '上傳失敗，已達最大上傳圖片數'
+              }
+            )
           } else {
-            this.$emitter.emit('push-info', {
-              title: '上傳圖片結果',
-              style: 'danger',
-              content: '上傳失敗'
-            })
+            this.addMessage(
+              {
+                title: '上傳圖片結果',
+                style: 'danger',
+                content: '上傳失敗'
+              }
+            )
           }
         })
     },

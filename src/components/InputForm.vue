@@ -11,12 +11,13 @@
         type="text"
         class="form-control"
         :class="{'is-invalid': errors['姓名'], buttonDisabledCursor :isEdit}"
-        placeholder="請輸入 姓名" rules="required"
+        placeholder="請輸入 姓名"
+        rules="required"
         v-model="user.name"
         :disabled="isEdit || false"
       >
       </Field>
-      <error-message name="姓名" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      <ErrorMessage name="姓名" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></ErrorMessage>
     </div>
     <div class="my-3 position-relative">
       <label class="form-label" for="tel">電話</label>
@@ -32,7 +33,7 @@
         :disabled="isEdit || false"
       >
       </Field>
-      <error-message name="電話" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      <ErrorMessage name="電話" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></ErrorMessage>
     </div>
     <div class="my-3 position-relative">
       <label class="form-label" for="email">信箱</label>
@@ -47,7 +48,7 @@
         :disabled="isEdit || false"
       >
       </Field>
-      <error-message name="信箱" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      <ErrorMessage name="信箱" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></ErrorMessage>
     </div>
     <div class="my-3 position-relative">
       <label class="form-label" for="address">地址</label>
@@ -62,7 +63,7 @@
         :disabled="isEdit || false"
       >
       </Field>
-      <error-message name="地址" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></error-message>
+      <ErrorMessage name="地址" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></ErrorMessage>
     </div>
     <div class="my-3 position-relative">
       <label class="form-label" for="message">留言</label>
@@ -82,6 +83,8 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 // 匯入 vee-validate 主套件
 import { defineRule, Form, Field, ErrorMessage, configure } from 'vee-validate'
 // 匯入 vee-validate rule
@@ -142,6 +145,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     phoneCheck (value) {
       const phoneNumber = /^(09)[0-9]{8}$/
       return phoneNumber.test(value) ? true : '需要正確的電話號碼'
@@ -169,20 +173,24 @@ export default {
         this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`, sendData)
           .then((res) => {
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '訂單送出結果',
-              style: 'success',
-              content: `${res.data.message}`
-            })
+            this.addMessage(
+              {
+                title: '訂單送出結果',
+                style: 'success',
+                content: `${res.data.message}`
+              }
+            )
             this.orderid = res.data.orderId
             this.$router.push(`/guestOrderPay/${this.orderid}`)
           }).catch((err) => {
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '訂單送出結果',
-              style: 'danger',
-              content: `${err.response.data.message}`
-            })
+            this.addMessage(
+              {
+                title: '訂單送出結果',
+                style: 'danger',
+                content: `${err.response.data.message}`
+              }
+            )
           })
         this.$refs.form.resetForm()
         this.message = ''

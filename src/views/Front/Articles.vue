@@ -14,7 +14,7 @@
       @sendAutoCompleteResult="search;searchArticle()"
       />
     </div>
-  <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 py-2">
+  <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 pt-3">
     <button class="btn btn-primary text-secondary" type="button"
     @click="sortNewToOld">
       日期新到舊排序
@@ -33,27 +33,29 @@
       搜尋
     </button>
   </div>
-  <div class="row px-special my-3">
+  <div class="row px-special mb-3">
     <template v-if="this.showArticles.length > 0">
       <template v-for="(item, index) in showArticles" :key="item.title + index">
-        <div class="card col-12 col-sm-6 cardHover px-0 ps-sm-0 " >
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img class="img-fluid w-100 h-100" style="object-fit:cover; min-height:300px; max-height:300px;"
-              :src="item.image"
-              :alt="item.title">
-            </div>
-            <div class="col-md-8 d-flex flex-column justify-content-center">
-              <div class="card-body">
-                <h2 class="card-title fs-2 fw-bold">{{item.title}}</h2>
-                <p class="card-text">公布日期:{{showTime(item.create_at)}}</p>
-                <p class="card-text lineClamp">{{item.description}}</p>
+        <div class="col-12 col-sm-6 px-0 articleCardGap">
+          <div class="card cardHover mt-3 articleCardGapAdjust">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img class="img-fluid w-100 h-100" style="object-fit:cover; min-height:300px; max-height:300px;"
+                :src="item.image"
+                :alt="item.title">
               </div>
-              <div class="card-foot">
-                <RouterLink class="btn btn-primary" :to="`/article/${item.id}`">詳細內容</RouterLink>
+              <div class="col-md-8 d-flex flex-column justify-content-center">
+                <div class="card-body">
+                  <h2 class="card-title fs-2 fw-bold">{{item.title}}</h2>
+                  <p class="card-text">公布日期:{{showTime(item.create_at)}}</p>
+                  <p class="card-text lineClamp">{{item.description}}</p>
+                </div>
+                <div class="card-foot d-flex justify-content-end">
+                  <RouterLink class="btn btn-primary" :to="`/article/${item.id}`">詳細內容</RouterLink>
+                </div>
               </div>
             </div>
-          </div>
+        </div>
         </div>
       </template>
     </template>
@@ -166,5 +168,23 @@ export default {
   .px-special {
     padding-right: 0.7rem !important;
     padding-left: 0.7rem !important;
+  }
+  .articleCardGap {
+    .articleCardGapAdjust{
+      margin: 0;
+    }
+  }
+  @media (min-width:576px) {
+  .articleCardGap {
+    .articleCardGapAdjust{
+      margin-right: 0.5rem;
+    }
+    &:nth-child(2n){
+      .articleCardGapAdjust{
+       margin-right: 0;
+       margin-left: 0.5rem;
+    }
+    }
+  }
   }
 </style>

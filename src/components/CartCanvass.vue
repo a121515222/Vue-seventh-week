@@ -40,7 +40,7 @@
                 <td class="d-none-576">
                   <img style="min-width:50px;max-width:50px; min-height:30px; max-height:30px;"
                   :src="item.product.imageUrl"
-                  :alt="item.title"
+                  :alt="item.product.title"
                   >
                 </td>
                 <td>{{item.product.title}}</td>
@@ -57,7 +57,7 @@
                   <button type="button" class="btn btn-outline-primary"
                   :disabled="isCartLoading"
                   :class="{buttonDisabledCursor:isCartLoading}"
-                  @click="changeCartNum(item.qty,item.id,item.product_id)"
+                  @click="changeCartNum(item.qty, item.id, item.product_id)"
                   >
                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                   v-show="isCartLoading"
@@ -73,7 +73,7 @@
                 </td>
                 <td class="d-none-576">
                   <button type="button" class=" btn btn-outline-dark"
-                  @click="deleteCart(item.id)"
+                  @click="deleteCart(item.id, item.product.title)"
                   :disabled="isCartLoading" :class="{buttonDisabledCursor:isCartLoading}"
                   >
                     刪除
@@ -113,24 +113,27 @@
 <script>
 import BsOffcanvas from 'bootstrap/js/dist/offcanvas'
 import GuestCoupon from '@/components/GuestCoupon.vue'
+// 用option API需要先匯入mapState
+import { mapState, mapActions } from 'pinia'
+import cartStore from '@/stores/cart'
 
 export default {
   data () {
     return {
       bsOffcanvas: '',
-      cartData: {},
-      isChangeNum: false,
       changeNum: 1,
-      cartId: '',
-      isCartLoading: false,
-      cartLength: 0
+      cartId: ''
     }
   },
   components: {
     GuestCoupon
   },
+  computed: {
+    ...mapState(cartStore, ['cartData', 'cartLength', 'isCartLoading', 'isChangeNum'])
+  },
   emits: ['push-info', 'push-cart-num'],
   methods: {
+    ...mapActions(cartStore, ['getCart', 'deleteAllCarts', 'deleteCart', 'editCart', 'isCartLoadingTrue', 'isChangeNumTrue']),
     toProducts () {
       this.$router.push('/products')
       this.cartClose()
@@ -140,52 +143,13 @@ export default {
         alert('請完成購物車數量修改')
       } else { this.$router.push('/sendInfo') }
     },
-    deleteAllCarts () {
-      if (confirm('確定將會刪除所有購物車內容?') === true) {
-        this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`).then((res) => {
-          this.getCart()
-          this.$emitter.emit('push-info', {
-            title: '刪除所有購物車結果',
-            style: 'success',
-            content: res.data.message
-          })
-        }).catch((err) => {
-          this.$emitter.emit('push-info', {
-            title: '刪除所有購物車結果',
-            style: 'success',
-            content: err.response.data.message
-          })
-        })
-      } else {
-        alert('已取消刪除')
-      }
-    },
-    deleteCart (id) {
-      this.isCartLoading = true
-      this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart/${id}`).then((res) => {
-        this.getCart()
-        this.$emitter.emit('push-info', {
-          title: '刪除購物車結果',
-          style: 'success',
-          content: res.data.message
-        })
-        this.isCartLoading = false
-      }).catch((err) => {
-        console.dir(err.response.data.message)
-        this.$emitter.emit('push-info', {
-          title: '刪除購物車結果',
-          style: 'danger',
-          content: err.response.data.message
-        })
-      })
-    },
     changeCartNum (num, id, productId) {
       if (this.isChangeNum === false) {
-        this.isChangeNum = !this.isChangeNum
+        this.isChangeNumTrue()
         this.changeNum = num
         this.cartId = id
       } else if (this.isChangeNum === true) {
-        this.isCartLoading = true
+        this.isCartLoadingTrue()
         const sendCart = {
           data: {
             product_id: '',
@@ -194,32 +158,8 @@ export default {
         }
         sendCart.data.product_id = productId
         sendCart.data.qty = this.changeNum
-        this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart/${id}`, sendCart).then((res) => {
-          this.isChangeNum = false
-          this.isCartLoading = false
-          this.getCart()
-          this.$emitter.emit('push-info', {
-            title: '編輯購物車結果',
-            style: 'success',
-            content: res.data.message
-          })
-        }).catch((err) => {
-          console.dir(err.response.data.message)
-          this.$emitter.emit('push-info', {
-            title: '編輯購物車結果',
-            style: 'danger',
-            content: err.response.data.message
-          })
-        })
+        this.editCart(id, sendCart)
       }
-    },
-    getCart () {
-      this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`).then((res) => {
-        this.cartData = res.data.data
-        this.cartLength = res.data.data.carts.length
-        this.$emitter.emit('push-cart-num', this.cartLength)
-      })
-        .catch((err) => { console.dir(err.response.data.message) })
     },
     cartOpen () {
       this.getCart()
@@ -239,7 +179,6 @@ export default {
   },
   mounted () {
     this.bsOffcanvas = new BsOffcanvas(this.$refs.rightCart)
-    this.$emitter.on('getCart', () => { this.getCart() })
   }
 }
 </script>

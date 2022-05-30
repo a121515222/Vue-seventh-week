@@ -114,6 +114,8 @@
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminProductModal from '@/components/AdminProductModal.vue'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -143,6 +145,7 @@ export default {
     PaginationComponent
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     openModal (data) {
       this.$refs.myModal.open()
       if (this.isNew === false) {
@@ -189,38 +192,45 @@ export default {
           this.getProduct()
           this.resetModal()
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '新增產品結果',
-            style: 'success',
-            content: res.data.message
-          })
+          this.addMessage(
+            {
+              title: '新增產品結果',
+              style: 'success',
+              content: res.data.message
+            }
+          )
         }).catch((err) => {
-          this.$emitter.emit('push-info', {
-            title: '新增產品結果',
-            style: 'danger',
-            content: err.response.data.message
-          })
+          this.addMessage(
+            {
+              title: '新增產品結果',
+              style: 'danger',
+              content: err.response.data.message
+            }
+          )
         })
       } else if (this.isNew === false) {
         this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${this.postId}`, sendData).then((res) => {
           this.getProduct()
           this.closeModal()
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '編輯產品結果',
-            style: 'success',
-            content: res.data.message
-          })
-          // 清空postId
+          this.addMessage(
+            {
+              title: '編輯產品結果',
+              style: 'success',
+              content: res.data.message
+            }
+          )
           this.postId = ''
         }).catch((err) => {
           console.dir(err.response)
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '新增產品結果',
-            style: 'danger',
-            content: err.response.data.message
-          })
+          this.addMessage(
+            {
+              title: '新增產品結果',
+              style: 'danger',
+              content: err.response.data.message
+            }
+          )
         })
       }
     },
@@ -231,18 +241,22 @@ export default {
         this.$http.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${this.postId}`).then((res) => {
           this.getProduct()
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '刪除產品結果',
-            style: 'success',
-            content: res.data.message
-          })
+          this.addMessage(
+            {
+              title: '刪除產品結果',
+              style: 'success',
+              content: res.data.message
+            }
+          )
         }).catch((err) => {
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '刪除產品結果',
-            style: 'danger',
-            content: err.response.data.message
-          })
+          this.addMessage(
+            {
+              title: '刪除產品結果',
+              style: 'danger',
+              content: err.response.data.message
+            }
+          )
         })
       } else {
         alert('輸入錯誤，不進行刪除')

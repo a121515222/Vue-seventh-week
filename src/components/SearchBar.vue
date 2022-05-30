@@ -1,19 +1,19 @@
 <template>
   <div class="input-group">
-    <input  class="form-control w-sm-50 position-relative" ref="searchInput" type="text"
+    <input  class="form-control w-sm-50 position-relative searchBarPlaceholderStyle" ref="searchInput" type="text"
     @focus="inputFocused = true; enterCounter = 0 ;"
     @blur="inputFocused=false"
-    v-model.lazy="searchInfo" placeholder="請輸入搜尋關鍵字">
+    v-model.lazy="searchInfo" placeholder="請輸入關鍵字">
     <AutoComplete
     :inputData="searchInfo"
-    :focus="inputFocused"
+    :is-focus="inputFocused"
     @sendAutoCompleteResult="writeSearchInfo"
     @sendInfoBlank="cleanSearch"
     />
-    <input class="form-control w-sm-25" type="number"  placeholder="請輸入最低價格" v-model.number="minPrice">
-    <input class="form-control w-sm-25" type="number"  placeholder="請輸入最高價格" v-model.number="maxPrice">
+    <input class="form-control w-sm-25 searchBarPlaceholderStyle" type="number"  placeholder="請輸入最低價格" v-model.number="minPrice">
+    <input class="form-control w-sm-25 searchBarPlaceholderStyle" type="number"  placeholder="請輸入最高價格" v-model.number="maxPrice">
   </div>
-  <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 py-2 ">
+  <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 pt-3 ">
     <button v-if="favorites.length !== 0" type="button" class="btn btn-primary text-secondary text-nowrap" @click="$emit('showMyFavorites')" >顯示我的最愛</button>
     <button type="button" class="btn btn-primary text-secondary text-nowrap" @click="$emit('hight-to-low')" >價格由大至小排列</button>
     <button type="button" class="btn btn-primary text-secondary text-nowrap" @click="$emit('low-to-hight')" >價格由小至大排列</button>
@@ -54,6 +54,7 @@ export default {
   methods: {
     writeSearchInfo (info) {
       this.searchInfo = info
+      this.sendSearchInfo()
     },
     cleanSearch () {
       this.searchInfo = ''
@@ -80,3 +81,19 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+
+.searchBarPlaceholderStyle {
+  &::placeholder{
+    font-size: 12px;
+  }
+}
+@media (min-width:576px) {
+  .searchBarPlaceholderStyle {
+    &::placeholder{
+    font-size: 16px;
+  }
+  }
+}
+</style>

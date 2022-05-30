@@ -1,11 +1,10 @@
 <template>
-  <div class="row py-3">
+  <div class="row pt-3">
     <template v-if="guestShowProduct.length > 0">
       <template v-for="(item) in guestShowProduct" :key="item.id">
         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3">
           <a  class="text-black" href="#" style="text-decoration:none;"
-          @click.prevent="inspectId(item.id);
-          $router.push(`/product/${item.id}`)">
+          @click.prevent="inspectId(item.id);$router.push(`/product/${item.id}`)">
             <div class="card  px-0 position-relative cardHover"
             v-if="item.is_enabled === 1 || 4">
               <img class="img-fluid card-img-top" style="max-height:200px;min-height:200px;"
@@ -31,7 +30,7 @@
                 <h3 class="fa-3 fw-bold">{{item.title}}</h3>
                 <div v-html="item.description" class="lineClamp"></div>
               </div>
-              <div class="card-footer bg-transparent border-top-0">
+              <div class="card-footer bg-transparent border-top-0 pb-0">
                 <div v-if="item.origin_price === item.price">
                   <span>售價{{item.origin_price}}元</span>
                   <span>/{{item.unit}}</span>
@@ -82,43 +81,57 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia'
+import productStore from '@/stores/products'
+import toastStore from '@/stores/toast'
+import cartStore from '@/stores/cart'
+
 export default {
-  props: ['guestShowProduct', 'isGuestPageLoading'],
+  props: ['isGuestPageLoading'],
   emits: ['sendId', 'addCart', 'inspectId'],
   data () {
     return {
       favorites: JSON.parse(localStorage.getItem('myFavoritesItem')) || []
     }
   },
+  computed: {
+    ...mapState(productStore, ['guestShowProduct'])
+  },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
+    ...mapActions(cartStore, ['getCart']),
     inspectId (id) {
       this.$emit('inspectId', id)
     },
     addFavorites (id, title) {
       this.favorites.push(id)
       localStorage.setItem('myFavoritesItem', JSON.stringify(this.favorites))
-      this.$emitter.emit('push-info', {
-        title: '加入最愛結果',
-        style: 'success',
-        content: `${title}已加入最愛`
-      })
+      this.addMessage(
+        {
+          title: '加入最愛結果',
+          style: 'success',
+          content: `${title}已加入最愛`
+        }
+      )
     },
     deleteFavorites (id, title) {
       const indexRemove = this.favorites.indexOf(id)
       this.favorites.splice(indexRemove, 1)
       localStorage.setItem('myFavoritesItem', JSON.stringify(this.favorites))
-      this.$emitter.emit('push-info', {
-        title: '移除最愛結果',
-        style: 'success',
-        content: `${title}已移除最愛`
-      })
+      this.addMessage(
+        {
+          title: '移除最愛結果',
+          style: 'success',
+          content: `${title}已移除最愛`
+        }
+      )
     },
     guestProductDetail (id) {
       this.$emit('sendId', id)
     },
     guestAddCart (id, title) {
       this.$emit('addCart', id, title)
-      this.$emitter.emit('getCart')
+      this.getCart()
     }
   }
 }

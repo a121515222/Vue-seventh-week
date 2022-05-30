@@ -69,6 +69,8 @@
 
 <script>
 import BsModal from 'bootstrap/js/dist/modal'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -81,6 +83,7 @@ export default {
   },
   emits: ['sendId', 'getCart'],
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     guestModalOpen (id) {
       this.$http.get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`).then((res) => {
         this.product = res.data.product
@@ -105,12 +108,13 @@ export default {
         this.$emit('sendId', '')
         this.isLoading = ''
         this.qty = 1
-        this.$emitter.emit('push-info', {
-          title: `${title}加入購物車結果`,
-          style: 'success',
-          content: res.data.message
-        })
-        this.$emitter.emit('getCart')
+        this.addMessage(
+          {
+            title: `${title}加入購物車結果`,
+            style: 'success',
+            content: title + res.data.message
+          }
+        )
       }).catch((err) => { console.dir(err.response.data.message) })
     }
   },

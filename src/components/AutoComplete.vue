@@ -1,11 +1,11 @@
 <template>
-  <ul  class="autoUl position-absolute top-100 w-33 w-sm-50" ref="listUl"
-  v-if="inFoList.length > 0 && (focus || mouseIn)"
+  <ul  class="autoUl position-absolute top-100 w-100 w-sm-33 w-sm-50"
+  v-if="inFoList.length > 0 && (isFocus || isMouseIn)"
   >
     <li class="auto py-0" style="height:36px"
     v-for="(item,index) in inFoList"
     :key="item+index"
-    :class="{'autoBackground' : (index === listCounter)}"
+    :class="{'autoBackground' : (index === listIndex)}"
     @click="sendAutoComplete(item);"
     @mouseover="mouseoverHover(index)"
     @mouseleave="mouseleaveCancelHover(index)">
@@ -15,16 +15,21 @@
 </template>
 
 <script>
+import { mapState } from 'pinia'
+import productStore from '@/stores/products'
+
 export default {
-  props: ['outData', 'inputData', 'focus'],
+  props: ['inputData', 'isFocus'],
   emits: ['sendAutoCompleteResult', 'sendInfoBlank'],
   data () {
     return {
       inFoList: [],
-      productList: [],
-      listCounter: 0,
-      mouseIn: false
+      listIndex: 0,
+      isMouseIn: false
     }
+  },
+  computed: {
+    ...mapState(productStore, ['guestProduct'])
   },
   watch: {
     inputData: {
@@ -39,30 +44,21 @@ export default {
   },
   methods: {
     mouseoverHover (index) {
-      this.listCounter = null
-      this.mouseIn = true
+      this.listIndex = null
+      this.isMouseIn = true
       const chosen = document.querySelectorAll('.auto')
       chosen[index].classList.add('autoBackground')
     },
     mouseleaveCancelHover (index) {
       const chosen = document.querySelectorAll('.auto')
-      this.mouseIn = false
+      this.isMouseIn = false
       chosen[index].classList.remove('autoBackground')
     },
     autoComplete (info) {
       if (info !== '') {
         const infoArr = info.split(' ')
-        if (this.outData !== undefined) {
-          this.outData.forEach((item) => {
-            infoArr.forEach((i) => {
-              if (item.title.indexOf(i) !== -1 || item.author.indexOf(i) !== -1 || item.description.indexOf(i) !== -1 || item.tag.indexOf(i) !== -1) {
-                this.inFoList.push(item.title)
-                this.inFoList = [...new Set(this.inFoList)]
-              }
-            })
-          })
-        } else if (this.productList !== undefined) {
-          this.productList.forEach((item) => {
+        if (this.guestProduct !== undefined) {
+          this.guestProduct.forEach((item) => {
             infoArr.forEach((i) => {
               if (item.title.indexOf(i) !== -1 || item.category.indexOf(i) !== -1 || item.content.indexOf(i) !== -1 || item.description.indexOf(i) !== -1) {
                 this.inFoList.push(item.title)
@@ -76,7 +72,7 @@ export default {
           this.inFoList = this.inFoList.filter((item) => { return item !== info })
         }
       } else if (info === '') {
-        this.$emitter.emit('sendInfoBlank')
+        this.$emit('sendInfoBlank')
       }
     },
     sendAutoComplete (info) {
@@ -89,26 +85,24 @@ export default {
     }
   },
   mounted () {
-    this.$emitter.on('sendProductList', (info) => { this.productList = info })
-    // 監聽鍵盤
     window.addEventListener('keydown', (e) => {
-      if (this.inputData && this.listCounter !== '') {
+      if (this.inputData && this.listIndex !== '') {
         switch (e.code) {
           case 'ArrowDown' :
-            if (this.listCounter === this.inFoList.length - 1) {
-              this.listCounter = this.inFoList.length - 1
-            } else { this.listCounter += 1 }
+            if (this.listIndex === this.inFoList.length - 1) {
+              this.listIndex = this.inFoList.length - 1
+            } else { this.listIndex += 1 }
             break
           case 'ArrowUp' :
-            if (this.listCounter === 0) {
-              this.listCounter = 0
-            } else { this.listCounter -= 1 }
+            if (this.listIndex === 0) {
+              this.listIndex = 0
+            } else { this.listIndex -= 1 }
             break
           case 'Enter' || 'NumpadEnter' :
-            this.sendAutoComplete(this.inFoList[this.listCounter])
+            this.sendAutoComplete(this.inFoList[this.listIndex])
             break
         }
-      } else if (this.inputData === '') { this.listCounter = 0 }
+      } else if (this.inputData === '') { this.listIndex = 0 }
     })
   }
 }

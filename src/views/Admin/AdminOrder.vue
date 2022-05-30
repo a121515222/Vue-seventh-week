@@ -124,6 +124,8 @@ import PaginationComponent from '@/components/PaginationComponent.vue'
 import SwitchClick from '@/components/SwitchClick.vue'
 import OrderList from '@/components/OrderList.vue'
 import { getTime } from '@/methods/ReadTime'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -140,6 +142,7 @@ export default {
     OrderList
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     deleteOrder () {
       this.isLoading = true
       const checked = confirm('確定要刪除本訂單?')
@@ -148,19 +151,23 @@ export default {
           .then((res) => {
             this.getOrder()
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '刪除訂單結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '刪除訂單結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
           }).catch((err) => {
             console.dir(err.response.data.message)
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '刪除訂單結果',
-              style: 'danger',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '刪除訂單結果',
+                style: 'danger',
+                content: err.response.data.message
+              }
+            )
           })
       }
     },

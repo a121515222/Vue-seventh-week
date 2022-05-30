@@ -81,7 +81,10 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 import GuestPayProcessInspector from '@/components/GuestPayProcessInspector.vue'
+
 export default {
   data () {
     return {
@@ -102,16 +105,19 @@ export default {
     GuestPayProcessInspector
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     pay () {
       this.isLoading = true
       this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/pay/${this.id}`)
         .then((res) => {
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '付款結果',
-            style: 'success',
-            content: `${res.data.message}`
-          })
+          this.addMessage(
+            {
+              title: '付款結果',
+              style: 'success',
+              content: `${res.data.message}`
+            }
+          )
           this.getOrder()
           alert('已完成付款')
           this.$router.push('/guestOrderFinished')
@@ -119,11 +125,13 @@ export default {
         .catch((err) => {
           console.dir(err.response.data.message)
           this.isLoading = false
-          this.$emitter.emit('push-info', {
-            title: '付款結果',
-            style: 'danger',
-            content: `${err.response.data.message}`
-          })
+          this.addMessage(
+            {
+              title: '付款結果',
+              style: 'danger',
+              content: `${err.response.data.message}`
+            }
+          )
         })
     },
     getOrder () {

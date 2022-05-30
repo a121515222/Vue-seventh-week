@@ -66,6 +66,8 @@
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminCouponModal from '@/components/AdminCouponModal.vue'
 import { getTime } from '@/methods/ReadTime'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -89,6 +91,7 @@ export default {
     AdminCouponModal
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     deleteCoupon (index) {
       this.isLoading = true
       const checked = confirm(`將刪除"${this.coupons[index].title}"'`)
@@ -97,20 +100,24 @@ export default {
           .then((res) => {
             this.getCoupon()
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '刪除優惠券結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '刪除優惠券結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
           })
           .catch((err) => {
             console.log(err.response.data.message)
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '刪除優惠券結果',
-              style: 'danger',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '刪除優惠券結果',
+                style: 'danger',
+                content: err.response.data.message
+              }
+            )
           })
       }
     },
@@ -130,23 +137,27 @@ export default {
       if (this.isNew === true) {
         this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon`, sendData)
           .then((res) => {
-            alert(res.data.message)
             this.getCoupon()
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '新增優惠券結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增優惠券結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
+            this.closeModal()
           })
           .catch((err) => {
             console.log(err.response.data.message)
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '新增優惠券結果',
-              style: 'success',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增優惠券結果',
+                style: 'success',
+                content: err.response.data.message
+              }
+            )
           })
       } else {
         this.$http.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${this.postId}`, sendData)
@@ -155,20 +166,24 @@ export default {
             this.getCoupon()
             this.closeModal()
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '編輯優惠券結果',
-              style: 'success',
-              content: res.data.message
-            })
+            this.addMessage(
+              {
+                title: '編輯優惠券結果',
+                style: 'success',
+                content: res.data.message
+              }
+            )
           })
           .catch((err) => {
             console.log(err.response.data.message)
             this.isLoading = false
-            this.$emitter.emit('push-info', {
-              title: '新增/編輯優惠券結果',
-              style: 'danger',
-              content: err.response.data.message
-            })
+            this.addMessage(
+              {
+                title: '新增/編輯優惠券結果',
+                style: 'danger',
+                content: err.response.data.message
+              }
+            )
           })
       }
     },

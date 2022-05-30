@@ -92,6 +92,8 @@
 <script>
 import ProductsShow from '@/components/ProductsShow.vue'
 import GuestProductModal from '@/components/GuestProductModal.vue'
+import { mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
 
 export default {
   data () {
@@ -120,6 +122,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(toastStore, ['addMessage']),
     inspectRouteId (id) {
       this.pathId = id
     },
@@ -173,11 +176,13 @@ export default {
         this.$emit('sendId', '')
         this.isLoading = false
         this.qty = 1
-        this.$emitter.emit('push-info', {
-          title: `${title}加入購物車結果`,
-          style: 'success',
-          content: res.data.message
-        })
+        this.addMessage(
+          {
+            title: `${title}加入購物車結果`,
+            style: 'success',
+            content: title + res.data.message
+          }
+        )
       }).catch((error) => { console.dir(error.response) })
     },
     getProduct () {

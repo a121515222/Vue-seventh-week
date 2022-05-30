@@ -8,9 +8,9 @@
         </a>
         <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger px-2"
         style="font-size:6px; top:0 ;"
-        v-if="cartNum > 0"
+        v-if="cartLength > 0"
         >
-          {{cartNum}}
+          {{cartLength}}
         </span>
       </div>
       </template>
@@ -83,18 +83,23 @@
 
 <script>
 import CartCanvass from '@/components/CartCanvass.vue'
+import { mapState, mapActions } from 'pinia'
+import cartStore from '@/stores/cart'
 
 export default {
   data () {
     return {
-      scrollY: 0,
-      cartNum: 0
+      scrollY: 0
     }
   },
   components: {
     CartCanvass
   },
+  computed: {
+    ...mapState(cartStore, ['cartLength'])
+  },
   methods: {
+    ...mapActions(cartStore, ['getCart']),
     inspectionRouteAndEditColor () {
       const logo = document.querySelector('.logo')
       if (this.$route.path !== '/') {
@@ -107,14 +112,10 @@ export default {
       const navCollapse = document.getElementById('navbarFontPage')
       navCollapse.classList.remove('show')
     },
-    getCart () {
-      this.$refs.guestCart.getCart()
-    },
     guestOpenCart () {
       this.$refs.guestCart.cartOpen()
     },
     scrollWatch () {
-      // 取得scrollY數值
       this.scrollY = window.scrollY
     }
   },
@@ -122,9 +123,6 @@ export default {
     window.addEventListener('scroll', this.scrollWatch)
     this.inspectionRouteAndEditColor()
     this.getCart()
-    this.$emitter.on('push-cart-num', (num) => {
-      this.cartNum = num
-    })
   },
   updated () {
     this.inspectionRouteAndEditColor()

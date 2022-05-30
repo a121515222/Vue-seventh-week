@@ -22,28 +22,20 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia'
+import toastStore from '@/stores/toast'
+
 export default {
   data () {
     return {
-      notification: [],
       bsToast: ''
     }
   },
-  methods: {
-    deleteMessage (index) {
-      this.notification.splice(index, 1)
-    },
-    autoDelete () {
-      setTimeout(() => {
-        this.notification.shift()
-      }, 7000)
-    }
+  computed: {
+    ...mapState(toastStore, ['notification'])
   },
-  mounted () {
-    this.$emitter.on('push-info', (info) => {
-      this.notification.push(info)
-      this.autoDelete()
-    })
+  methods: {
+    ...mapActions(toastStore, ['addMessage', 'deleteMessage'])
   }
 }
 </script>

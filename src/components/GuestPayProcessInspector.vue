@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-9">
+  <div class="container my-2">
     <div class="shoppingProcess d-flex justify-content-center align-items-center">
       <div class="fromGroup d-flex align-items-center">
         <div class="step text-center">1</div>
