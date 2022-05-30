@@ -30,7 +30,7 @@
                 <h3 class="fa-3 fw-bold">{{item.title}}</h3>
                 <div v-html="item.description" class="lineClamp"></div>
               </div>
-              <div class="card-footer bg-transparent border-top-0 pb-0">
+              <div class="card-footer bg-transparent border-top-0 pb-2">
                 <div v-if="item.origin_price === item.price">
                   <span>售價{{item.origin_price}}元</span>
                   <span>/{{item.unit}}</span>

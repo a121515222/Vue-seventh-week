@@ -68,7 +68,7 @@
     </div>
     <div class="from-group footerSticky">
       <div class="container-fluid bg-third d-flex justify-content-center align-items-center gap-3 bottomIconHover">
-        <a class="text-white fs-3 bottomIconHover" href="tel:+886-8-123123" style="text-decoration: none;">
+        <a class="text-white fs-5 fs-sm-3 bottomIconHover" href="tel:+886-8-123123" style="text-decoration: none;">
           聯絡我們:(08)123123
         </a>
         <a class="text-white fs-3 bottomIconHover" href="#"><i class="bi bi-facebook"></i></a>

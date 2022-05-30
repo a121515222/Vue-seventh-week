@@ -17,7 +17,7 @@
       <ErrorMessage name="優惠碼" class="invalid-feedback" style="position:absolute; left:14px ;bottom:-20px"></ErrorMessage>
       <button class="btn btn-primary text-white text-nowrap h-100" type="button"
       @click= "guestSendCoupon"
-      :disabled="cartLength === 0 || code === '' || Object.keys(errors).length > 0 || isSend === false"
+      :disabled="cartLength === 0 || code === '' || Object.keys(errors).length > 0 || isSend"
       :class="{buttonDisabledCursor :cartLength === 0 || code === '' || Object.keys(errors).length > 0}">
       <span v-if= "isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       送出

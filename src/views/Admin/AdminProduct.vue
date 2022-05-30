@@ -81,7 +81,8 @@
                   {{productTemp.title}}<span class="badge bg-primary">{{productTemp.category}}</span>
                 </p>
               </div>
-              <p>商品描述:{{productTemp.description}}</p>
+              <h3>商品描述:</h3>
+              <p v-html="productTemp.description"></p>
               <p>商品內容:{{productTemp.content}}</p>
               <div class="d-flex">
                 <span>{{productTemp.price}}</span>

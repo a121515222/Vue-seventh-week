@@ -42,6 +42,7 @@ import PaginationComponent from '@/components/PaginationComponent.vue'
 import { getTime } from '@/methods/ReadTime'
 import { mapActions } from 'pinia'
 import toastStore from '@/stores/toast'
+import cartStore from '@/stores/cart'
 
 export default {
   data () {
@@ -63,6 +64,7 @@ export default {
   },
   methods: {
     ...mapActions(toastStore, ['addMessage']),
+    ...mapActions(cartStore, ['getCart']),
     showTime (time) {
       return getTime(time)
     },
@@ -92,6 +94,7 @@ export default {
   },
   mounted () {
     this.getOrder()
+    this.getCart()
   }
 }
 </script>

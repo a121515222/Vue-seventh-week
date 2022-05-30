@@ -57,7 +57,7 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
           <h2 class="mb-3  border-bottom border-2">選擇付款方式</h2>
-          <div class="d-flex">
+          <div class="d-flex mb-3">
             <select v-model="payment" class="form-select">
             <option value="0" selected disabled>請選擇付款方式</option>
             <option value="1" >ATM匯款</option>
@@ -83,6 +83,7 @@
 <script>
 import { mapActions } from 'pinia'
 import toastStore from '@/stores/toast'
+import cartStore from '@/stores/cart'
 import GuestPayProcessInspector from '@/components/GuestPayProcessInspector.vue'
 
 export default {
@@ -106,6 +107,7 @@ export default {
   },
   methods: {
     ...mapActions(toastStore, ['addMessage']),
+    ...mapActions(cartStore, ['getCart']),
     pay () {
       this.isLoading = true
       this.$http.post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/pay/${this.id}`)
@@ -154,6 +156,7 @@ export default {
   },
   mounted () {
     this.getOrder()
+    this.getCart()
   }
 }
 </script>
