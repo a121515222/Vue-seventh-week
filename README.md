@@ -25,61 +25,61 @@
 
 ### 首頁
 #### 首頁主視覺動畫效果
-![](https://imgur.com/a/UlgiIZ3)
+![](https://i.imgur.com/PzNqWc3.gif)
 [主視覺筆記](https://hackmd.io/yDLNyVh2QLigktdZBAZnEQ)
 
 #### 主要產品
-![](https://imgur.com/a/YfGb7xi)
+![](https://imgur.com/a/YfGb7xi.jpg)
 
 #### 小知識
-![](https://imgur.com/undefined)
+![](https://imgur.com/undefined.jpg)
 
 ### 產品列表
 #### 搜尋功能
-![](https://imgur.com/ushGMfK)
+![](https://imgur.com/ushGMfK.gif)
 
 #### AutoComplete
-![](https://imgur.com/TG3Foa8)
+![](https://imgur.com/TG3Foa8.gif)
 [AutoComplete功能製作筆記](https://hackmd.io/ytuKPw8TTbCeHoaYGg9F1g)
 
 #### 購物車
-![](https://imgur.com/undefined)
+![](https://imgur.com/a/QcTJven.jpg)
 
 #### 優惠券
-![](https://imgur.com/iTPLBlV)
+![](https://i.imgur.com/iTPLBlV.gif)
 
 #### 結帳流程
-![](https://imgur.com/a/FWxamAD)
+![](https://imgur.com/a/FWxamAD.gif)
 
 ### 訂單查詢
 #### 訂單總攬、訂單細項與付款
-![](https://imgur.com/6CGvKjH)
+![](https://imgur.com/6CGvKjH.gif)
 
 ### 文章列表
 #### 文章總攬
-![](https://imgur.com/a/aDzHNeE)
+![](https://imgur.com/a/aDzHNeE.jpg)
 
 #### 各別文章閱讀與推薦商品
-![](https://imgur.com/xYgxGV3)
+![](https://imgur.com/xYgxGV3.gif)
 
 ## 後台
 ### 登入
-![](https://imgur.com/WodA0Wq)
+![](https://imgur.com/WodA0Wq.jpg)
 
 ### 登出
-![](https://imgur.com/i05ajiv)
+![](https://imgur.com/i05ajiv.gif)
 
 ### 商品、文章、優惠碼、訂單管理
 以產品為例
 #### 增加商品
-![](https://imgur.com/a/kPv09n4)
+![](https://imgur.com/a/kPv09n4.gif)
 
 #### 編輯商品
-![](https://imgur.com/0sE5EDE)
+![](https://imgur.com/0sE5EDE.gif)
 
 ## 其他功能
 ### Toast通知
-![](https://imgur.com/PFUhaxT)
+![](https://imgur.com/PFUhaxT.gif)
 
 ## 使用資料與圖片來源
 圖片:[Unsplash](https://unsplash.com/)
