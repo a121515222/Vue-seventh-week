@@ -76,7 +76,7 @@
 <img src="https://imgur.com/WodA0Wq.jpg" width = "650px" height = "365px" />
 
 ### 登出
-[https://imgur.com/i05ajiv.gif]
+<img src="https://imgur.com/i05ajiv.gif" width = "650px" height = "50px" />
 
 ### 商品、文章、優惠碼、訂單管理
 以產品為例

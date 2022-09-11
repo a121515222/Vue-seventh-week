@@ -12,7 +12,7 @@
       :key="p + 'page'"
       :class="{active: p === pagination.current_page}">
         <a class="page-link"  href="#"
-        @click.prevent="$emit('sendPage',p)"
+        @click.prevent="$emit('sendPage', p)"
         >
           {{p}}
         </a>

@@ -107,7 +107,7 @@
     :input-product="inputProductOut"
     :is-new="isNew"
     @send-input-data="editProductList"
-    @send-close-resetInput= "resetModal"
+    @send-close-resetInput="resetModal"
     />
   </div>
 </template>
