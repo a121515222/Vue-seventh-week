@@ -1,4 +1,4 @@
-<template>
+<template>ueLoading
   <div id="nav">
     <RouterView/>
   </div>
@@ -13,5 +13,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "./assets/stylesheet/all"
+@import "./assets/stylesheet/all";
 </style>

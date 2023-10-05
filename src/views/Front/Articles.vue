@@ -11,7 +11,7 @@
       :out-data="articles"
       :inputData="keyWord"
       :focus="inputFocused"
-      @sendAutoCompleteResult="search;searchArticle()"
+      @sendAutoCompleteResult="search();searchArticle()"
       />
     </div>
   <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 pt-3">
